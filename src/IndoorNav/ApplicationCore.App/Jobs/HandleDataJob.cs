@@ -43,6 +43,6 @@ namespace ApplicationCore.App.Jobs
         }
 
         public void Start()
-            => _services.Notifications.Register(GetType(), true, "Jobs");
+            => _services.Notifications.RegisterInit(GetType(), true, "Jobs");
     }
 }

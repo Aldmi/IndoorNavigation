@@ -20,9 +20,6 @@ namespace ApplicationCore.App.Jobs
         {
             _services = services;
             _messageBus = messageBus;
-            
-            // var storeage = DependencyService.Get<IStorage>();//DEBUG
-            // var hh = storeage.Name;
         }
         
         public async Task Run(JobInfo jobInfo, CancellationToken cancelToken)
@@ -51,7 +48,7 @@ namespace ApplicationCore.App.Jobs
         }
 
         public void Start()
-            => _services.Notifications.Register(GetType(), true, "Jobs");
+            => _services.Notifications.RegisterInit(GetType(), true, "Jobs");
         
     }
 

@@ -41,18 +41,23 @@
     </PropertyGroup>
     <ItemGroup>
         <Reference Include="Mono.Android" />
+        <Reference Include="Prism.Forms, Version=8.1.97.5141, Culture=neutral, PublicKeyToken=null">
+          <HintPath>C:\Users\Aldmi\.nuget\packages\prism.forms\8.1.97\lib\monoandroid10.0\Prism.Forms.dll</HintPath>
+        </Reference>
         <Reference Include="System" />
         <Reference Include="System.Core" />
         <Reference Include="System.Xml.Linq" />
         <Reference Include="System.Xml" />
     </ItemGroup>
     <ItemGroup>
+        <PackageReference Include="Prism.Forms" Version="8.1.97" />
         <PackageReference Include="Shiny" Version="2.1.0.2769" />
         <PackageReference Include="Xamarin.Essentials" Version="1.6.1" />
         <PackageReference Include="Xamarin.Forms" Version="5.0.0.2012" />
     </ItemGroup>
     <ItemGroup>
         <Compile Include="Di\DiTest.cs" />
+        <Compile Include="Di\PrismInit.cs" />
         <Compile Include="MainActivity.cs" />
         <Compile Include="Resources\Resource.Designer.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />

@@ -8,9 +8,6 @@ namespace Api.Forms
         public MainPage()
         {
             InitializeComponent();
-            
-            // var storeage = DependencyService.Get<IStorage>();//DEBUG
-            // var hh = storeage.Name;
         }
     }
 }
