@@ -16,6 +16,9 @@ namespace Api.Forms
         {
         }
         
+        // protected override IContainerExtension CreateContainerExtension() =>
+        //     PrismContainerExtension.Current;
+        
         
         protected override async void OnInitialized()
         {
@@ -31,7 +34,7 @@ namespace Api.Forms
         {
             containerRegistry.RegisterForNavigation<NavigationPage>("Nav");
             
-            containerRegistry.RegisterForNavigation<MainPage>("Main"); //DEBUG
+            containerRegistry.RegisterForNavigation<MainPage, MainViewModel>("Main");
             
             // containerRegistry.RegisterForNavigation<MainPage, MainViewModel>("Main");
             // containerRegistry.RegisterForNavigation<ManagedBeaconPage, ManagedBeaconViewModel>("ManagedBeacon");

@@ -7,23 +7,23 @@ using Android.Views;
 using Android.Widget;
 using Android.OS;
 using Api.Forms.Android.Di;
+using ApplicationCore.App.PlatformServices;
+using Prism.DryIoc;
+using Prism.Ioc;
 using Shiny;
-
-// [assembly: Shiny.ShinyApplication(
-//     ShinyStartupTypeName = "Api.Forms.Startup",
-//     XamarinFormsAppTypeName = "Api.Forms.App"
-// )]
 
 namespace Api.Forms.Android
 {
     // Android App
-    [ApplicationAttribute]
+    [Application]
     public partial class MainApplication : Application
     {
         public MainApplication(IntPtr handle, JniHandleOwnership transfer) : base(handle, transfer) {}
 
         public override void OnCreate()
         {
+            PrismContainerExtension.Current.Register<IStorage, AndroidStorage>();//DEBUG
+            
             this.ShinyOnCreate(new Startup());
             Xamarin.Essentials.Platform.Init(this);
             base.OnCreate();
@@ -44,9 +44,7 @@ namespace Api.Forms.Android
             ToolbarResource = Resource.Layout.Toolbar;
             base.OnCreate(savedInstanceState);
             Xamarin.Forms.Forms.Init(this, savedInstanceState);
-            
-            //LoadApplication(new App());
-            LoadApplication(new App(new PrismInit()));
+            LoadApplication(new App());
         }
         
         protected override void OnNewIntent(Intent intent)
@@ -60,7 +58,6 @@ namespace Api.Forms.Android
             base.OnActivityResult(requestCode, resultCode, data);
             this.ShinyOnActivityResult(requestCode, resultCode, data);
         }
-        
         
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Permission[] grantResults)
         {

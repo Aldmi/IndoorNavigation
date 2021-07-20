@@ -5,16 +5,15 @@ using ApplicationCore.App.PlatformServices;
 using Microsoft.Extensions.DependencyInjection;
 using Shiny;
 
-[assembly: Xamarin.Forms.Dependency(typeof(AndroidStorage))] 
 namespace Api.Forms.Android.Di
 {
-    // public class DiTest : ShinyModule
-    // {
-    //     public override void Register(IServiceCollection services)
-    //     {
-    //         services.AddSingleton<IStorage, AndroidStorage>();
-    //     }
-    // }
+    public class DiModule : ShinyModule
+    {
+        public override void Register(IServiceCollection services)
+        {
+            services.AddSingleton<IStorage, AndroidStorage>();
+        }
+    }
 
     
     public class AndroidStorage : IStorage

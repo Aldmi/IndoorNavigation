@@ -16,7 +16,7 @@ namespace ApplicationCore.App.Jobs
         private readonly CoreDelegateServices _services;
         private readonly IMessageBus _messageBus;
         
-        public GenerateDataJob(CoreDelegateServices services, IMessageBus messageBus)
+        public GenerateDataJob(CoreDelegateServices services, IMessageBus messageBus, IStorage ff)
         {
             _services = services;
             _messageBus = messageBus;

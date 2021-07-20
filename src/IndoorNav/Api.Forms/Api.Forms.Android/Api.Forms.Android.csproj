@@ -50,13 +50,13 @@
         <Reference Include="System.Xml" />
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="Prism.Forms" Version="8.1.97" />
-        <PackageReference Include="Shiny" Version="2.1.0.2769" />
+        <PackageReference Include="Prism.Container.Extensions" Version="8.0.62" />
+        <PackageReference Include="Shiny.Prism" Version="8.0.62" />
         <PackageReference Include="Xamarin.Essentials" Version="1.6.1" />
         <PackageReference Include="Xamarin.Forms" Version="5.0.0.2012" />
     </ItemGroup>
     <ItemGroup>
-        <Compile Include="Di\DiTest.cs" />
+        <Compile Include="Di\DiModule.cs" />
         <Compile Include="Di\PrismInit.cs" />
         <Compile Include="MainActivity.cs" />
         <Compile Include="Resources\Resource.Designer.cs" />
