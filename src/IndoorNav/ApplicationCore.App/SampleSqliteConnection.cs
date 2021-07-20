@@ -9,6 +9,7 @@ namespace ApplicationCore.App
     {
         public SampleSqliteConnection(IPlatform platform) : base(Path.Combine(platform.AppData.FullName, "sample.db"))
         {
+            var hh = Path.Combine(platform.AppData.FullName, "sample.db");//DEBUG
             var conn = GetConnection();
             conn.CreateTable<BeaconEvent>();
             conn.CreateTable<JobLog>();

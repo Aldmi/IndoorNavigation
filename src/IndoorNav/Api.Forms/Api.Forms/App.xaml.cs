@@ -1,5 +1,6 @@
 ﻿using ApplicationCore.App;
 using Prism;
+using Prism.DryIoc;
 using Prism.Ioc;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -19,7 +20,7 @@ namespace Api.Forms
         protected override async void OnInitialized()
         {
             InitializeComponent();
-            //XF.Material.Forms.Material.Init(this);
+            XF.Material.Forms.Material.Init(this);
             
             //var res=await NavigationService.NavigateAsync("Main/Nav/Welcome");
             var res=await NavigationService.NavigateAsync("Nav/Main");

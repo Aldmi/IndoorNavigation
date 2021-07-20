@@ -1,4 +1,5 @@
 ﻿using System;
+using Api.Forms.Infrastructure;
 using ApplicationCore.App;
 using ApplicationCore.App.BluetoothLE;
 using ApplicationCore.App.Infrastructure;
@@ -28,6 +29,7 @@ namespace Api.Forms
             services.UseSqliteStore();
             services.UseNotifications();
             services.AddSingleton<AppNotifications>();
+            services.AddSingleton<IDialogs, Dialogs>();
 
             // your infrastructure
             services.AddSingleton<SampleSqliteConnection>();
@@ -35,11 +37,11 @@ namespace Api.Forms
             
             //register init jobs
             services.AddSingleton<GenerateDataJob>();
-            services.AddSingleton<HandleDataJob>();
+            //services.AddSingleton<HandleDataJob>();
             
             // startup tasks
-            //services.AddSingleton<GlobalExceptionHandler>();
-            //services.AddSingleton<JobLoggerTask>();
+            services.AddSingleton<GlobalExceptionHandler>();
+            services.AddSingleton<JobLoggerTask>();
             services.AddSingleton<InitStartupTask>();
             
             

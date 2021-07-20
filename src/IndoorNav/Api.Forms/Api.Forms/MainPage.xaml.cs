@@ -1,4 +1,5 @@
-﻿using Xamarin.Forms;
+﻿using ApplicationCore.App.PlatformServices;
+using Xamarin.Forms;
 
 namespace Api.Forms
 {
@@ -7,6 +8,9 @@ namespace Api.Forms
         public MainPage()
         {
             InitializeComponent();
+            
+            // var storeage = DependencyService.Get<IStorage>();//DEBUG
+            // var hh = storeage.Name;
         }
     }
 }

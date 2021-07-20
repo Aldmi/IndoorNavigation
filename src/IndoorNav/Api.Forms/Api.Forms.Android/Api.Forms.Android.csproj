@@ -17,6 +17,7 @@
         <AndroidUseLatestPlatformSdk>false</AndroidUseLatestPlatformSdk>
         <TargetFrameworkVersion>v11.0</TargetFrameworkVersion>
         <AndroidHttpClientHandlerType>Xamarin.Android.Net.AndroidClientHandler</AndroidHttpClientHandlerType>
+        <LangVersion>9</LangVersion>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
         <DebugSymbols>true</DebugSymbols>
@@ -51,6 +52,7 @@
         <PackageReference Include="Xamarin.Forms" Version="5.0.0.2012" />
     </ItemGroup>
     <ItemGroup>
+        <Compile Include="Di\DiTest.cs" />
         <Compile Include="MainActivity.cs" />
         <Compile Include="Resources\Resource.Designer.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
@@ -67,6 +69,10 @@
         <AndroidResource Include="Resources\values\colors.xml" />
     </ItemGroup>
     <ItemGroup>
+        <ProjectReference Include="..\..\ApplicationCore.App\ApplicationCore.App.csproj">
+          <Project>{7bab4880-b0f9-4c72-83db-7c44121e3f60}</Project>
+          <Name>ApplicationCore.App</Name>
+        </ProjectReference>
         <ProjectReference Include="..\Api.Forms\Api.Forms.csproj">
             <Project>{A48409C2-B3FE-4A22-B9CC-EF3D9856EE17}</Project>
             <Name>Api.Forms</Name>

@@ -3,8 +3,10 @@ using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using ApplicationCore.App.Infrastructure;
+using ApplicationCore.App.PlatformServices;
 using Shiny;
 using Shiny.Jobs;
+using Xamarin.Forms;
 
 
 namespace ApplicationCore.App.Jobs
@@ -18,6 +20,9 @@ namespace ApplicationCore.App.Jobs
         {
             _services = services;
             _messageBus = messageBus;
+            
+            // var storeage = DependencyService.Get<IStorage>();//DEBUG
+            // var hh = storeage.Name;
         }
         
         public async Task Run(JobInfo jobInfo, CancellationToken cancelToken)
@@ -46,7 +51,7 @@ namespace ApplicationCore.App.Jobs
         }
 
         public void Start()
-            => _services.Notifications.Register(this.GetType(), true, "Jobs");
+            => _services.Notifications.Register(GetType(), true, "Jobs");
         
     }
 

@@ -24,11 +24,12 @@ namespace ApplicationCore.App.Jobs
         
         public async Task Run(JobInfo jobInfo, CancellationToken cancelToken)
         {
-            var gg=_messageBus.HasSubscribers<BleData>();
-            var lifeTime= _messageBus.Listener<BleData>().Subscribe(bleData =>
-            {
-                Debug.WriteLine($"Ha1ndle {bleData.Id}  {DateTime.Now:T}");
-            });
+            
+            // var gg=_messageBus.HasSubscribers<BleData>();
+            // var lifeTime= _messageBus.Listener<BleData>().Subscribe(bleData =>
+            // {
+            //     Debug.WriteLine($"Ha1ndle {bleData.Id}  {DateTime.Now:T}");
+            // });
             
             // var result = await _notifications.RequestAccess();
             // if (result == AccessState.Available) 
@@ -42,6 +43,6 @@ namespace ApplicationCore.App.Jobs
         }
 
         public void Start()
-            => _services.Notifications.Register(this.GetType(), true, "Jobs");
+            => _services.Notifications.Register(GetType(), true, "Jobs");
     }
 }
