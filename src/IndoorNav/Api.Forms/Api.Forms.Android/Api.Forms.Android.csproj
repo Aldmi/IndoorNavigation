@@ -50,14 +50,13 @@
         <Reference Include="System.Xml" />
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="Prism.Container.Extensions" Version="8.0.62" />
-        <PackageReference Include="Shiny.Prism" Version="8.0.62" />
+        <PackageReference Include="Shiny" Version="2.1.0.2769" />
         <PackageReference Include="Xamarin.Essentials" Version="1.6.1" />
         <PackageReference Include="Xamarin.Forms" Version="5.0.0.2012" />
     </ItemGroup>
     <ItemGroup>
-        <Compile Include="Di\DiModule.cs" />
-        <Compile Include="Di\PrismInit.cs" />
+        <Compile Include="MainActivity - Copy.cs" />
+        <Compile Include="PlatformDependency\MyAndroidService.cs" />
         <Compile Include="MainActivity.cs" />
         <Compile Include="Resources\Resource.Designer.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
@@ -68,8 +67,22 @@
         <None Include="Properties\AndroidManifest.xml" />
     </ItemGroup>
     <ItemGroup>
+        <AndroidResource Include="Resources\drawable\logo.png" />
+        <AndroidResource Include="Resources\drawable\notification.png" />
         <AndroidResource Include="Resources\layout\Tabbar.axml" />
         <AndroidResource Include="Resources\layout\Toolbar.axml" />
+        <AndroidResource Include="Resources\mipmap-anydpi-v26\icon.xml" />
+        <AndroidResource Include="Resources\mipmap-anydpi-v26\icon_round.xml" />
+        <AndroidResource Include="Resources\mipmap-hdpi\icon.png" />
+        <AndroidResource Include="Resources\mipmap-hdpi\launcher_foreground.png" />
+        <AndroidResource Include="Resources\mipmap-mdpi\icon.png" />
+        <AndroidResource Include="Resources\mipmap-mdpi\launcher_foreground.png" />
+        <AndroidResource Include="Resources\mipmap-xhdpi\icon.png" />
+        <AndroidResource Include="Resources\mipmap-xhdpi\launcher_foreground.png" />
+        <AndroidResource Include="Resources\mipmap-xxhdpi\icon.png" />
+        <AndroidResource Include="Resources\mipmap-xxhdpi\launcher_foreground.png" />
+        <AndroidResource Include="Resources\mipmap-xxxhdpi\icon.png" />
+        <AndroidResource Include="Resources\mipmap-xxxhdpi\launcher_foreground.png" />
         <AndroidResource Include="Resources\values\styles.xml" />
         <AndroidResource Include="Resources\values\colors.xml" />
     </ItemGroup>
@@ -77,6 +90,10 @@
         <ProjectReference Include="..\..\ApplicationCore.App\ApplicationCore.App.csproj">
           <Project>{7bab4880-b0f9-4c72-83db-7c44121e3f60}</Project>
           <Name>ApplicationCore.App</Name>
+        </ProjectReference>
+        <ProjectReference Include="..\..\Libs.BluetoothLE\Libs.BluetoothLE.csproj">
+          <Project>{b747d8d7-1aef-49c4-9ad3-fddd8b1a0ae2}</Project>
+          <Name>Libs.BluetoothLE</Name>
         </ProjectReference>
         <ProjectReference Include="..\Api.Forms\Api.Forms.csproj">
             <Project>{A48409C2-B3FE-4A22-B9CC-EF3D9856EE17}</Project>

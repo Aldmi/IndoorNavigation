@@ -1,55 +1,59 @@
 ﻿using System;
 using Api.Forms.Infrastructure;
 using ApplicationCore.App;
-using ApplicationCore.App.BluetoothLE;
 using ApplicationCore.App.Infrastructure;
 using ApplicationCore.App.Jobs;
 using ApplicationCore.App.StartupTasks;
 using DryIoc.Microsoft.DependencyInjection;
+using Libs.Beacons.Platforms.Shared;
+using Libs.BluetoothLE.Platforms.Shared;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 using Prism.DryIoc;
 using Prism.Ioc;
 using Shiny;
-using Shiny.Jobs;
-using Shiny.Prism;
 
 namespace Api.Forms
 {
-    public class Startup : PrismStartup
+    public class Startup : ShinyStartup
     {
-        public Startup()
-            : base(PrismContainerExtension.Current)
+        public override void ConfigureLogging(ILoggingBuilder builder, IPlatform platform)
         {
+            base.ConfigureLogging(builder, platform);
+            //builder.AddConsole(opts => opts.LogToStandardErrorThreshold = LogLevel.Debug);
+            //builder.AddAppCenter("b97caf36-61ac-49b9-8985-d924c40ee36d"); //"android = b97caf36-61ac-49b9-8985-d924c40ee36d;"              //Secrets.Values.AppCenterKey;
+            builder.AddSqliteLogging();
         }
+
         
-        
-        protected override void ConfigureServices(IServiceCollection services, IPlatform platform)
+
+        public override void ConfigureServices(IServiceCollection services, IPlatform platform)
         {
             services.UseSqliteStore();
             services.UseNotifications();
             services.AddSingleton<AppNotifications>();
             services.AddSingleton<IDialogs, Dialogs>();
 
-            // your infrastructure
-            services.AddSingleton<SampleSqliteConnection>();
-            services.AddSingleton<CoreDelegateServices>();
+            // your infrastructure----------------------------------------------
+            //services.AddSingleton<SampleSqliteConnection>();
+           // services.AddSingleton<CoreDelegateServices>();
             
-            //register init jobs
-            services.AddSingleton<GenerateDataJob>();
+            //register init jobs------------------------------------------------
+            //services.AddSingleton<BeaconScanJob>();
             //services.AddSingleton<HandleDataJob>();
             
-            // startup tasks
-            services.AddSingleton<GlobalExceptionHandler>();
-            services.AddSingleton<JobLoggerTask>();
-            services.AddSingleton<InitStartupTask>();
-            
-            
-            // register all of the shiny stuff you want to use
-            //services.UseBleClient<BleClientDelegate>();
-            
-            // var job = new JobInfo(typeof(GenerateDataJob), nameof(GenerateDataJob))
+            // startup tasks------------------------------------------------------
+            //services.AddSingleton<GlobalExceptionHandler>();
+            //services.AddSingleton<JobLoggerTask>();
+            //services.AddSingleton<InitStartupTask>();
+
+            // register all of the shiny stuff you want to use---------------------
+            //services.UseBleClient(); 
+            //services.UseBeaconRanging(); 
+            services.UseBeaconRanging();
+
+
+            // var job = new JobInfo(typeof(BeaconScanJob), nameof(BeaconScanJob))
             // {
             //     Repeat = true,
             //     //BatteryNotLow = true,
@@ -70,21 +74,17 @@ namespace Api.Forms
             // };
             // services.RegisterJob(job2);
         }
-
-
-
-
-        // public override IServiceProvider CreateServiceProvider(IServiceCollection services)
-        // {
-        //     // This registers and initializes the Container with Prism ensuring
-        //     // that both Shiny & Prism use the same container
-        //     var containerExt = PrismContainerExtension.Current;  //использует Prism.DryIoc контейнер
-        //     ContainerLocator.SetContainerExtension(() => containerExt);
-        //     var container = ContainerLocator.Container.GetContainer();
-        //     container.Populate(services);                                       //добавялем в DryIoc уже зарегестрированные севрисы.
-        //     return container.GetServiceProvider();
-        // }
-
-
+        
+        
+        public override IServiceProvider CreateServiceProvider(IServiceCollection services)
+        {
+            // This registers and initializes the Container with Prism ensuring
+            // that both Shiny & Prism use the same container
+            var containerExt = PrismContainerExtension.Current;  //использует Prism.DryIoc контейнер
+            ContainerLocator.SetContainerExtension(() => containerExt);
+            var container = ContainerLocator.Container.GetContainer();
+            container.Populate(services);                                       //добавялем в DryIoc уже зарегестрированные севрисы.
+            return container.GetServiceProvider();
+        }
     }
 }

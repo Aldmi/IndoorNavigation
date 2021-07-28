@@ -1,0 +1,30 @@
+﻿using System.Threading.Tasks;
+using Shiny;
+
+namespace Libs.BluetoothLE
+{
+    public interface IBleDelegate
+    {
+        /// <summary>
+        /// Fires when the adapter state changes - foreground or background
+        /// </summary>
+        /// <param name="state"></param>
+        /// <returns></returns>
+        Task OnAdapterStateChanged(AccessState state);
+
+
+        /// <summary>
+        /// Fires when a device connects in the foreground or background
+        /// </summary>
+        /// <param name="peripheral"></param>
+        /// <returns></returns>
+        Task OnConnected(IPeripheral peripheral);
+    }
+
+
+    public abstract class BleDelegate : IBleDelegate
+    {
+        public virtual Task OnAdapterStateChanged(AccessState state) => Task.CompletedTask;
+        public virtual Task OnConnected(IPeripheral peripheral) => Task.CompletedTask;
+    }
+}

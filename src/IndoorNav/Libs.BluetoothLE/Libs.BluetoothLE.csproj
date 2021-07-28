@@ -1,0 +1,308 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <Import Project="..\packages\Xamarin.AndroidX.Migration.1.0.8\build\monoandroid90\Xamarin.AndroidX.Migration.props" Condition="Exists('..\packages\Xamarin.AndroidX.Migration.1.0.8\build\monoandroid90\Xamarin.AndroidX.Migration.props')" />
+    <PropertyGroup>
+        <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+        <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+        <ProductVersion>8.0.30703</ProductVersion>
+        <SchemaVersion>2.0</SchemaVersion>
+        <ProjectGuid>{B747D8D7-1AEF-49C4-9AD3-FDDD8B1A0AE2}</ProjectGuid>
+        <ProjectTypeGuids>{EFBA0AD7-5A72-4C68-AF49-83D382785DCF};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+        <OutputType>Library</OutputType>
+        <AppDesignerFolder>Properties</AppDesignerFolder>
+        <RootNamespace>Libs.BluetoothLE</RootNamespace>
+        <AssemblyName>Libs.BluetoothLE</AssemblyName>
+        <FileAlignment>512</FileAlignment>
+        <AndroidResgenFile>Resources\Resource.Designer.cs</AndroidResgenFile>
+        <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+        <AndroidUseLatestPlatformSdk>True</AndroidUseLatestPlatformSdk>
+        <TargetFrameworkVersion>v11.0</TargetFrameworkVersion>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+        <DebugSymbols>true</DebugSymbols>
+        <DebugType>full</DebugType>
+        <Optimize>false</Optimize>
+        <OutputPath>bin\Debug\</OutputPath>
+        <DefineConstants>DEBUG;TRACE</DefineConstants>
+        <ErrorReport>prompt</ErrorReport>
+        <WarningLevel>4</WarningLevel>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+        <DebugType>pdbonly</DebugType>
+        <Optimize>true</Optimize>
+        <OutputPath>bin\Release\</OutputPath>
+        <DefineConstants>TRACE</DefineConstants>
+        <ErrorReport>prompt</ErrorReport>
+        <WarningLevel>4</WarningLevel>
+    </PropertyGroup>
+    <ItemGroup>
+        <Reference Include="Java.Interop" />
+        <Reference Include="Microsoft.Extensions.DependencyInjection, Version=5.0.0.1, Culture=neutral, PublicKeyToken=adb9793829ddae60">
+          <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.5.0.1\lib\netstandard2.1\Microsoft.Extensions.DependencyInjection.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=5.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60">
+          <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.5.0.0\lib\netstandard2.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="Microsoft.Extensions.Logging, Version=5.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60">
+          <HintPath>..\packages\Microsoft.Extensions.Logging.5.0.0\lib\netstandard2.1\Microsoft.Extensions.Logging.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="Microsoft.Extensions.Logging.Abstractions, Version=5.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60">
+          <HintPath>..\packages\Microsoft.Extensions.Logging.Abstractions.5.0.0\lib\netstandard2.0\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="Microsoft.Extensions.Options, Version=5.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60">
+          <HintPath>..\packages\Microsoft.Extensions.Options.5.0.0\lib\netstandard2.0\Microsoft.Extensions.Options.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="Microsoft.Extensions.Primitives, Version=5.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60">
+          <HintPath>..\packages\Microsoft.Extensions.Primitives.5.0.0\lib\netstandard2.0\Microsoft.Extensions.Primitives.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="Mono.Android" />
+        <Reference Include="mscorlib" />
+        <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed">
+          <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\netstandard2.0\Newtonsoft.Json.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="Shiny.BluetoothLE.Common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <HintPath>..\packages\Shiny.BluetoothLE.Common.2.1.0.2769\lib\monoandroid10.0\Shiny.BluetoothLE.Common.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="Shiny.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <HintPath>..\packages\Shiny.Core.2.1.0.2769\lib\monoandroid10.0\Shiny.Core.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="System" />
+        <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51">
+          <HintPath>..\packages\System.Buffers.4.5.1\lib\netstandard2.0\System.Buffers.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="System.Core" />
+        <Reference Include="System.Diagnostics.DiagnosticSource, Version=5.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51">
+          <HintPath>..\packages\System.Diagnostics.DiagnosticSource.5.0.0\lib\netstandard1.3\System.Diagnostics.DiagnosticSource.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="System.Reactive, Version=5.0.0.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263">
+          <HintPath>..\packages\System.Reactive.5.0.0\lib\netstandard2.0\System.Reactive.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+          <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.5.0.0\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="System.Xml.Linq" />
+        <Reference Include="System.Xml" />
+        <Reference Include="Xamarin.AndroidX.Annotation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <HintPath>..\packages\Xamarin.AndroidX.Annotation.1.2.0\lib\monoandroid90\Xamarin.AndroidX.Annotation.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="Xamarin.AndroidX.Arch.Core.Common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <HintPath>..\packages\Xamarin.AndroidX.Arch.Core.Common.2.1.0.8\lib\monoandroid90\Xamarin.AndroidX.Arch.Core.Common.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="Xamarin.AndroidX.Arch.Core.Runtime, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <HintPath>..\packages\Xamarin.AndroidX.Arch.Core.Runtime.2.1.0.8\lib\monoandroid90\Xamarin.AndroidX.Arch.Core.Runtime.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="Xamarin.AndroidX.Collection, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <HintPath>..\packages\Xamarin.AndroidX.Collection.1.1.0.7\lib\monoandroid90\Xamarin.AndroidX.Collection.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="Xamarin.AndroidX.Concurrent.Futures, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <HintPath>..\packages\Xamarin.AndroidX.Concurrent.Futures.1.1.0.2\lib\monoandroid90\Xamarin.AndroidX.Concurrent.Futures.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="Xamarin.AndroidX.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <HintPath>..\packages\Xamarin.AndroidX.Core.1.5.0\lib\monoandroid90\Xamarin.AndroidX.Core.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="Xamarin.AndroidX.Lifecycle.Common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <HintPath>..\packages\Xamarin.AndroidX.Lifecycle.Common.2.3.1\lib\monoandroid90\Xamarin.AndroidX.Lifecycle.Common.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="Xamarin.AndroidX.Lifecycle.LiveData, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <HintPath>..\packages\Xamarin.AndroidX.Lifecycle.LiveData.2.3.0.1\lib\monoandroid90\Xamarin.AndroidX.Lifecycle.LiveData.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="Xamarin.AndroidX.Lifecycle.LiveData.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <HintPath>..\packages\Xamarin.AndroidX.Lifecycle.LiveData.Core.2.3.0.1\lib\monoandroid90\Xamarin.AndroidX.Lifecycle.LiveData.Core.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="Xamarin.AndroidX.Lifecycle.Process, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <HintPath>..\packages\Xamarin.AndroidX.Lifecycle.Process.2.3.1\lib\monoandroid90\Xamarin.AndroidX.Lifecycle.Process.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="Xamarin.AndroidX.Lifecycle.Runtime, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <HintPath>..\packages\Xamarin.AndroidX.Lifecycle.Runtime.2.3.1.1\lib\monoandroid90\Xamarin.AndroidX.Lifecycle.Runtime.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="Xamarin.AndroidX.Lifecycle.Service, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <HintPath>..\packages\Xamarin.AndroidX.Lifecycle.Service.2.3.0.1\lib\monoandroid90\Xamarin.AndroidX.Lifecycle.Service.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="Xamarin.AndroidX.MultiDex, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <HintPath>..\packages\Xamarin.AndroidX.MultiDex.2.0.1.5\lib\monoandroid90\Xamarin.AndroidX.MultiDex.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="Xamarin.AndroidX.Room.Common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <HintPath>..\packages\Xamarin.AndroidX.Room.Common.2.3.0\lib\monoandroid90\Xamarin.AndroidX.Room.Common.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="Xamarin.AndroidX.Room.Runtime, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <HintPath>..\packages\Xamarin.AndroidX.Room.Runtime.2.3.0\lib\monoandroid90\Xamarin.AndroidX.Room.Runtime.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="Xamarin.AndroidX.Sqlite, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <HintPath>..\packages\Xamarin.AndroidX.Sqlite.2.1.0.7\lib\monoandroid90\Xamarin.AndroidX.Sqlite.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="Xamarin.AndroidX.Sqlite.Framework, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <HintPath>..\packages\Xamarin.AndroidX.Sqlite.Framework.2.1.0.7\lib\monoandroid90\Xamarin.AndroidX.Sqlite.Framework.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="Xamarin.AndroidX.VersionedParcelable, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <HintPath>..\packages\Xamarin.AndroidX.VersionedParcelable.1.1.1.7\lib\monoandroid90\Xamarin.AndroidX.VersionedParcelable.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="Xamarin.AndroidX.Work.Runtime, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <HintPath>..\packages\Xamarin.AndroidX.Work.Runtime.2.5.0.1\lib\monoandroid90\Xamarin.AndroidX.Work.Runtime.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="Xamarin.Google.Guava.ListenableFuture, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <HintPath>..\packages\Xamarin.Google.Guava.ListenableFuture.1.0.0.2\lib\monoandroid50\Xamarin.Google.Guava.ListenableFuture.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+    </ItemGroup>
+    <ItemGroup>
+        <Compile Include="AbstractBleManager.cs" />
+        <Compile Include="AbstractGattCharacteristic.cs" />
+        <Compile Include="AbstractGattDescriptor.cs" />
+        <Compile Include="AbstractGattReliableWriteTransaction.cs" />
+        <Compile Include="AbstractGattService.cs" />
+        <Compile Include="AbstractPeripheral.cs" />
+        <Compile Include="AssemblyInfo.cs" />
+        <Compile Include="BleConfiguration.cs" />
+        <Compile Include="BleScanType.cs" />
+        <Compile Include="BleWriteSegment.cs" />
+        <Compile Include="ConnectionConfig.cs" />
+        <Compile Include="ConnectionPriority.cs" />
+        <Compile Include="Extensions_Async.cs" />
+        <Compile Include="Extensions_BleManager.cs" />
+        <Compile Include="Extensions_Characteristics.cs" />
+        <Compile Include="Extensions_CommonCharacteristics.cs" />
+        <Compile Include="Extensions_Peripheral.cs" />
+        <Compile Include="Feature_ControlState.cs" />
+        <Compile Include="Feature_L2Cap.cs" />
+        <Compile Include="Feature_Mtu.cs" />
+        <Compile Include="Feature_Pairing.cs" />
+        <Compile Include="Feature_Transactions.cs" />
+        <Compile Include="GattCharacteristicResult.cs" />
+        <Compile Include="GattDescriptorResult.cs" />
+        <Compile Include="GattReliableWriteTransactionException.cs" />
+        <Compile Include="IAdvertisementData.cs" />
+        <Compile Include="IBleBackgroundManager.cs" />
+        <Compile Include="IBleDelegate.cs" />
+        <Compile Include="IBleManager.cs" />
+        <Compile Include="IGattCharacteristic.cs" />
+        <Compile Include="IGattDescriptor.cs" />
+        <Compile Include="IGattReliableWriteTransaction.cs" />
+        <Compile Include="IGattService.cs" />
+        <Compile Include="IPeripheral.cs" />
+        <Compile Include="PairingState.cs" />
+        <Compile Include="Platforms\Android\AdvertisementData.cs" />
+        <Compile Include="Platforms\Android\BleManager.cs" />
+        <Compile Include="Platforms\Android\GattCharacteristic.cs" />
+        <Compile Include="Platforms\Android\GattDescriptor.cs" />
+        <Compile Include="Platforms\Android\GattReliableWriteTransaction.cs" />
+        <Compile Include="Platforms\Android\GattService.cs" />
+        <Compile Include="Platforms\Android\Internals\ConnectionStateEventArgs.cs" />
+        <Compile Include="Platforms\Android\Internals\GattCallbacks.cs" />
+        <Compile Include="Platforms\Android\Internals\GattCharacteristicEventArgs.cs" />
+        <Compile Include="Platforms\Android\Internals\GattDescriptorEventArgs.cs" />
+        <Compile Include="Platforms\Android\Internals\GattEventArgs.cs" />
+        <Compile Include="Platforms\Android\Internals\GattRssiEventArgs.cs" />
+        <Compile Include="Platforms\Android\Internals\LollipopScanCallback.cs" />
+        <Compile Include="Platforms\Android\Internals\ManagerContext.cs" />
+        <Compile Include="Platforms\Android\Internals\MtuChangedEventArgs.cs" />
+        <Compile Include="Platforms\Android\Internals\PeripheralContext.cs" />
+        <Compile Include="Platforms\Android\Internals\ShinyBleBroadcastReceiver.cs" />
+        <Compile Include="Platforms\Android\Manifest.cs" />
+        <Compile Include="Platforms\Android\Peripheral.cs" />
+        <Compile Include="Platforms\Shared\BleShinyModule.cs" />
+        <Compile Include="Platforms\Shared\ServiceCollectionExtensions.cs" />
+        <Compile Include="Resources\Resource.Designer.cs" />
+        <Compile Include="Properties\AssemblyInfo.cs" />
+        <Compile Include="ScanConfig.cs" />
+        <Compile Include="ScanResult.cs" />
+        <Compile Include="TransactionState.cs" />
+    </ItemGroup>
+    <ItemGroup>
+        <None Include="packages.config" />
+        <None Include="Resources\AboutResources.txt" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\values\strings.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <Folder Include="Resources\drawable\" />
+    </ItemGroup>
+    <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
+    <Import Project="..\packages\Xamarin.AndroidX.MultiDex.2.0.1.5\build\monoandroid90\Xamarin.AndroidX.MultiDex.targets" Condition="Exists('..\packages\Xamarin.AndroidX.MultiDex.2.0.1.5\build\monoandroid90\Xamarin.AndroidX.MultiDex.targets')" />
+    <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+      <PropertyGroup>
+        <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105.The missing file is {0}.</ErrorText>
+      </PropertyGroup>
+      <Error Condition="!Exists('..\packages\Xamarin.AndroidX.MultiDex.2.0.1.5\build\monoandroid90\Xamarin.AndroidX.MultiDex.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Xamarin.AndroidX.MultiDex.2.0.1.5\build\monoandroid90\Xamarin.AndroidX.MultiDex.targets'))" />
+      <Error Condition="!Exists('..\packages\Xamarin.AndroidX.Migration.1.0.8\build\monoandroid90\Xamarin.AndroidX.Migration.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Xamarin.AndroidX.Migration.1.0.8\build\monoandroid90\Xamarin.AndroidX.Migration.props'))" />
+      <Error Condition="!Exists('..\packages\Xamarin.AndroidX.Migration.1.0.8\build\monoandroid90\Xamarin.AndroidX.Migration.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Xamarin.AndroidX.Migration.1.0.8\build\monoandroid90\Xamarin.AndroidX.Migration.targets'))" />
+      <Error Condition="!Exists('..\packages\Xamarin.AndroidX.Annotation.1.2.0\build\monoandroid9.0\Xamarin.AndroidX.Annotation.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Xamarin.AndroidX.Annotation.1.2.0\build\monoandroid9.0\Xamarin.AndroidX.Annotation.targets'))" />
+      <Error Condition="!Exists('..\packages\Xamarin.AndroidX.Arch.Core.Common.2.1.0.8\build\monoandroid9.0\Xamarin.AndroidX.Arch.Core.Common.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Xamarin.AndroidX.Arch.Core.Common.2.1.0.8\build\monoandroid9.0\Xamarin.AndroidX.Arch.Core.Common.targets'))" />
+      <Error Condition="!Exists('..\packages\Xamarin.AndroidX.Arch.Core.Runtime.2.1.0.8\build\monoandroid9.0\Xamarin.AndroidX.Arch.Core.Runtime.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Xamarin.AndroidX.Arch.Core.Runtime.2.1.0.8\build\monoandroid9.0\Xamarin.AndroidX.Arch.Core.Runtime.targets'))" />
+      <Error Condition="!Exists('..\packages\Xamarin.AndroidX.Collection.1.1.0.7\build\monoandroid9.0\Xamarin.AndroidX.Collection.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Xamarin.AndroidX.Collection.1.1.0.7\build\monoandroid9.0\Xamarin.AndroidX.Collection.targets'))" />
+      <Error Condition="!Exists('..\packages\Xamarin.AndroidX.Lifecycle.Common.2.3.1\build\monoandroid9.0\Xamarin.AndroidX.Lifecycle.Common.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Xamarin.AndroidX.Lifecycle.Common.2.3.1\build\monoandroid9.0\Xamarin.AndroidX.Lifecycle.Common.targets'))" />
+      <Error Condition="!Exists('..\packages\Xamarin.AndroidX.Lifecycle.LiveData.Core.2.3.0.1\build\monoandroid9.0\Xamarin.AndroidX.Lifecycle.LiveData.Core.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Xamarin.AndroidX.Lifecycle.LiveData.Core.2.3.0.1\build\monoandroid9.0\Xamarin.AndroidX.Lifecycle.LiveData.Core.targets'))" />
+      <Error Condition="!Exists('..\packages\Xamarin.AndroidX.Lifecycle.LiveData.2.3.0.1\build\monoandroid9.0\Xamarin.AndroidX.Lifecycle.LiveData.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Xamarin.AndroidX.Lifecycle.LiveData.2.3.0.1\build\monoandroid9.0\Xamarin.AndroidX.Lifecycle.LiveData.targets'))" />
+      <Error Condition="!Exists('..\packages\Xamarin.AndroidX.Lifecycle.Runtime.2.3.1.1\build\monoandroid9.0\Xamarin.AndroidX.Lifecycle.Runtime.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Xamarin.AndroidX.Lifecycle.Runtime.2.3.1.1\build\monoandroid9.0\Xamarin.AndroidX.Lifecycle.Runtime.targets'))" />
+      <Error Condition="!Exists('..\packages\Xamarin.AndroidX.Lifecycle.Process.2.3.1\build\monoandroid9.0\Xamarin.AndroidX.Lifecycle.Process.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Xamarin.AndroidX.Lifecycle.Process.2.3.1\build\monoandroid9.0\Xamarin.AndroidX.Lifecycle.Process.targets'))" />
+      <Error Condition="!Exists('..\packages\Xamarin.AndroidX.Lifecycle.Service.2.3.0.1\build\monoandroid9.0\Xamarin.AndroidX.Lifecycle.Service.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Xamarin.AndroidX.Lifecycle.Service.2.3.0.1\build\monoandroid9.0\Xamarin.AndroidX.Lifecycle.Service.targets'))" />
+      <Error Condition="!Exists('..\packages\Xamarin.AndroidX.Room.Common.2.3.0\build\monoandroid9.0\Xamarin.AndroidX.Room.Common.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Xamarin.AndroidX.Room.Common.2.3.0\build\monoandroid9.0\Xamarin.AndroidX.Room.Common.targets'))" />
+      <Error Condition="!Exists('..\packages\Xamarin.AndroidX.Sqlite.2.1.0.7\build\monoandroid9.0\Xamarin.AndroidX.Sqlite.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Xamarin.AndroidX.Sqlite.2.1.0.7\build\monoandroid9.0\Xamarin.AndroidX.Sqlite.targets'))" />
+      <Error Condition="!Exists('..\packages\Xamarin.AndroidX.Sqlite.Framework.2.1.0.7\build\monoandroid9.0\Xamarin.AndroidX.Sqlite.Framework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Xamarin.AndroidX.Sqlite.Framework.2.1.0.7\build\monoandroid9.0\Xamarin.AndroidX.Sqlite.Framework.targets'))" />
+      <Error Condition="!Exists('..\packages\Xamarin.AndroidX.Room.Runtime.2.3.0\build\monoandroid9.0\Xamarin.AndroidX.Room.Runtime.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Xamarin.AndroidX.Room.Runtime.2.3.0\build\monoandroid9.0\Xamarin.AndroidX.Room.Runtime.targets'))" />
+      <Error Condition="!Exists('..\packages\Xamarin.AndroidX.VersionedParcelable.1.1.1.7\build\monoandroid9.0\Xamarin.AndroidX.VersionedParcelable.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Xamarin.AndroidX.VersionedParcelable.1.1.1.7\build\monoandroid9.0\Xamarin.AndroidX.VersionedParcelable.targets'))" />
+      <Error Condition="!Exists('..\packages\Xamarin.AndroidX.Core.1.5.0\build\monoandroid9.0\Xamarin.AndroidX.Core.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Xamarin.AndroidX.Core.1.5.0\build\monoandroid9.0\Xamarin.AndroidX.Core.targets'))" />
+      <Error Condition="!Exists('..\packages\Xamarin.Google.Guava.ListenableFuture.1.0.0.2\build\monoandroid50\Xamarin.Google.Guava.ListenableFuture.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Xamarin.Google.Guava.ListenableFuture.1.0.0.2\build\monoandroid50\Xamarin.Google.Guava.ListenableFuture.targets'))" />
+      <Error Condition="!Exists('..\packages\Xamarin.AndroidX.Concurrent.Futures.1.1.0.2\build\monoandroid9.0\Xamarin.AndroidX.Concurrent.Futures.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Xamarin.AndroidX.Concurrent.Futures.1.1.0.2\build\monoandroid9.0\Xamarin.AndroidX.Concurrent.Futures.targets'))" />
+      <Error Condition="!Exists('..\packages\Xamarin.AndroidX.Work.Runtime.2.5.0.1\build\monoandroid9.0\Xamarin.AndroidX.Work.Runtime.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Xamarin.AndroidX.Work.Runtime.2.5.0.1\build\monoandroid9.0\Xamarin.AndroidX.Work.Runtime.targets'))" />
+    </Target>
+    <Import Project="..\packages\Xamarin.AndroidX.Migration.1.0.8\build\monoandroid90\Xamarin.AndroidX.Migration.targets" Condition="Exists('..\packages\Xamarin.AndroidX.Migration.1.0.8\build\monoandroid90\Xamarin.AndroidX.Migration.targets')" />
+    <Import Project="..\packages\Xamarin.AndroidX.Annotation.1.2.0\build\monoandroid9.0\Xamarin.AndroidX.Annotation.targets" Condition="Exists('..\packages\Xamarin.AndroidX.Annotation.1.2.0\build\monoandroid9.0\Xamarin.AndroidX.Annotation.targets')" />
+    <Import Project="..\packages\Xamarin.AndroidX.Arch.Core.Common.2.1.0.8\build\monoandroid9.0\Xamarin.AndroidX.Arch.Core.Common.targets" Condition="Exists('..\packages\Xamarin.AndroidX.Arch.Core.Common.2.1.0.8\build\monoandroid9.0\Xamarin.AndroidX.Arch.Core.Common.targets')" />
+    <Import Project="..\packages\Xamarin.AndroidX.Arch.Core.Runtime.2.1.0.8\build\monoandroid9.0\Xamarin.AndroidX.Arch.Core.Runtime.targets" Condition="Exists('..\packages\Xamarin.AndroidX.Arch.Core.Runtime.2.1.0.8\build\monoandroid9.0\Xamarin.AndroidX.Arch.Core.Runtime.targets')" />
+    <Import Project="..\packages\Xamarin.AndroidX.Collection.1.1.0.7\build\monoandroid9.0\Xamarin.AndroidX.Collection.targets" Condition="Exists('..\packages\Xamarin.AndroidX.Collection.1.1.0.7\build\monoandroid9.0\Xamarin.AndroidX.Collection.targets')" />
+    <Import Project="..\packages\Xamarin.AndroidX.Lifecycle.Common.2.3.1\build\monoandroid9.0\Xamarin.AndroidX.Lifecycle.Common.targets" Condition="Exists('..\packages\Xamarin.AndroidX.Lifecycle.Common.2.3.1\build\monoandroid9.0\Xamarin.AndroidX.Lifecycle.Common.targets')" />
+    <Import Project="..\packages\Xamarin.AndroidX.Lifecycle.LiveData.Core.2.3.0.1\build\monoandroid9.0\Xamarin.AndroidX.Lifecycle.LiveData.Core.targets" Condition="Exists('..\packages\Xamarin.AndroidX.Lifecycle.LiveData.Core.2.3.0.1\build\monoandroid9.0\Xamarin.AndroidX.Lifecycle.LiveData.Core.targets')" />
+    <Import Project="..\packages\Xamarin.AndroidX.Lifecycle.LiveData.2.3.0.1\build\monoandroid9.0\Xamarin.AndroidX.Lifecycle.LiveData.targets" Condition="Exists('..\packages\Xamarin.AndroidX.Lifecycle.LiveData.2.3.0.1\build\monoandroid9.0\Xamarin.AndroidX.Lifecycle.LiveData.targets')" />
+    <Import Project="..\packages\Xamarin.AndroidX.Lifecycle.Runtime.2.3.1.1\build\monoandroid9.0\Xamarin.AndroidX.Lifecycle.Runtime.targets" Condition="Exists('..\packages\Xamarin.AndroidX.Lifecycle.Runtime.2.3.1.1\build\monoandroid9.0\Xamarin.AndroidX.Lifecycle.Runtime.targets')" />
+    <Import Project="..\packages\Xamarin.AndroidX.Lifecycle.Process.2.3.1\build\monoandroid9.0\Xamarin.AndroidX.Lifecycle.Process.targets" Condition="Exists('..\packages\Xamarin.AndroidX.Lifecycle.Process.2.3.1\build\monoandroid9.0\Xamarin.AndroidX.Lifecycle.Process.targets')" />
+    <Import Project="..\packages\Xamarin.AndroidX.Lifecycle.Service.2.3.0.1\build\monoandroid9.0\Xamarin.AndroidX.Lifecycle.Service.targets" Condition="Exists('..\packages\Xamarin.AndroidX.Lifecycle.Service.2.3.0.1\build\monoandroid9.0\Xamarin.AndroidX.Lifecycle.Service.targets')" />
+    <Import Project="..\packages\Xamarin.AndroidX.Room.Common.2.3.0\build\monoandroid9.0\Xamarin.AndroidX.Room.Common.targets" Condition="Exists('..\packages\Xamarin.AndroidX.Room.Common.2.3.0\build\monoandroid9.0\Xamarin.AndroidX.Room.Common.targets')" />
+    <Import Project="..\packages\Xamarin.AndroidX.Sqlite.2.1.0.7\build\monoandroid9.0\Xamarin.AndroidX.Sqlite.targets" Condition="Exists('..\packages\Xamarin.AndroidX.Sqlite.2.1.0.7\build\monoandroid9.0\Xamarin.AndroidX.Sqlite.targets')" />
+    <Import Project="..\packages\Xamarin.AndroidX.Sqlite.Framework.2.1.0.7\build\monoandroid9.0\Xamarin.AndroidX.Sqlite.Framework.targets" Condition="Exists('..\packages\Xamarin.AndroidX.Sqlite.Framework.2.1.0.7\build\monoandroid9.0\Xamarin.AndroidX.Sqlite.Framework.targets')" />
+    <Import Project="..\packages\Xamarin.AndroidX.Room.Runtime.2.3.0\build\monoandroid9.0\Xamarin.AndroidX.Room.Runtime.targets" Condition="Exists('..\packages\Xamarin.AndroidX.Room.Runtime.2.3.0\build\monoandroid9.0\Xamarin.AndroidX.Room.Runtime.targets')" />
+    <Import Project="..\packages\Xamarin.AndroidX.VersionedParcelable.1.1.1.7\build\monoandroid9.0\Xamarin.AndroidX.VersionedParcelable.targets" Condition="Exists('..\packages\Xamarin.AndroidX.VersionedParcelable.1.1.1.7\build\monoandroid9.0\Xamarin.AndroidX.VersionedParcelable.targets')" />
+    <Import Project="..\packages\Xamarin.AndroidX.Core.1.5.0\build\monoandroid9.0\Xamarin.AndroidX.Core.targets" Condition="Exists('..\packages\Xamarin.AndroidX.Core.1.5.0\build\monoandroid9.0\Xamarin.AndroidX.Core.targets')" />
+    <Import Project="..\packages\Xamarin.Google.Guava.ListenableFuture.1.0.0.2\build\monoandroid50\Xamarin.Google.Guava.ListenableFuture.targets" Condition="Exists('..\packages\Xamarin.Google.Guava.ListenableFuture.1.0.0.2\build\monoandroid50\Xamarin.Google.Guava.ListenableFuture.targets')" />
+    <Import Project="..\packages\Xamarin.AndroidX.Concurrent.Futures.1.1.0.2\build\monoandroid9.0\Xamarin.AndroidX.Concurrent.Futures.targets" Condition="Exists('..\packages\Xamarin.AndroidX.Concurrent.Futures.1.1.0.2\build\monoandroid9.0\Xamarin.AndroidX.Concurrent.Futures.targets')" />
+    <Import Project="..\packages\Xamarin.AndroidX.Work.Runtime.2.5.0.1\build\monoandroid9.0\Xamarin.AndroidX.Work.Runtime.targets" Condition="Exists('..\packages\Xamarin.AndroidX.Work.Runtime.2.5.0.1\build\monoandroid9.0\Xamarin.AndroidX.Work.Runtime.targets')" />
+    <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+         Other similar extension points exist, see Microsoft.Common.targets.
+    <Target Name="BeforeBuild">
+    </Target>
+    <Target Name="AfterBuild">
+    </Target>
+    -->
+</Project>

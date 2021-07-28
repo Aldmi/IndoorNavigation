@@ -1,5 +1,4 @@
-﻿using ApplicationCore.App.PlatformServices;
-using Xamarin.Forms;
+﻿using Xamarin.Forms;
 
 namespace Api.Forms
 {

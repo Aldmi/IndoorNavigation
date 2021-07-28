@@ -14,8 +14,8 @@
     <content url="file://C:/Program Files (x86)/Microsoft/Xamarin/NuGet/xamarin.androidx.media/1.2.1.1/aar/androidx.media.media.aar" />
     <content url="file://C:/Program Files (x86)/Microsoft/Xamarin/NuGet/xamarin.androidx.media/1.2.1.1/proguard/proguard.txt" />
     <content url="file://C:/Program Files (x86)/Microsoft/Xamarin/NuGet/xamarin.androidx.print/1.0.0.6/aar/androidx.print.print.aar" />
-    <content url="file://C:/Program Files (x86)/Microsoft/Xamarin/NuGet/xamarin.androidx.recyclerview/1.1.0.6/aar" />
-    <content url="file://C:/Program Files (x86)/Microsoft/Xamarin/NuGet/xamarin.androidx.recyclerview/1.1.0.6/proguard" />
+    <content url="file://C:/Program Files (x86)/Microsoft/Xamarin/NuGet/xamarin.androidx.recyclerview/1.1.0.6/aar/androidx.recyclerview.recyclerview.aar" />
+    <content url="file://C:/Program Files (x86)/Microsoft/Xamarin/NuGet/xamarin.androidx.recyclerview/1.1.0.6/proguard/proguard.txt" />
     <content url="file://C:/Program Files (x86)/Microsoft/Xamarin/NuGet/xamarin.androidx.slidingpanelayout/1.1.0.1/aar/androidx.slidingpanelayout.slidingpanelayout.aar" />
     <content url="file://C:/Program Files (x86)/Microsoft/Xamarin/NuGet/xamarin.androidx.swiperefreshlayout/1.1.0.1/aar/androidx.swiperefreshlayout.swiperefreshlayout.aar" />
     <content url="file://C:/Program Files (x86)/Microsoft/Xamarin/NuGet/xamarin.androidx.transition/1.3.1.6/aar/androidx.transition.transition.aar" />
@@ -24,7 +24,10 @@
     <content url="file://C:/Program Files (x86)/Microsoft/Xamarin/NuGet/xamarin.forms/5.0.0.2012/buildTransitive/MonoAndroid10" />
     <content url="file://C:/Program Files (x86)/Microsoft/Xamarin/NuGet/xamarin.google.android.material/1.2.1.1/aar/com.google.android.material.material.aar" />
     <content url="file://C:/Program Files (x86)/Microsoft/Xamarin/NuGet/xamarin.google.android.material/1.2.1.1/proguard/proguard.txt" />
-    <content url="file://C:/Program Files (x86)/Microsoft/Xamarin/NuGet/xamarin.google.guava.listenablefuture/1.0.0.2/buildTransitive/monoandroid50" />
+    <content url="file://$USER_HOME$/.nuget/packages/microsoft.net.test.sdk/16.9.4/build/netcoreapp2.1" />
+    <content url="file://$USER_HOME$/.nuget/packages/microsoft.testplatform.testhost/16.9.4/build/netcoreapp2.1/x64/Microsoft.TestPlatform.PlatformAbstractions.dll" />
+    <content url="file://$USER_HOME$/.nuget/packages/microsoft.testplatform.testhost/16.9.4/build/netcoreapp2.1/x64/testhost.dll" />
+    <content url="file://$USER_HOME$/.nuget/packages/microsoft.testplatform.testhost/16.9.4/build/netcoreapp2.1/x64/testhost.exe" />
     <content url="file://$USER_HOME$/.nuget/packages/prism.dryioc.extensions/8.0.62/buildTransitive" />
     <content url="file://$USER_HOME$/.nuget/packages/xamarin.androidx.activity/1.2.3/aar/androidx.activity.activity.aar" />
     <content url="file://$USER_HOME$/.nuget/packages/xamarin.androidx.annotation.experimental/1.1.0/aar/androidx.annotation.annotation-experimental.aar" />
@@ -68,11 +71,15 @@
     <content url="file://$USER_HOME$/.nuget/packages/xamarin.androidx.vectordrawable.animated/1.1.0.7/aar/androidx.vectordrawable.vectordrawable-animated.aar" />
     <content url="file://$USER_HOME$/.nuget/packages/xamarin.androidx.vectordrawable.animated/1.1.0.7/proguard/proguard.txt" />
     <content url="file://$USER_HOME$/.nuget/packages/xamarin.androidx.vectordrawable/1.1.0.7/aar/androidx.vectordrawable.vectordrawable.aar" />
-    <content url="file://$USER_HOME$/.nuget/packages/xamarin.androidx.versionedparcelable/1.1.1.7/aar/androidx.versionedparcelable.versionedparcelable.aar" />
-    <content url="file://$USER_HOME$/.nuget/packages/xamarin.androidx.versionedparcelable/1.1.1.7/proguard/proguard.txt" />
+    <content url="file://$USER_HOME$/.nuget/packages/xamarin.androidx.versionedparcelable/1.1.1.7/aar" />
+    <content url="file://$USER_HOME$/.nuget/packages/xamarin.androidx.versionedparcelable/1.1.1.7/proguard" />
     <content url="file://$USER_HOME$/.nuget/packages/xamarin.androidx.viewpager/1.0.0.7/aar/androidx.viewpager.viewpager.aar" />
     <content url="file://$USER_HOME$/.nuget/packages/xamarin.androidx.work.runtime/2.5.0.1/aar/androidx.work.work-runtime.aar" />
     <content url="file://$USER_HOME$/.nuget/packages/xamarin.androidx.work.runtime/2.5.0.1/proguard/proguard.txt" />
+    <content url="file://$USER_HOME$/.nuget/packages/xamarin.google.guava.listenablefuture/1.0.0.2/buildTransitive/monoandroid50" />
+    <content url="file://$USER_HOME$/.nuget/packages/xunit.runner.visualstudio/2.4.3/build/netcoreapp2.1/xunit.runner.reporters.netcoreapp10.dll" />
+    <content url="file://$USER_HOME$/.nuget/packages/xunit.runner.visualstudio/2.4.3/build/netcoreapp2.1/xunit.runner.utility.netcoreapp10.dll" />
+    <content url="file://$USER_HOME$/.nuget/packages/xunit.runner.visualstudio/2.4.3/build/netcoreapp2.1/xunit.runner.visualstudio.dotnetcore.testadapter.dll" />
     <content url="file://$MODULE_DIR$/../.." />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>

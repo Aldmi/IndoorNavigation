@@ -10,7 +10,7 @@ using IMessageBus = Shiny.IMessageBus;
 
 namespace ApplicationCore.App.Jobs
 {
-    public class HandleDataJob : IJob, IShinyStartupTask
+    public class HandleDataJob //: IJob, IShinyStartupTask
     {
         private readonly CoreDelegateServices _services;
         private readonly IMessageBus _messageBus;

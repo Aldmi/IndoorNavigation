@@ -2,10 +2,10 @@
 
     <PropertyGroup>
         <TargetFramework>netstandard2.1</TargetFramework>
+        <Nullable>enable</Nullable>
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Shiny.BluetoothLE" Version="2.1.0.2769" />
       <PackageReference Include="Shiny.Core" Version="2.1.0.2769" />
       <PackageReference Include="Shiny.Notifications" Version="2.1.0.2769" />
       <PackageReference Include="sqlite-net-pcl" Version="1.7.335" />
@@ -15,6 +15,11 @@
       <Reference Include="Xamarin.Forms.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null">
         <HintPath>C:\Program Files (x86)\Microsoft\Xamarin\NuGet\xamarin.forms\5.0.0.2012\lib\netstandard2.0\Xamarin.Forms.Core.dll</HintPath>
       </Reference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Libs.Beacons\Libs.Beacons.csproj" />
+      <ProjectReference Include="..\Libs.BluetoothLE\Libs.BluetoothLE.csproj" />
     </ItemGroup>
 
 </Project>

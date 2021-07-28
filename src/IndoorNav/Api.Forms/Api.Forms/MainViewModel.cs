@@ -10,7 +10,7 @@ namespace Api.Forms
     {
         private readonly INavigationService _navigator;
         
-        public MainViewModel(INavigationService navigator)
+        public MainViewModel(INavigationService navigator) //IBleManager bleManager
         {
             _navigator = navigator;
             Title = "Main Page";

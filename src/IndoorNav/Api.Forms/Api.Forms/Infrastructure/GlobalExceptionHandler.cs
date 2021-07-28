@@ -2,7 +2,6 @@
 using Microsoft.Extensions.Logging;
 using ReactiveUI;
 using Shiny;
-using Xamarin.Forms;
 
 namespace Api.Forms.Infrastructure
 {

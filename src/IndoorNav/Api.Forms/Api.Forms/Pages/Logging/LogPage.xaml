@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:infrastructure="clr-namespace:Api.Forms.Infrastructure;assembly=Api.Forms"
+             xmlns:contentView="clr-namespace:Api.Forms.Pages.ContentView;assembly=Api.Forms"
+             xmlns:logging="clr-namespace:Api.Forms.Pages.Logging;assembly=Api.Forms"
+             x:DataType="logging:LogViewModel"
+             x:Class="Api.Forms.Pages.Logging.LogPage">
+    
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Clear" Command="{Binding Clear}" />
+    </ContentPage.ToolbarItems>
+
+    <ContentPage.Content>
+        <RefreshView IsRefreshing="{Binding IsBusy}"
+                     Command="{Binding Load}">
+            <CollectionView ItemsSource="{Binding Logs}">
+                <CollectionView.EmptyView>
+                    <Label Text="No Errors have been logged"
+                           Style="{StaticResource NoDataLabel}" />
+                </CollectionView.EmptyView>
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="infrastructure:CommandItem">
+                        <contentView:CommandCell Text="{Binding Text}"
+                                             Detail="{Binding Detail}"
+                                             PrimaryCommand="{Binding PrimaryCommand}" />
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+    </ContentPage.Content>
+</ContentPage>

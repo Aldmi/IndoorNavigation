@@ -18,8 +18,7 @@ namespace Api.Forms.Infrastructure
                                       IConfirmNavigationAsync
                           
     {
-
-        CompositeDisposable? deactivateWith;
+        private CompositeDisposable? deactivateWith;
         protected CompositeDisposable DeactivateWith => deactivateWith ??= new CompositeDisposable();
         protected CompositeDisposable DestroyWith { get; } = new CompositeDisposable();
 

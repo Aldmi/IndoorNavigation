@@ -2,6 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>netstandard2.1</TargetFramework>
+        <Nullable>enable</Nullable>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -11,14 +12,16 @@
 
     <ItemGroup>
         <PackageReference Include="DryIoc.Microsoft.DependencyInjection" Version="5.1.0" />
+        <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="5.0.0" />
         <PackageReference Include="Prism.DryIoc.Extensions" Version="8.0.62" />
         <PackageReference Include="Prism.Forms" Version="8.1.97" />
         <PackageReference Include="Prism.Forms.Extended" Version="8.0.62" />
         <PackageReference Include="ReactiveUI.Fody" Version="14.1.1" />
+        <PackageReference Include="Shiny.BluetoothLE.Common" Version="2.1.0.2769" />
         <PackageReference Include="Shiny.Core" Version="2.1.0.2769" />
         <PackageReference Include="Shiny.Integrations.Sqlite" Version="2.1.0.2769" />
+        <PackageReference Include="Shiny.Logging.AppCenter" Version="2.1.0.2769" />
         <PackageReference Include="Shiny.Notifications" Version="2.1.0.2769" />
-        <PackageReference Include="Shiny.Prism" Version="8.0.62" />
         <PackageReference Include="Xamarin.Essentials" Version="1.6.1" />
         <PackageReference Include="Xamarin.Forms" Version="5.0.0.2012" />
         <PackageReference Include="XF.Material" Version="1.7.8" />
@@ -26,5 +29,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\ApplicationCore.App\ApplicationCore.App.csproj" />
+      <ProjectReference Include="..\..\Libs.Beacons\Libs.Beacons.csproj" />
+      <ProjectReference Include="..\..\Libs.BluetoothLE\Libs.BluetoothLE.csproj" />
     </ItemGroup>
 </Project>

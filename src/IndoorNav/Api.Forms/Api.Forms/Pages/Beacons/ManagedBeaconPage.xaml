@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:beacons="clr-namespace:Api.Forms.Pages.Beacons;assembly=Api.Forms"
+             xmlns:managed="clr-namespace:Libs.Beacons.Managed.TrilaterationFlow;assembly=Libs.Beacons"
+             x:Class="Api.Forms.Pages.Beacons.ManagedBeaconPage"
+             x:DataType="beacons:ManagedBeaconViewModel"
+             Title="Sphere Scan (Managed)">
+    
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Set Region" Command="{Binding SetRegion}"  Order="Primary" Priority="1"/>
+        <ToolbarItem Text="Clear Region" Command="{Binding ClearRegion}"  Order="Primary" Priority="2"/>
+    </ContentPage.ToolbarItems>
+    
+    <ContentPage.Content>
+        <StackLayout>
+            <!-- <Button x:DataType="beacons:ManagedBeaconViewModel" -->
+            <!--         Text="{Binding ScanText}" -->
+            <!--         Command="{Binding ScanToggle}" -->
+            <!--         IsVisible="{Binding IsRegionSet}" /> -->
+
+            <Frame BorderColor="Gray" BackgroundColor="#e1e1e1" CornerRadius="8" Margin="5">
+                <StackLayout>
+                    <StackLayout IsVisible="{Binding IsRegionSet}">
+                        <Label Text="{Binding Region.Uuid, StringFormat='UUID: {0}'}" />
+                        <Label Text="{Binding Region.Major, StringFormat='Major: {0}'}" IsVisible="{Binding IsMajorSet}" />
+                        <Label Text="{Binding Region.Minor, StringFormat='Minor: {0}'}" IsVisible="{Binding IsMinorSet}" />
+                        <ProgressBar BackgroundColor="Aqua" Margin="2"></ProgressBar>
+                    </StackLayout>
+                    <StackLayout IsVisible="{Binding IsRegionSet, Converter={StaticResource Not}}">
+                        <Label Text="Not set scanning region" />
+                    </StackLayout>
+                </StackLayout>
+            </Frame>
+            
+            <ListView ItemsSource="{Binding Spheres}" HasUnevenRows="True">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <ViewCell.View >
+                                <Grid x:DataType="managed:ManagedSphere" VerticalOptions="Fill" HorizontalOptions="Fill">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Label Grid.Row="0"
+                                           LineBreakMode="WordWrap"
+                                           Text="{Binding StrId }"
+                                           FontSize="Small"
+                                           TextDecorations="Underline"
+                                           TextTransform="Uppercase"/>
+                                    <Label Grid.Row="1"  Text="{Binding Rssi, StringFormat='RSSI: {0}Db'}" FontSize="Medium" />
+                                    <Label Grid.Row="2" Text="{Binding Radius, StringFormat='Radius: {0}м'}" FontSize="Medium"  />
+                                    <Label Grid.Row="3" Text="{Binding Center, StringFormat='Center: {0}м'}" FontSize="Medium"  />
+                                    <Label Grid.Row="4" Text="{Binding LastSeen, StringFormat='LastSeen: {0:T} (UTC)'}" FontSize="Medium"  />
+                                </Grid>
+                            </ViewCell.View>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            
+            <StackLayout Orientation="Horizontal" HorizontalOptions="End" Margin="2">
+                <Button 
+                        Text="{Binding ScanText}"
+                        Command="{Binding ScanToggle}"/>
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
