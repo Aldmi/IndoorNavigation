@@ -1,16 +1,22 @@
 ﻿using System;
 using Libs.Beacons.Models;
 
-namespace Libs.Beacons.Managed.TrilaterationFlow
+namespace Libs.Beacons.Managed.Flows.TrilaterationFlow
 {
     public class Sphere : IEquatable<Sphere>
     {
-        public Sphere(Beacon beacon) => Beacon = beacon;
+        public Sphere(Beacon beacon, Point center, double radius)
+        {
+            Beacon = beacon;
+            Center = center;
+            Radius = radius;
+        }
+
         public Beacon Beacon { get; }
-        
-        
         public Point Center { get; private set; }
         public double Radius { get; private set;}
+
+        public bool CenterIsEmpty => Center == Point.EmptyPoint;
 
 
         internal void SetCenter(Point center)

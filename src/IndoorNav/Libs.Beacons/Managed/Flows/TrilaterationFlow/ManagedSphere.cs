@@ -1,7 +1,7 @@
 ﻿using System;
 using Shiny;
 
-namespace Libs.Beacons.Managed.TrilaterationFlow
+namespace Libs.Beacons.Managed.Flows.TrilaterationFlow
 {
     public class ManagedSphere : NotifyPropertyChanged
     {
@@ -46,5 +46,17 @@ namespace Libs.Beacons.Managed.TrilaterationFlow
             get => _radius;
             internal set => Set(ref _radius, value);
         }
+        
+        
+        // private Xamarin.Forms.Color _colorItem;
+        // public Color ColorItem
+        // {
+        //     get => _colorItem;
+        //     internal set => Set(ref _colorItem, value);
+        // }
+        
+        //public bool CenterIsNotEmpty => !Center.Equals(Point.EmptyPoint);
+
+        public bool CenterIsNotEmpty => false;
     }
 }

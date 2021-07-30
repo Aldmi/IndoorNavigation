@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
-using Android.OS;
-using Libs.Beacons.Managed.TrilaterationFlow;
 using Libs.Beacons.Models;
 using Debug = System.Diagnostics.Debug;
 
-namespace Libs.Beacons.Managed.FilterFlow
+namespace Libs.Beacons.Managed.Flows.FilterFlow
 {
     public static class FilterBeaconExt
     {
@@ -16,9 +13,9 @@ namespace Libs.Beacons.Managed.FilterFlow
         /// Фильтр среднего значения </summary>
         /// <param name="sourse"></param>
         /// <param name="buferTime"></param>
-        /// <param name="filter"></param>
+        /// <param name="algoritm"></param>
         /// <returns></returns>
-        public static IObservable<IList<Beacon>> AverageFilter(this IObservable<Beacon> sourse, TimeSpan buferTime, Func<IEnumerable<int>, int> filter)
+        public static IObservable<IList<Beacon>> AverageFilter(this IObservable<Beacon> sourse, TimeSpan buferTime, Func<IEnumerable<int>, int> algoritm)
         {
             var filtredBeacons= sourse
                 .Buffer(buferTime)
@@ -27,11 +24,12 @@ namespace Libs.Beacons.Managed.FilterFlow
                         .Select(group =>
                         {
                             var beaconsInGroup = group.ToList();
+                            var averageRssi = algoritm(beaconsInGroup.Select(b=>b.Rssi));
 #if DEBUG
-                            var analiticData = beaconsInGroup.Select(b => $"{b.Major}/{b.Minor}").Aggregate((s1, s2) => s1 + "  "+ s2);
-                            Debug.WriteLine($"Count= '{beaconsInGroup.Count}'   {analiticData}");
+                           // var analiticData = beaconsInGroup.Select(b => $"{b.Major}/{b.Minor}={b.Rssi}").Aggregate((s1, s2) => s1 + "  "+ s2);
+                            var analiticData = $"'{beaconsInGroup.First().Major}/{beaconsInGroup.First().Minor}'   ({beaconsInGroup.Select(b => $"{b.Rssi}").Aggregate((s1, s2) => s1 + "+"+ s2)}) / {beaconsInGroup.Count} = {averageRssi}";
+                            Debug.WriteLine($"{DateTimeOffset.UtcNow:HH:mm:ss}  Count='{beaconsInGroup.Count}'   '{analiticData}'");
 #endif
-                            var averageRssi = filter(beaconsInGroup.Select(b=>b.Rssi));
                             var filtredBeacon= beaconsInGroup.First().CreateByBlank(averageRssi);
                             return filtredBeacon;
                         })

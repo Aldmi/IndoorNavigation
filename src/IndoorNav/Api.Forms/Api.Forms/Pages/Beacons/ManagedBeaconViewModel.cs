@@ -4,7 +4,7 @@ using System.Reactive.Linq;
 using System.Windows.Input;
 using Api.Forms.Infrastructure;
 using Libs.Beacons.Managed;
-using Libs.Beacons.Managed.TrilaterationFlow;
+using Libs.Beacons.Managed.Flows.TrilaterationFlow;
 using Libs.Beacons.Models;
 using Prism.Navigation;
 using ReactiveUI;

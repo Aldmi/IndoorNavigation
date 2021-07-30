@@ -254,12 +254,13 @@
         <Compile Include="IBeaconMonitorDelegate.cs" />
         <Compile Include="IBeaconMonitoringManager.cs" />
         <Compile Include="IBeaconRangingManager.cs" />
-        <Compile Include="Managed\FilterFlow\FilterBeaconExt.cs" />
+        <Compile Include="Managed\Flows\FilterFlow\FilterBeaconExt.cs" />
+        <Compile Include="Managed\Flows\TrilaterationFlow\ManagedSphere.cs" />
+        <Compile Include="Managed\Flows\TrilaterationFlow\Point.cs" />
+        <Compile Include="Managed\Flows\TrilaterationFlow\Sphere.cs" />
+        <Compile Include="Managed\Flows\TrilaterationFlow\TrillaterationBeaconExt.cs" />
         <Compile Include="Managed\ManagedScan.cs" />
-        <Compile Include="Managed\TrilaterationFlow\ManagedSphere.cs" />
-        <Compile Include="Managed\TrilaterationFlow\Point.cs" />
-        <Compile Include="Managed\TrilaterationFlow\Sphere.cs" />
-        <Compile Include="Managed\TrilaterationFlow\TrillaterationBeaconExt.cs" />
+        <Compile Include="Managed\Options\BeaconOption.cs" />
         <Compile Include="Models\Beacon.cs" />
         <Compile Include="Models\BeaconRegion.cs" />
         <Compile Include="Models\BeaconRegionState.cs" />
@@ -282,6 +283,7 @@
         <AndroidResource Include="Resources\values\strings.xml" />
     </ItemGroup>
     <ItemGroup>
+        <Folder Include="Managed\Flows" />
         <Folder Include="Resources\drawable\" />
     </ItemGroup>
     <ItemGroup>

@@ -12,6 +12,7 @@ using Microsoft.Extensions.Logging;
 using Prism.DryIoc;
 using Prism.Ioc;
 using Shiny;
+using Shiny.Notifications;
 
 namespace Api.Forms
 {
@@ -21,8 +22,8 @@ namespace Api.Forms
         {
             base.ConfigureLogging(builder, platform);
             //builder.AddConsole(opts => opts.LogToStandardErrorThreshold = LogLevel.Debug);
-            //builder.AddAppCenter("b97caf36-61ac-49b9-8985-d924c40ee36d"); //"android = b97caf36-61ac-49b9-8985-d924c40ee36d;"              //Secrets.Values.AppCenterKey;
-            builder.AddSqliteLogging();
+            builder.AddAppCenter("b97caf36-61ac-49b9-8985-d924c40ee36d", LogLevel.Information); //"android = b97caf36-61ac-49b9-8985-d924c40ee36d;"              //Secrets.Values.AppCenterKey;
+            //builder.AddSqliteLogging();
         }
 
         
@@ -30,26 +31,25 @@ namespace Api.Forms
         public override void ConfigureServices(IServiceCollection services, IPlatform platform)
         {
             services.UseSqliteStore();
-            services.UseNotifications();
-            services.AddSingleton<AppNotifications>();
+            //services.UseNotifications();
+            //services.AddSingleton<AppNotifications>();
             services.AddSingleton<IDialogs, Dialogs>();
 
             // your infrastructure----------------------------------------------
-            //services.AddSingleton<SampleSqliteConnection>();
-           // services.AddSingleton<CoreDelegateServices>();
+            services.AddSingleton<SampleSqliteConnection>();
+            services.AddSingleton<CoreDelegateServices>();
             
             //register init jobs------------------------------------------------
             //services.AddSingleton<BeaconScanJob>();
             //services.AddSingleton<HandleDataJob>();
             
             // startup tasks------------------------------------------------------
-            //services.AddSingleton<GlobalExceptionHandler>();
+            services.AddSingleton<GlobalExceptionHandler>();
             //services.AddSingleton<JobLoggerTask>();
             //services.AddSingleton<InitStartupTask>();
 
             // register all of the shiny stuff you want to use---------------------
             //services.UseBleClient(); 
-            //services.UseBeaconRanging(); 
             services.UseBeaconRanging();
 
 
