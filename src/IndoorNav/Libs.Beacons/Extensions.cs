@@ -44,7 +44,7 @@ namespace Libs.Beacons
         /// </summary>
         /// <returns>The beacon.</returns>
         /// <param name="data">Data.</param>
-        /// <param name="rssi">Rssi.</param>
+        /// <param name="rssi">Analitic.</param>
         public static Beacon Parse(this byte[] data, int rssi)
         {
             if (BitConverter.IsLittleEndian)

@@ -6,6 +6,7 @@ namespace Libs.Beacons.Models
     {
         public Beacon(Guid uuid, ushort major, ushort minor, Proximity proximity, int rssi, double accuracy, int txPower)
         {
+            Id = new BeaconId(uuid, major, minor);
             Uuid = uuid;
             Major = major;
             Minor = minor;
@@ -16,6 +17,7 @@ namespace Libs.Beacons.Models
         }
 
 
+        public BeaconId Id { get;  }
         public Guid Uuid { get; }
         public ushort Minor { get; }
         public ushort Major { get; }
@@ -25,7 +27,7 @@ namespace Libs.Beacons.Models
         public int TxPower { get; }
 
 
-        public override string ToString() => $"[Beacon: Uuid={Uuid}, Major={Major}, Minor={Minor}, Rssi= {Rssi}]";
+        public override string ToString() => $"[Beacon: Uuid={Uuid}, Major={Major}, Minor={Minor}, Analitic= {Rssi}]";
         public bool Equals(Beacon other) => (Uuid, Major, Minor) == (other?.Uuid, other?.Major, other?.Minor);
         public static bool operator ==(Beacon left, Beacon right) => Equals(left, right);
         public static bool operator !=(Beacon left, Beacon right) => !Equals(left, right);

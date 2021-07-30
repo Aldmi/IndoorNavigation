@@ -99,7 +99,7 @@ namespace Api.Forms.Pages.BluetoothLE
                         //                 var md = result.AdvertisementData.ManufacturerData?.Data;
                         //                 var mdStr = md == null ? " " : ByteArrayToString(md);
                         //                 
-                        //                 Debug.WriteLine($"{DateTime.Now.TimeOfDay:T} Rssi= '{result.Rssi}'" +
+                        //                 Debug.WriteLine($"{DateTime.Now.TimeOfDay:T} Analitic= '{result.Analitic}'" +
                         //                                 $"\t Peripheral.Name='{result.Peripheral.Name}'  Peripheral.Status='{result.Peripheral.Status}'  Peripheral.Uuid='{result.Peripheral.Uuid}'" +
                         //                                 $"\t AdvertisementData.TxPower='{result.AdvertisementData.TxPower}'  AdvertisementData.LocalName='{result.AdvertisementData.LocalName}'  " +
                         //                                 $" AdvertisementData.ManufacturerData= {mdStr} ");
@@ -115,11 +115,11 @@ namespace Api.Forms.Pages.BluetoothLE
                         // _scanSub = bleManager
                         //     .Scan(scanConf)
                         //     .Where(x => IsBeacon(x))
-                        //     .Select(x => x.AdvertisementData.ManufacturerData.Data.Parse(x.Rssi))
+                        //     .Select(x => x.AdvertisementData.ManufacturerData.Data.Parse(x.Analitic))
                         //     .SubOnMainThread(
                         //         beacon =>
                         //         {
-                        //             Debug.WriteLine($"{DateTime.Now.TimeOfDay:T}  Uuid= '{beacon.Uuid}  Rssi= '{beacon.Rssi}' '{beacon.Major}-{beacon.Minor}''");
+                        //             Debug.WriteLine($"{DateTime.Now.TimeOfDay:T}  Uuid= '{beacon.Uuid}  Analitic= '{beacon.Analitic}' '{beacon.Major}-{beacon.Minor}''");
                         //             Debug.WriteLine("-----------------------------------------------------");
                         //         },
                         //         ex => dialogs.Alert(ex.ToString(), "ERROR")
@@ -199,7 +199,7 @@ namespace Api.Forms.Pages.BluetoothLE
         // /// </summary>
         // /// <returns>The beacon.</returns>
         // /// <param name="data">Data.</param>
-        // /// <param name="rssi">Rssi.</param>
+        // /// <param name="rssi">Analitic.</param>
         // public static Sphere Parse(byte[] data, int rssi)
         // {
         //     if (BitConverter.IsLittleEndian)
@@ -261,7 +261,7 @@ namespace Api.Forms.Pages.BluetoothLE
         // /// </summary>
         // /// <returns>The beacon.</returns>
         // /// <param name="data">Data.</param>
-        // /// <param name="rssi">Rssi.</param>
+        // /// <param name="rssi">Analitic.</param>
         // public static Sphere Parse(byte[] data, int rssi)
         // {
         //     if (BitConverter.IsLittleEndian)

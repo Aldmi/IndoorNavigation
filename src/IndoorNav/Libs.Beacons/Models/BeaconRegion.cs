@@ -20,7 +20,7 @@ namespace Libs.Beacons.Models
             if (minor != null)
             {
                 if (major == null)
-                    throw new ArgumentException("You must provide a major value if you are setting minor");
+                    throw new ArgumentException("You must provide a major Value if you are setting minor");
 
                 if (minor < 1)
                     throw new ArgumentException("Invalid Minor Value");

@@ -98,8 +98,8 @@ namespace Api.Forms.Pages.BluetoothLE
         {
             try
             {
-                var utf8 = await _dialogs.Confirm("Confirm", "Write value from UTF8 or HEX?", "UTF8", "HEX");
-                var result = await _dialogs.Input(Uuid, "Please enter a write value");
+                var utf8 = await _dialogs.Confirm("Confirm", "Write Value from UTF8 or HEX?", "UTF8", "HEX");
+                var result = await _dialogs.Input(Uuid, "Please enter a write Value");
 
                 if (!result.IsEmpty())
                 {

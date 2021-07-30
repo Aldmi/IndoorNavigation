@@ -67,7 +67,7 @@ namespace Api.Forms.Pages.BluetoothLE
                     }
                     else
                     {
-                        var result = await dialogs.Input("MTU Request", "Range 20-512");
+                        var result = await dialogs.Input("MTU Request", "RangeBle 20-512");
                         if (!result.IsEmpty())
                         {
                             var actual = await mtu.RequestMtu(Int32.Parse(result));
@@ -102,7 +102,7 @@ namespace Api.Forms.Pages.BluetoothLE
             //    .WhenConnected()
             //    .Select(x => x.ReadRssiContinuously(TimeSpan.FromSeconds(3)))
             //    .Switch()
-            //    .SubOnMainThread(x => this.Rssi = x)
+            //    .SubOnMainThread(x => this.Analitic = x)
             //    .DisposedBy(this.DeactivateWith);
 
             _peripheral

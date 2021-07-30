@@ -38,10 +38,7 @@ namespace Test.Beacons
             var sourse = listBeacons.ToObservable();
             
             //act
-            var filter= sourse.AverageFilter(
-               TimeSpan.FromSeconds(1),
-               rssiList => (int) rssiList.Average(r=>r)
-               );
+            var filter= sourse.GroupAfterBuffer(TimeSpan.FromSeconds(1));
             var filteredBeacons =(await filter.ToTask()).ToList();
             
             //Assert

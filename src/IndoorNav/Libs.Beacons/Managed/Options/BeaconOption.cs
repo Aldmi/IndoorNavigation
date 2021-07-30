@@ -1,4 +1,5 @@
 ﻿using System;
+using Libs.Beacons.Managed.Domain;
 using Libs.Beacons.Managed.Flows.TrilaterationFlow;
 using Libs.Beacons.Models;
 
@@ -7,25 +8,19 @@ namespace Libs.Beacons.Managed.Options
     /// <summary>
     /// Настройки маяка.
     /// </summary>
-    public class BeaconOption
+    public class BeaconOption 
     {
-
-        public BeaconOption(Guid uuid,ushort major, ushort minor, int n, int txPower, Point ancore)
+        public BeaconOption(BeaconId beaconId, int n, int txPower, Point ancore)
         {
-            Uuid = uuid;
-            Major = major;
-            Minor = minor;
+            BeaconId = beaconId;
             N = n;
             TxPower = txPower;
             Ancore = ancore;
         }
-        
-        
-        public Guid Uuid { get; }
-        public ushort Minor { get; }
-        public ushort Major { get; }
-        
-        
+
+
+        public BeaconId BeaconId { get; }
+
         /// <summary>
         /// Коэффициент искажения сигнала
         /// </summary>
@@ -41,11 +36,7 @@ namespace Libs.Beacons.Managed.Options
         /// </summary>
         public Point Ancore { get; }
 
-
-
-        public bool Equal2Beacon(Beacon beacon) =>
-            beacon.Uuid == Uuid && beacon.Minor == Minor && beacon.Major == Major;
         
-
+        public bool EqualById(BeaconId beaconid) => BeaconId == beaconid;
     }
 }

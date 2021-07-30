@@ -64,8 +64,8 @@
                                            FontSize="Small"
                                            TextDecorations="Underline"
                                            TextTransform="Uppercase"/>
-                                    <Label Grid.Row="1"  Text="{Binding Rssi, StringFormat='RSSI: {0}Db'}" FontSize="Medium" />
-                                    <Label Grid.Row="2" Text="{Binding Radius, StringFormat='Radius: {0}м'}" FontSize="Medium"  />
+                                    <Label Grid.Row="1"  Text="{Binding Analitic, StringFormat='Analitic: {0}'}" FontSize="Small" />
+                                    <Label Grid.Row="2" Text="{Binding Radius, StringFormat='Radius: {0:F2}м'}" FontSize="Medium"  />
                                     <Label Grid.Row="3" Text="{Binding Center, StringFormat='Center: {0}м'}" FontSize="Medium"  />
                                     <Label Grid.Row="4" Text="{Binding LastSeen, StringFormat='LastSeen: {0:T} (UTC)'}" FontSize="Medium"  />
                                 </Grid>

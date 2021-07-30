@@ -1,41 +1,32 @@
 ﻿using System;
+using System.Collections.Generic;
+using Libs.Beacons.Managed.Domain;
 using Libs.Beacons.Models;
 
 namespace Libs.Beacons.Managed.Flows.TrilaterationFlow
 {
     public class Sphere : IEquatable<Sphere>
     {
-        public Sphere(Beacon beacon, Point center, double radius)
+        public Sphere(BeaconId beaconId, Point center, IReadOnlyList<RangeBle> rangeList)
         {
-            Beacon = beacon;
+            BeaconId = beaconId;
             Center = center;
-            Radius = radius;
+            RangeList = rangeList;
         }
-
-        public Beacon Beacon { get; }
-        public Point Center { get; private set; }
-        public double Radius { get; private set;}
-
+        
+        
+        public BeaconId BeaconId { get; }
+        public Point Center { get; }
+        public IReadOnlyList<RangeBle> RangeList { get; }
+        public double Radius => RangeBle.CalcAverageValue(RangeList);
         public bool CenterIsEmpty => Center == Point.EmptyPoint;
 
 
-        internal void SetCenter(Point center)
-        {
-            Center = center;
-        }
-        
-        
-        internal void SetRadius(double radius)
-        {
-            Radius = radius;
-        }
-
-        
         public bool Equals(Sphere? other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
-            return Beacon.Equals(other.Beacon) && Center.Equals(other.Center) && Radius.Equals(other.Radius);
+            return BeaconId.Equals(other.BeaconId) && Center.Equals(other.Center) && Radius.Equals(other.Radius);
         }
 
         public override bool Equals(object? obj)
@@ -48,7 +39,7 @@ namespace Libs.Beacons.Managed.Flows.TrilaterationFlow
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(Beacon, Center, Radius);
+            return HashCode.Combine(BeaconId, Center, Radius);
         }
     }
 }

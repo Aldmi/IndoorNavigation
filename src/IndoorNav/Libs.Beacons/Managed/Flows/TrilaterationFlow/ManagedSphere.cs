@@ -1,4 +1,5 @@
 ﻿using System;
+using Libs.Beacons.Managed.Domain;
 using Shiny;
 
 namespace Libs.Beacons.Managed.Flows.TrilaterationFlow
@@ -9,7 +10,7 @@ namespace Libs.Beacons.Managed.Flows.TrilaterationFlow
         public Sphere Sphere { get; }
         
         
-        public string StrId => $"{Sphere.Beacon.Uuid}\nMajor= {Sphere.Beacon.Major}  Minor= {Sphere.Beacon.Minor}";  
+        public string StrId => $"{Sphere.BeaconId.Uuid}\nMajor= {Sphere.BeaconId.Major}  Minor= {Sphere.BeaconId.Minor}";  
         
         
         private Proximity _prox;
@@ -26,11 +27,11 @@ namespace Libs.Beacons.Managed.Flows.TrilaterationFlow
             internal set => Set(ref _lastSeen, value);
         }
         
-        private int _rssi;
-        public int Rssi
+        private string _analitic;
+        public string Analitic
         {
-            get => _rssi;
-            internal set => Set(ref _rssi, value);
+            get => _analitic;
+            internal set => Set(ref _analitic, value);
         }
         
         private Point _center;
@@ -52,7 +53,7 @@ namespace Libs.Beacons.Managed.Flows.TrilaterationFlow
         // public Color ColorItem
         // {
         //     get => _colorItem;
-        //     internal set => Set(ref _colorItem, value);
+        //     internal set => Set(ref _colorItem, Value);
         // }
         
         //public bool CenterIsNotEmpty => !Center.Equals(Point.EmptyPoint);
