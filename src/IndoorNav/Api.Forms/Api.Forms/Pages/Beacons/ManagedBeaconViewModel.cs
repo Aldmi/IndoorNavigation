@@ -3,12 +3,11 @@ using System.Collections.ObjectModel;
 using System.Reactive.Linq;
 using System.Windows.Input;
 using Api.Forms.Infrastructure;
-using Libs.Beacons.Managed;
-using Libs.Beacons.Managed.Flows.TrilaterationFlow;
 using Libs.Beacons.Models;
 using Prism.Navigation;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
+using UseCase.Trilateration.Managed;
 
 namespace Api.Forms.Pages.Beacons
 {
@@ -72,7 +71,7 @@ namespace Api.Forms.Pages.Beacons
         }
 
         
-        public ObservableCollection<ManagedSphere> Spheres => _scanner.Spheres;
+        public ObservableCollection<SphereDto> Spheres => _scanner.Spheres;
         
         public ICommand SetRegion { get; }
         public ICommand ClearRegion { get; }

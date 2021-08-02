@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Libs.Beacons.Managed.Domain;
 using Libs.Beacons.Models;
 
-namespace Libs.Beacons.Managed.Flows.TrilaterationFlow
+namespace UseCase.Trilateration.Model
 {
     public class Sphere : IEquatable<Sphere>
     {

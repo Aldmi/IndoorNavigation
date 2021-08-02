@@ -7,7 +7,7 @@ using System.Reactive.Threading.Tasks;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Libs.Beacons;
-using Libs.Beacons.Managed.Flows.FilterFlow;
+using Libs.Beacons.Flows;
 using Libs.Beacons.Models;
 using Xunit;
 

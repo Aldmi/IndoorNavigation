@@ -1,4 +1,4 @@
-﻿namespace Libs.Beacons.Managed.Flows.TrilaterationFlow
+﻿namespace UseCase.Trilateration.Model
 {
     public static class SphereExt
     {

@@ -1,12 +1,14 @@
 ﻿using System;
+using Libs.Beacons;
 using Libs.Beacons.Managed.Domain;
 using Shiny;
+using UseCase.Trilateration.Model;
 
-namespace Libs.Beacons.Managed.Flows.TrilaterationFlow
+namespace UseCase.Trilateration.Managed
 {
-    public class ManagedSphere : NotifyPropertyChanged
+    public class SphereDto : NotifyPropertyChanged
     {
-        public ManagedSphere(Sphere sphere) => Sphere = sphere;
+        public SphereDto(Sphere sphere) => Sphere = sphere;
         public Sphere Sphere { get; }
         
         

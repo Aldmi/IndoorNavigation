@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using Libs.Beacons.Managed.Domain;
-using Libs.Beacons.Managed.Options;
 using Libs.Beacons.Models;
+using UseCase.Trilateration.Model;
 
-namespace Libs.Beacons.Managed.Flows.TrilaterationFlow
+namespace UseCase.Trilateration.Services
 {
     public class SphereFactory
     {
@@ -39,7 +39,6 @@ namespace Libs.Beacons.Managed.Flows.TrilaterationFlow
                 Console.WriteLine(e);
                 throw;
             }
-
         }
     }
 }

@@ -8,8 +8,8 @@ namespace Libs.Beacons
 {
     public static class Extensions
     {
-        public static ManagedScan CreateManagedScan(this IBeaconRangingManager manager, ILogger<ManagedScan> logger)
-            => new ManagedScan(manager, logger);
+        // public static ManagedScan CreateManagedScan(this IBeaconRangingManager manager, ILogger<ManagedScan> logger)
+        //     => new ManagedScan(manager, logger);
 
 
         public static bool IsBeaconInRegion(this BeaconRegion region, Beacon beacon)

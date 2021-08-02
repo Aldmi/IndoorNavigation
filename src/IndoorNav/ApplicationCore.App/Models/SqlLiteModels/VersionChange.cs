@@ -1,7 +1,7 @@
 ﻿using System;
 using SQLite;
 
-namespace ApplicationCore.App.Models
+namespace ApplicationCore.App.Models.SqlLiteModels
 {
     public class VersionChange
     {

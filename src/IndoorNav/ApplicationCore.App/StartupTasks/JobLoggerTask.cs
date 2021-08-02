@@ -1,5 +1,6 @@
 ﻿using System;
 using ApplicationCore.App.Models;
+using ApplicationCore.App.Models.SqlLiteModels;
 using Shiny;
 using Shiny.Infrastructure;
 using Shiny.Jobs;

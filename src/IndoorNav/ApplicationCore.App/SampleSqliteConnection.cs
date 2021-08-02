@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using ApplicationCore.App.Models;
+using ApplicationCore.App.Models.SqlLiteModels;
 using Shiny;
 using SQLite;
 

@@ -1,9 +1,6 @@
-﻿using System;
-using Libs.Beacons.Managed.Domain;
-using Libs.Beacons.Managed.Flows.TrilaterationFlow;
-using Libs.Beacons.Models;
+﻿using Libs.Beacons.Models;
 
-namespace Libs.Beacons.Managed.Options
+namespace Libs.Beacons.Managed.Domain
 {
     /// <summary>
     /// Настройки маяка.

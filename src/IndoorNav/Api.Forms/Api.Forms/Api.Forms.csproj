@@ -31,5 +31,6 @@
       <ProjectReference Include="..\..\ApplicationCore.App\ApplicationCore.App.csproj" />
       <ProjectReference Include="..\..\Libs.Beacons\Libs.Beacons.csproj" />
       <ProjectReference Include="..\..\Libs.BluetoothLE\Libs.BluetoothLE.csproj" />
+      <ProjectReference Include="..\..\UseCase.Trilateration\UseCase.Trilateration.csproj" />
     </ItemGroup>
 </Project>

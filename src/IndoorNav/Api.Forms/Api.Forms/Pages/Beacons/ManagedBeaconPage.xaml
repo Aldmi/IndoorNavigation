@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:beacons="clr-namespace:Api.Forms.Pages.Beacons;assembly=Api.Forms"
-             xmlns:trilaterationFlow="clr-namespace:Libs.Beacons.Managed.Flows.TrilaterationFlow;assembly=Libs.Beacons"
+             xmlns:managed="clr-namespace:UseCase.Trilateration.Managed;assembly=UseCase.Trilateration"
              x:Class="Api.Forms.Pages.Beacons.ManagedBeaconPage"
              x:DataType="beacons:ManagedBeaconViewModel"
              Title="Sphere Scan (Managed)">
@@ -50,7 +50,7 @@
                     <DataTemplate>
                         <ViewCell>
                             <ViewCell.View>
-                                <Grid x:DataType="trilaterationFlow:ManagedSphere" VerticalOptions="Fill" HorizontalOptions="Fill">
+                                <Grid x:DataType="managed:SphereDto" VerticalOptions="Fill" HorizontalOptions="Fill">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto" />
                                         <RowDefinition Height="Auto" />

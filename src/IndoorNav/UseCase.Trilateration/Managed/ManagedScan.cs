@@ -1,24 +1,21 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
-using Android.Graphics;
-using Java.Util;
-using Libs.Beacons.Managed.Flows.FilterFlow;
-using Libs.Beacons.Managed.Flows.TrilaterationFlow;
-using Libs.Beacons.Managed.Options;
+using Libs.Beacons;
+using Libs.Beacons.Flows;
+using Libs.Beacons.Managed.Domain;
 using Libs.Beacons.Models;
 using Libs.BluetoothLE;
 using Microsoft.Extensions.Logging;
 using Shiny;
-using Observable = System.Reactive.Linq.Observable;
+using UseCase.Trilateration.Flow;
+using UseCase.Trilateration.Services;
 using Point = Libs.Beacons.Managed.Domain.Point;
 
-namespace Libs.Beacons.Managed
+namespace UseCase.Trilateration.Managed
 {
     public class ManagedScan : IDisposable
     {
@@ -46,7 +43,7 @@ namespace Libs.Beacons.Managed
         }
 
 
-        public ObservableCollection<ManagedSphere> Spheres { get; } = new ObservableCollection<ManagedSphere>();
+        public ObservableCollection<SphereDto> Spheres { get; } = new ObservableCollection<SphereDto>();
         public BeaconRegion? ScanningRegion { get; private set; }
         public bool IsScanning => ScanningRegion != null;
 
@@ -90,14 +87,10 @@ namespace Libs.Beacons.Managed
             // restart clear if applicable
             ClearTime = ClearTime;
 
+            var whiteListBeaconsId = _beaconOptions.Select(b => b.BeaconId).ToList();
             _scanSub = _beaconManager
                 .WhenBeaconRanged(scanRegion, BleScanType.LowLatency)
-                //Проходят только значения из списка
-                .WhenWhiteList(_beaconOptions)
-                //Буфферизация и разбиение на группы по Id
-                .GroupAfterBuffer(TimeSpan.FromSeconds(1))
-                //Создание сфер
-                .CreateSphere(_sphereFactory) 
+                .ManagedScanFlow(whiteListBeaconsId, TimeSpan.FromSeconds(1), _sphereFactory)
                 //Аналитика
                 .Do(sphere =>
                 {
@@ -112,7 +105,7 @@ namespace Libs.Beacons.Managed
                          var managed = Spheres.FirstOrDefault(x => x.Sphere.BeaconId.Equals(sphere.BeaconId));
                          if (managed == null)
                          {
-                             managed = new ManagedSphere(sphere);
+                             managed = new SphereDto(sphere);
                              Spheres.Add(managed);
                          }
                          managed.LastSeen = DateTimeOffset.UtcNow;
