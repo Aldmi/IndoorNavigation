@@ -7,6 +7,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Libs.Beacons\Libs.Beacons.csproj" />
+      <ProjectReference Include="..\Libs.Excel\Libs.Excel.csproj" />
     </ItemGroup>
 
     <ItemGroup>

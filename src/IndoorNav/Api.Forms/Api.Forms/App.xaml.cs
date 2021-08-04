@@ -26,12 +26,12 @@ namespace Api.Forms
         protected override async void OnInitialized()
         {
             InitializeComponent();
-            XF.Material.Forms.Material.Init(this);
+            Material.Init(this);
             
             //var res=await NavigationService.NavigateAsync("Main/Nav/Welcome");
             //var res=await NavigationService.NavigateAsync("Nav/Main");
             //var res=await NavigationService.NavigateAsync("Nav/BleCentral");
-            //var res=await NavigationService.NavigateAsync("Main/Nav/TestLogProviders/Logs");
+            //var res=await NavigationService.NavigateAsync("Main/Nav/TestLogProviders/");
             var res=await NavigationService.NavigateAsync("Main/Nav/ManagedBeacon");
         }
         

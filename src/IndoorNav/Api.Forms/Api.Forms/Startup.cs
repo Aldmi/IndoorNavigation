@@ -7,6 +7,7 @@ using ApplicationCore.App.StartupTasks;
 using DryIoc.Microsoft.DependencyInjection;
 using Libs.Beacons.Platforms.Shared;
 using Libs.BluetoothLE.Platforms.Shared;
+using Libs.Excel;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Prism.DryIoc;
@@ -22,8 +23,8 @@ namespace Api.Forms
         {
             base.ConfigureLogging(builder, platform);
             //builder.AddConsole(opts => opts.LogToStandardErrorThreshold = LogLevel.Debug);
-            builder.AddAppCenter("b97caf36-61ac-49b9-8985-d924c40ee36d", LogLevel.Information); //"android = b97caf36-61ac-49b9-8985-d924c40ee36d;"              //Secrets.Values.AppCenterKey;
-            //builder.AddSqliteLogging();
+            //builder.AddAppCenter("b97caf36-61ac-49b9-8985-d924c40ee36d", LogLevel.Information); //"android = b97caf36-61ac-49b9-8985-d924c40ee36d;"              //Secrets.Values.AppCenterKey;
+            builder.AddSqliteLogging();
         }
 
         
@@ -38,6 +39,7 @@ namespace Api.Forms
             // your infrastructure----------------------------------------------
             services.AddSingleton<SampleSqliteConnection>();
             services.AddSingleton<CoreDelegateServices>();
+            services.AddScoped<IExcelAnalitic, ExcelAnalitic>();
             
             //register init jobs------------------------------------------------
             //services.AddSingleton<BeaconScanJob>();

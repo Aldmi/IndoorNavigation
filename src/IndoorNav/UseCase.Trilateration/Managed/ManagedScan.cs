@@ -9,9 +9,11 @@ using Libs.Beacons.Flows;
 using Libs.Beacons.Managed.Domain;
 using Libs.Beacons.Models;
 using Libs.BluetoothLE;
+using Libs.Excel;
 using Microsoft.Extensions.Logging;
 using Shiny;
 using UseCase.Trilateration.Flow;
+using UseCase.Trilateration.Model;
 using UseCase.Trilateration.Services;
 using Point = Libs.Beacons.Managed.Domain.Point;
 
@@ -20,6 +22,7 @@ namespace UseCase.Trilateration.Managed
     public class ManagedScan : IDisposable
     {
         private readonly IBeaconRangingManager _beaconManager;
+        private readonly IExcelAnalitic _excelAnalitic;
         private readonly ILogger? _logger;
         private IScheduler? _scheduler;
         private IDisposable? _clearSub;
@@ -28,9 +31,10 @@ namespace UseCase.Trilateration.Managed
         private readonly SphereFactory _sphereFactory;
         
         
-        public ManagedScan(IBeaconRangingManager beaconManager, ILogger<ManagedScan> logger)
+        public ManagedScan(IBeaconRangingManager beaconManager, IExcelAnalitic excelAnalitic, ILogger<ManagedScan> logger)
         {
             _beaconManager = beaconManager;
+            _excelAnalitic = excelAnalitic;
             _logger = logger;
             _beaconOptions = new List<BeaconOption>
             {
@@ -74,12 +78,13 @@ namespace UseCase.Trilateration.Managed
             }
         }
 
-        
+        private bool _firstStart;
         public void Start(BeaconRegion scanRegion, IScheduler? scheduler = null)
         {
             if (IsScanning)
                 throw new ArgumentException("A beacon scan is already running");
 
+            _firstStart = true;
             _scheduler = scheduler;
             ScanningRegion = scanRegion;
             Spheres.Clear();
@@ -88,38 +93,56 @@ namespace UseCase.Trilateration.Managed
             ClearTime = ClearTime;
 
             var whiteListBeaconsId = _beaconOptions.Select(b => b.BeaconId).ToList();
-            _scanSub = _beaconManager
+
+            var observableListSphere = _beaconManager
                 .WhenBeaconRanged(scanRegion, BleScanType.LowLatency)
-                .ManagedScanFlow(whiteListBeaconsId, TimeSpan.FromSeconds(1), _sphereFactory)
+                .ManagedScanFlow(whiteListBeaconsId, TimeSpan.FromSeconds(1), _sphereFactory);
+            
+            _scanSub = observableListSphere
                 //Аналитика
-                .Do(sphere =>
-                {
-                })
+                // .Do(async spheres =>
+                // {
+                //     var csvHeader = SphereStatistic.CsvHeader;
+                //     var csvLines = spheres.Select(SphereStatistic.Create).Select(statistic => statistic.Convert2CsvFormat()).ToArray();
+                //     await _excelAnalitic.Write2CsvDoc(csvHeader, csvLines, _firstStart);
+                //     _firstStart = false;
+                // })
                 //Обработка
                 .ObserveOnIf(_scheduler)
                 .Synchronize(Spheres)
                 .Subscribe(spheres =>
-                 {
-                     foreach (var sphere in spheres)
-                     {
-                         var managed = Spheres.FirstOrDefault(x => x.Sphere.BeaconId.Equals(sphere.BeaconId));
-                         if (managed == null)
-                         {
-                             managed = new SphereDto(sphere);
-                             Spheres.Add(managed);
-                         }
-                         managed.LastSeen = DateTimeOffset.UtcNow;
-                         managed.Analitic = sphere.RangeList.Select(r=>r.ToString()).Aggregate((r1, r2) => $"{r1}, {r2}");
-                         managed.Center = sphere.Center;
-                         managed.Radius = sphere.Radius;
+                {
+                    foreach (var sphere in spheres)
+                    {
+                        var managed = Spheres.FirstOrDefault(x => x.Sphere.BeaconId.Equals(sphere.BeaconId));
+                        if (managed == null)
+                        {
+                            managed = new SphereDto(sphere);
+                            Spheres.Add(managed);
+                        }
+                        managed.LastSeen = DateTimeOffset.UtcNow;
+                        managed.Analitic = sphere.RangeList.Select(r=>r.ToString()).Aggregate((r1, r2) => $"{r1}, {r2}");
+                        managed.Center = sphere.Center;
+                        managed.Radius = sphere.Radius;
                          
-                         //_logger.LogInformation($"{sphere.Beacon.Analitic}");
-                     }
-                     //TODO: можно вычислять местоположение. 
-                // var location= Trilateration.CalcLocation(spheres);
+                        //_logger.LogInformation($"{sphere.Beacon.Analitic}");
+                    }
+                    //TODO: можно вычислять местоположение. 
+                    // var location= Trilateration.CalcLocation(spheres);
                  }, exception =>
                 {
                     _logger?.LogError(exception, "Ошибка сканирования");
+                });
+
+
+            var _scanSub2 = observableListSphere
+                .Buffer(6)
+                .Subscribe(async spheres =>
+                {
+                    var csvHeader = SphereStatistic.CsvHeader;
+                    var csvLines = spheres.SelectMany(list =>list.Select(SphereStatistic.Create)).Select(statistic => statistic.Convert2CsvFormat()).ToArray();
+                    await _excelAnalitic.Write2CsvDoc(csvHeader, csvLines, _firstStart);
+                    _firstStart = false;
                 });
         }
 

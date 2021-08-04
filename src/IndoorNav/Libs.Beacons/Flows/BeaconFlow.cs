@@ -23,7 +23,7 @@ namespace Libs.Beacons.Flows
         
         
         /// <summary>
-        /// Фильтрация маяков по белому спсику Id.
+        /// Фильтрация маяков по белому списку Id.
         /// </summary>
         /// <param name="sourse"></param>
         /// <param name="whiteList"></param>

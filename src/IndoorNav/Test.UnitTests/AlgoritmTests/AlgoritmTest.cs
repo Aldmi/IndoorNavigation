@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using FluentAssertions;
 using Xunit;
 
-namespace Test.Beacons
+namespace Test.Beacons.AlgoritmTests
 {
     public class AlgoritmTest
     {

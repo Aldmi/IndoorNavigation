@@ -33,10 +33,10 @@ namespace Libs.Beacons.Models
             if (obj.GetType() != this.GetType()) return false;
             return Equals((BeaconId) obj);
         }
-
-        public override int GetHashCode()
-        {
-            return HashCode.Combine(Uuid, Major, Minor);
-        }
+        
+        public override int GetHashCode() => (Uuid, Major, Minor).GetHashCode();
+        //public override int GetHashCode20()=> HashCode.Combine(Uuid, Major, Minor); //TODO: не рабоатет в тестах
+        
+        public override string ToString() => $"{Uuid}. {Major}/{Minor}";
     }
 }
