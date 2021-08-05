@@ -18,6 +18,7 @@ namespace Libs.Beacons.Flows
         {
             return sourse
                     .Buffer(buferTime)
+                    .Where(list=>list.Any())
                     .Select(beacons => beacons.GroupBy(b => b.Id).ToList());
         }
         

@@ -27,6 +27,7 @@ namespace UseCase.Trilateration.Managed
         private IScheduler? _scheduler;
         private IDisposable? _clearSub;
         private IDisposable? _scanSub;
+        private IDisposable? _writeAnaliticSub;
         private readonly IEnumerable<BeaconOption> _beaconOptions; //TODO: внедрять сервис репозитория, загружать настройки из БД.
         private readonly SphereFactory _sphereFactory;
         
@@ -50,6 +51,8 @@ namespace UseCase.Trilateration.Managed
         public ObservableCollection<SphereDto> Spheres { get; } = new ObservableCollection<SphereDto>();
         public BeaconRegion? ScanningRegion { get; private set; }
         public bool IsScanning => ScanningRegion != null;
+        public int ExpectedRange4Analitic { get; set; }
+        
 
 
         private TimeSpan? _clearTime;
@@ -96,7 +99,7 @@ namespace UseCase.Trilateration.Managed
 
             var observableListSphere = _beaconManager
                 .WhenBeaconRanged(scanRegion, BleScanType.LowLatency)
-                .ManagedScanFlow(whiteListBeaconsId, TimeSpan.FromSeconds(1), _sphereFactory);
+                .ManagedScanFlow(whiteListBeaconsId, TimeSpan.FromSeconds(0.1), _sphereFactory);
             
             _scanSub = observableListSphere
                 //Аналитика
@@ -135,12 +138,15 @@ namespace UseCase.Trilateration.Managed
                 });
 
 
-            var _scanSub2 = observableListSphere
-                .Buffer(6)
+            _writeAnaliticSub = observableListSphere
+                .Buffer(10)
                 .Subscribe(async spheres =>
                 {
                     var csvHeader = SphereStatistic.CsvHeader;
-                    var csvLines = spheres.SelectMany(list =>list.Select(SphereStatistic.Create)).Select(statistic => statistic.Convert2CsvFormat()).ToArray();
+                    var csvLines = spheres
+                        .SelectMany(list =>list.Select(s=>SphereStatistic.Create(s, ExpectedRange4Analitic)))
+                        .Select(statistic => statistic.Convert2CsvFormat())
+                        .ToArray();
                     await _excelAnalitic.Write2CsvDoc(csvHeader, csvLines, _firstStart);
                     _firstStart = false;
                 });
@@ -150,6 +156,7 @@ namespace UseCase.Trilateration.Managed
         public void Stop()
         {
             _clearSub?.Dispose();
+            _writeAnaliticSub?.Dispose();
             _scanSub?.Dispose();
             _scheduler = null;
             ScanningRegion = null;

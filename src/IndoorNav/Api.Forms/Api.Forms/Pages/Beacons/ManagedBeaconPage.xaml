@@ -75,10 +75,22 @@
                 </ListView.ItemTemplate>
             </ListView>
             
-            <StackLayout Orientation="Horizontal" HorizontalOptions="End" Margin="2">
+            <StackLayout Orientation="Horizontal" HorizontalOptions="Fill" Margin="2">
                 <Button 
                         Text="{Binding ScanText}"
                         Command="{Binding ScanToggle}"/>
+                <StackLayout Orientation="Horizontal"  Margin="5,1,1,1">
+                    <Button 
+                        Text="+"
+                        Command="{Binding IncExpectedRange}"/>
+                    <Label Text="{Binding ExpectedRange, StringFormat='{0}м'}" FontSize="Medium"/>
+                    <Button 
+                        Text="-"
+                        Command="{Binding DecExpectedRange}"/>
+                    <!-- <Button  -->
+                    <!--     Text="R" -->
+                    <!--     Command="{Binding ScanToggle}"/> -->
+                </StackLayout>
             </StackLayout>
         </StackLayout>
     </ContentPage.Content>

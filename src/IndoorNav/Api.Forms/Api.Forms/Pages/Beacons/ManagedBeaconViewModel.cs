@@ -51,6 +51,9 @@ namespace Api.Forms.Pages.Beacons
             this.WhenAnyValue(x => x.Region.Minor)
                 .Select(minor => minor != null)
                 .ToPropertyEx(this, x => x.IsMinorSet);
+
+            this.WhenAnyValue(x => x.ExpectedRange)
+                .Subscribe(er => _scanner.ExpectedRange4Analitic = er);
             
             
             ClearRegion = ReactiveCommand.Create(() =>
@@ -68,6 +71,16 @@ namespace Api.Forms.Pages.Beacons
             },this.WhenAny(
                 x => x.IsRegionSet,
                 _ => IsRegionSet));
+            
+            IncExpectedRange = ReactiveCommand.Create(() =>
+            {
+                if (ExpectedRange < 10) ExpectedRange++;
+            });
+            
+            DecExpectedRange = ReactiveCommand.Create(() =>
+            {
+                if (ExpectedRange > 0) ExpectedRange--;
+            });
         }
 
         
@@ -76,9 +89,13 @@ namespace Api.Forms.Pages.Beacons
         public ICommand SetRegion { get; }
         public ICommand ClearRegion { get; }
         public ICommand ScanToggle { get; }
+        public ICommand IncExpectedRange { get; }
+        public ICommand DecExpectedRange { get; }
+        public ICommand ResetExpectedRange { get; }
         
         [Reactive] public BeaconRegion? Region { get; private set; }
         [Reactive] public string ScanText { get; private set; } = "Scan";
+        [Reactive] public int ExpectedRange  { get; private set; }
         
         public bool IsRegionSet { [ObservableAsProperty] get; }
         public bool IsMajorSet { [ObservableAsProperty] get;  }

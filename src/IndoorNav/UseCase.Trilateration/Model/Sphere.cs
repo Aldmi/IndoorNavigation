@@ -12,6 +12,7 @@ namespace UseCase.Trilateration.Model
             BeaconId = beaconId;
             Center = center;
             RangeList = rangeList;
+            LastSeen = DateTimeOffset.UtcNow;
         }
         
         
@@ -19,6 +20,7 @@ namespace UseCase.Trilateration.Model
         public Point Center { get; }
         public IReadOnlyList<RangeBle> RangeList { get; }
         public double Radius => RangeBle.CalcAverageValue(RangeList);
+        public DateTimeOffset LastSeen { get; }
         public bool CenterIsEmpty => Center == Point.EmptyPoint;
 
 

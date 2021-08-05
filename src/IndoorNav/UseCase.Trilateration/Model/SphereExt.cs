@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
 using Libs.Beacons.Managed.Domain;
@@ -9,32 +10,37 @@ namespace UseCase.Trilateration.Model
     public class SphereStatistic
     {
         private const string Separator = ";";
-        public static readonly string CsvHeader = $"{nameof(BeaconId)}{Separator}{nameof(Center)}{Separator}{nameof(Radius)}";
+        public static readonly string CsvHeader = $"{nameof(BeaconId)}{Separator}{nameof(LastSeen)}{Separator}{nameof(Center)}{Separator}{nameof(RangeList)}{Separator}{nameof(Radius)}{Separator}{nameof(ExpectedRadius)}";
 
-        public SphereStatistic(BeaconId beaconId, Point center, IReadOnlyList<RangeBle> rangeList, double radius)
+        private SphereStatistic(BeaconId beaconId, Point center, IReadOnlyList<RangeBle> rangeList, double radius, DateTimeOffset lastSeen, int expectedRadius)
         {
             BeaconId = beaconId;
             Center = center;
             RangeList = rangeList;
             Radius = radius;
+            LastSeen = lastSeen;
+            ExpectedRadius = expectedRadius;
         }
 
         public BeaconId BeaconId { get; }
         public Point Center { get; }
         public IReadOnlyList<RangeBle> RangeList { get; }
         public double Radius { get; }
+        public DateTimeOffset LastSeen { get; }
+        public int ExpectedRadius{ get; }
 
 
-        public static SphereStatistic Create(Sphere sphere)
+        public static SphereStatistic Create(Sphere sphere, int expectedRadius)
         {
-            return new SphereStatistic(sphere.BeaconId, sphere.Center, sphere.RangeList, sphere.Radius);
+            return new SphereStatistic(sphere.BeaconId, sphere.Center, sphere.RangeList, sphere.Radius, sphere.LastSeen, expectedRadius);
         }
 
         public string Convert2CsvFormat()
         {
-            var rangeStr = RangeList.Select(r => r.ToString()).Aggregate((s1, s2) => $"'{s1}' '{s2}'");
+            //var rangeStr = RangeList.Select(r => r.ToString()).Aggregate((s1, s2) => $"'{s1}' '{s2}'");
+            var rangeStr = RangeList.Select(r => r.Rssi.ToString()).Aggregate((s1, s2) => $"'{s1}' '{s2}'");
             //return $"{BeaconId}{Separator}{Center}{Separator}{rangeStr}";
-            return $"{BeaconId.Major}/{BeaconId.Minor}{Separator}{Center}{Separator}{Radius:F2}";
+            return $"{BeaconId.Major}/{BeaconId.Minor}{Separator}{LastSeen:hh:mm:ss}{Separator}{Center}{Separator}{rangeStr}{Separator}{Radius:F2}{Separator}{ExpectedRadius:D}";
         }
     }
 }
