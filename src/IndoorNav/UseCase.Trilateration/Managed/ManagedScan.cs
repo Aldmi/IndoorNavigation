@@ -5,18 +5,19 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
+using ApplicationCore.Domain;
+using ApplicationCore.Domain.Options;
+using ApplicationCore.Domain.Shared;
+using ApplicationCore.Domain.Spheres;
 using Libs.Beacons;
-using Libs.Beacons.Flows;
-using Libs.Beacons.Managed.Domain;
+
 using Libs.Beacons.Models;
 using Libs.BluetoothLE;
 using Libs.Excel;
 using Microsoft.Extensions.Logging;
 using Shiny;
 using UseCase.Trilateration.Flow;
-using UseCase.Trilateration.Model;
-using UseCase.Trilateration.Services;
-using Point = Libs.Beacons.Managed.Domain.Point;
+using Point = ApplicationCore.Domain.Point;
 
 namespace UseCase.Trilateration.Managed
 {

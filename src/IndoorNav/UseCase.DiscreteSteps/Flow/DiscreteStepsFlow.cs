@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reactive.Linq;
 using ApplicationCore.Domain;
 using ApplicationCore.Domain.Flows;
 using ApplicationCore.Domain.Spheres;
@@ -9,9 +7,9 @@ using Libs.Beacons.Flows;
 using Libs.Beacons.Models;
 using Microsoft.Extensions.Logging;
 
-namespace UseCase.Trilateration.Flow
+namespace UseCase.DiscreteSteps.Flow
 {
-    public static class TrillaterationFlow
+    public static class DiscreteStepsFlow
     {
         /// <summary>
         /// Конструктор потока для сервиса ManagedScan.

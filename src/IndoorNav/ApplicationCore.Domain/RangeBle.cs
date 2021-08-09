@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Libs.Beacons.Models;
 
-namespace Libs.Beacons.Managed.Domain
+namespace ApplicationCore.Domain
 {
     public class RangeBle
     {

@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Dynamic;
-using System.Linq;
-using Libs.Beacons.Managed.Domain;
 using Libs.Beacons.Models;
 
-namespace UseCase.Trilateration.Model
+namespace ApplicationCore.Domain.Spheres
 {
     public class SphereStatistic
     {

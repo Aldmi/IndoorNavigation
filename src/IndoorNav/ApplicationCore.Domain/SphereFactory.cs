@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Libs.Beacons.Managed.Domain;
+using ApplicationCore.Domain.Options;
+using ApplicationCore.Domain.Spheres;
 using Libs.Beacons.Models;
-using UseCase.Trilateration.Model;
 
-namespace UseCase.Trilateration.Services
+namespace ApplicationCore.Domain
 {
     public class SphereFactory
     {

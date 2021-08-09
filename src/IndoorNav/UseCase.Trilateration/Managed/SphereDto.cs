@@ -1,8 +1,8 @@
 ﻿using System;
+using ApplicationCore.Domain;
+using ApplicationCore.Domain.Spheres;
 using Libs.Beacons;
-using Libs.Beacons.Managed.Domain;
 using Shiny;
-using UseCase.Trilateration.Model;
 
 namespace UseCase.Trilateration.Managed
 {

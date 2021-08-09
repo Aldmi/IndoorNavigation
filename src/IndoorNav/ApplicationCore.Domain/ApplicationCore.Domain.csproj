@@ -6,16 +6,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\ApplicationCore.Domain\ApplicationCore.Domain.csproj" />
-       <ProjectReference Include="..\Libs.Beacons\Libs.Beacons.csproj" />
-      <ProjectReference Include="..\Libs.Excel\Libs.Excel.csproj" />
+      <ProjectReference Include="..\Libs.Beacons\Libs.Beacons.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="Shiny.Core" Version="2.1.0.2769" />
       <PackageReference Include="System.Reactive" Version="5.0.0" />
     </ItemGroup>
-
-
 
 </Project>

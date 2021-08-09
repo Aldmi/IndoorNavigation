@@ -255,9 +255,6 @@
         <Compile Include="IBeaconMonitorDelegate.cs" />
         <Compile Include="IBeaconMonitoringManager.cs" />
         <Compile Include="IBeaconRangingManager.cs" />
-        <Compile Include="Managed\Domain\BeaconOption.cs" />
-        <Compile Include="Managed\Domain\Point.cs" />
-        <Compile Include="Managed\Domain\RangeBle.cs" />
         <Compile Include="Models\Beacon.cs" />
         <Compile Include="Models\BeaconId.cs" />
         <Compile Include="Models\BeaconRegion.cs" />

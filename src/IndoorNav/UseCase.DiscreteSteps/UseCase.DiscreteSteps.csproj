@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.1</TargetFramework>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\ApplicationCore.Domain\ApplicationCore.Domain.csproj" />
+        <ProjectReference Include="..\Libs.Beacons\Libs.Beacons.csproj" />
+        <ProjectReference Include="..\Libs.Excel\Libs.Excel.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Shiny.Core" Version="2.1.0.2769" />
+        <PackageReference Include="System.Reactive" Version="5.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Managed" />
+    </ItemGroup>
+
+</Project>

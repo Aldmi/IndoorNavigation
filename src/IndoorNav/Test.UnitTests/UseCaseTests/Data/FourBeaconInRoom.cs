@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reactive.Linq;
+using ApplicationCore.Domain;
+using ApplicationCore.Domain.Options;
+using ApplicationCore.Domain.Shared;
 using Libs.Beacons;
-using Libs.Beacons.Managed.Domain;
 using Libs.Beacons.Models;
 using UseCase.Trilateration.Flow;
-using UseCase.Trilateration.Services;
 
 namespace Test.Beacons.UseCaseTests.Data
 {

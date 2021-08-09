@@ -1,6 +1,6 @@
 ﻿using Libs.Beacons.Models;
 
-namespace Libs.Beacons.Managed.Domain
+namespace ApplicationCore.Domain.Options
 {
     /// <summary>
     /// Настройки маяка.

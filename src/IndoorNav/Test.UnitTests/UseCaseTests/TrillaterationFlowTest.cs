@@ -5,13 +5,13 @@ using System.Linq;
 using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
 using System.Threading.Tasks;
+using ApplicationCore.Domain;
+using ApplicationCore.Domain.Shared;
 using FluentAssertions;
 using Libs.Beacons;
-using Libs.Beacons.Flows;
 using Libs.Beacons.Models;
 using Test.Beacons.UseCaseTests.Data;
 using UseCase.Trilateration.Flow;
-using UseCase.Trilateration.Services;
 using Xunit;
 
 

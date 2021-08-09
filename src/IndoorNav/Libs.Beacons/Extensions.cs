@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using Libs.Beacons.Managed;
 using Libs.Beacons.Models;
 using Microsoft.Extensions.Logging;
 

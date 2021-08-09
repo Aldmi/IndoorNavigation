@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Libs.Beacons.Managed.Domain
+namespace ApplicationCore.Domain
 {
     //TODO: Наследоваться от ValueObj
     public class Point: IEquatable<Point>

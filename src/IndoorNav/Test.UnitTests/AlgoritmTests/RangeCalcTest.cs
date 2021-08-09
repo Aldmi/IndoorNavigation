@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using ApplicationCore.Domain.Shared;
 using FluentAssertions;
 using UseCase.Trilateration.Flow;
 using Xunit;

@@ -1,0 +1,1 @@
+﻿Является Controller, Т.е. берет готовый UseCase и его использует напрямую, через Command/Request MediatR или ставит фоновую задачу из UseCase
