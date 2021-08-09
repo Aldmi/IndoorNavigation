@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
@@ -99,7 +100,7 @@ namespace UseCase.Trilateration.Managed
 
             var observableListSphere = _beaconManager
                 .WhenBeaconRanged(scanRegion, BleScanType.LowLatency)
-                .ManagedScanFlow(whiteListBeaconsId, TimeSpan.FromSeconds(0.1), _sphereFactory);
+                .ManagedScanFlow(whiteListBeaconsId, TimeSpan.FromSeconds(1), _sphereFactory);
             
             _scanSub = observableListSphere
                 //Аналитика
@@ -139,7 +140,7 @@ namespace UseCase.Trilateration.Managed
 
 
             _writeAnaliticSub = observableListSphere
-                .Buffer(10)
+                .Buffer(5)
                 .Subscribe(async spheres =>
                 {
                     var csvHeader = SphereStatistic.CsvHeader;
@@ -147,8 +148,9 @@ namespace UseCase.Trilateration.Managed
                         .SelectMany(list =>list.Select(s=>SphereStatistic.Create(s, ExpectedRange4Analitic)))
                         .Select(statistic => statistic.Convert2CsvFormat())
                         .ToArray();
-                    await _excelAnalitic.Write2CsvDoc(csvHeader, csvLines, _firstStart);
+                    //await _excelAnalitic.Write2CsvDoc(csvHeader, csvLines, _firstStart);
                     _firstStart = false;
+                    Debug.WriteLine(ExpectedRange4Analitic);//DEBUG
                 });
         }
 

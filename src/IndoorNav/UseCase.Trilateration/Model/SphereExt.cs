@@ -10,7 +10,8 @@ namespace UseCase.Trilateration.Model
     public class SphereStatistic
     {
         private const string Separator = ";";
-        public static readonly string CsvHeader = $"{nameof(BeaconId)}{Separator}{nameof(LastSeen)}{Separator}{nameof(Center)}{Separator}{nameof(RangeList)}{Separator}{nameof(Radius)}{Separator}{nameof(ExpectedRadius)}";
+        //public static readonly string CsvHeader = $"{nameof(BeaconId)}{Separator}{nameof(LastSeen)}{Separator}{nameof(Center)}{Separator}{nameof(RangeList)}{Separator}{nameof(Radius)}{Separator}{nameof(ExpectedRadius)}";
+        public static readonly string CsvHeader = $"{nameof(BeaconId)}{Separator}{nameof(LastSeen)}{Separator}{nameof(Center)}{Separator}CountSignal{Separator}{nameof(Radius)}{Separator}{nameof(ExpectedRadius)}";
 
         private SphereStatistic(BeaconId beaconId, Point center, IReadOnlyList<RangeBle> rangeList, double radius, DateTimeOffset lastSeen, int expectedRadius)
         {
@@ -35,12 +36,20 @@ namespace UseCase.Trilateration.Model
             return new SphereStatistic(sphere.BeaconId, sphere.Center, sphere.RangeList, sphere.Radius, sphere.LastSeen, expectedRadius);
         }
 
+        // public string Convert2CsvFormat()
+        // {
+        //     //var rangeStr = RangeList.Select(r => r.ToString()).Aggregate((s1, s2) => $"'{s1}' '{s2}'");
+        //     var rangeStr = RangeList.Select(r => r.Rssi.ToString()).Aggregate((s1, s2) => $"'{s1}' '{s2}'");
+        //     //return $"{BeaconId}{Separator}{Center}{Separator}{rangeStr}";
+        //     return $"{BeaconId.Major}/{BeaconId.Minor}{Separator}{LastSeen:hh:mm:ss}{Separator}{Center}{Separator}{rangeStr}{Separator}{Radius:F2}{Separator}{ExpectedRadius:D}";
+        // }
+        
         public string Convert2CsvFormat()
         {
             //var rangeStr = RangeList.Select(r => r.ToString()).Aggregate((s1, s2) => $"'{s1}' '{s2}'");
-            var rangeStr = RangeList.Select(r => r.Rssi.ToString()).Aggregate((s1, s2) => $"'{s1}' '{s2}'");
+            var count = RangeList.Count;
             //return $"{BeaconId}{Separator}{Center}{Separator}{rangeStr}";
-            return $"{BeaconId.Major}/{BeaconId.Minor}{Separator}{LastSeen:hh:mm:ss}{Separator}{Center}{Separator}{rangeStr}{Separator}{Radius:F2}{Separator}{ExpectedRadius:D}";
+            return $"{BeaconId.Major}/{BeaconId.Minor}{Separator}{LastSeen:hh:mm:ss}{Separator}{Center}{Separator}{count}{Separator}{Radius:F2}{Separator}{ExpectedRadius:D}";
         }
     }
 }
