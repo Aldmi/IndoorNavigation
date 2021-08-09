@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
-using ApplicationCore.Domain.Spheres;
+using ApplicationCore.Domain.Trilateration.Spheres;
 using Libs.Beacons.Models;
 
-namespace ApplicationCore.Domain.Flows
+namespace ApplicationCore.Domain.Trilateration.Flows
 {
     public static class SphereFlow
     {

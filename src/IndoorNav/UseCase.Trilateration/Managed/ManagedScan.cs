@@ -8,7 +8,7 @@ using System.Reactive.Linq;
 using ApplicationCore.Domain;
 using ApplicationCore.Domain.Options;
 using ApplicationCore.Domain.Shared;
-using ApplicationCore.Domain.Spheres;
+using ApplicationCore.Domain.Trilateration.Spheres;
 using Libs.Beacons;
 
 using Libs.Beacons.Models;
@@ -17,7 +17,7 @@ using Libs.Excel;
 using Microsoft.Extensions.Logging;
 using Shiny;
 using UseCase.Trilateration.Flow;
-using Point = ApplicationCore.Domain.Point;
+using Point = ApplicationCore.Domain.Shared.Point;
 
 namespace UseCase.Trilateration.Managed
 {

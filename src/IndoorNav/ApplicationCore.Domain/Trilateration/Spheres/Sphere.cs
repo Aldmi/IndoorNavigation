@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using ApplicationCore.Domain.Shared;
 using Libs.Beacons.Models;
 
-namespace ApplicationCore.Domain.Spheres
+namespace ApplicationCore.Domain.Trilateration.Spheres
 {
     public class Sphere : IEquatable<Sphere>
     {

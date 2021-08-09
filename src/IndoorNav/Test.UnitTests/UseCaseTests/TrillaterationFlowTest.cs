@@ -7,6 +7,7 @@ using System.Reactive.Threading.Tasks;
 using System.Threading.Tasks;
 using ApplicationCore.Domain;
 using ApplicationCore.Domain.Shared;
+using ApplicationCore.Domain.Trilateration.Spheres;
 using FluentAssertions;
 using Libs.Beacons;
 using Libs.Beacons.Models;

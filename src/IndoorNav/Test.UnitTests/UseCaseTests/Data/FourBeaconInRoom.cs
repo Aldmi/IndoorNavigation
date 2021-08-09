@@ -4,6 +4,7 @@ using System.Reactive.Linq;
 using ApplicationCore.Domain;
 using ApplicationCore.Domain.Options;
 using ApplicationCore.Domain.Shared;
+using ApplicationCore.Domain.Trilateration.Spheres;
 using Libs.Beacons;
 using Libs.Beacons.Models;
 using UseCase.Trilateration.Flow;

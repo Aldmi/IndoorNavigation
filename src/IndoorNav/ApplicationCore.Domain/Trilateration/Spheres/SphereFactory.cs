@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using ApplicationCore.Domain.Options;
-using ApplicationCore.Domain.Spheres;
+using ApplicationCore.Domain.Shared;
 using Libs.Beacons.Models;
 
-namespace ApplicationCore.Domain
+namespace ApplicationCore.Domain.Trilateration.Spheres
 {
     public class SphereFactory
     {

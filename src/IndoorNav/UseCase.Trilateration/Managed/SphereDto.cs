@@ -1,6 +1,7 @@
 ﻿using System;
 using ApplicationCore.Domain;
-using ApplicationCore.Domain.Spheres;
+using ApplicationCore.Domain.Shared;
+using ApplicationCore.Domain.Trilateration.Spheres;
 using Libs.Beacons;
 using Shiny;
 
