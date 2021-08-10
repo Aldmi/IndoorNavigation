@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using ApplicationCore.Domain.Options;
-using ApplicationCore.Domain.Shared;
+using ApplicationCore.Shared;
 using Libs.Beacons.Models;
 
 namespace ApplicationCore.Domain.Trilateration.Spheres

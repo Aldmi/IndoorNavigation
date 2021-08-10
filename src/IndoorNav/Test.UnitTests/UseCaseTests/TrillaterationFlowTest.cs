@@ -6,8 +6,8 @@ using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
 using System.Threading.Tasks;
 using ApplicationCore.Domain;
-using ApplicationCore.Domain.Shared;
 using ApplicationCore.Domain.Trilateration.Spheres;
+using ApplicationCore.Shared;
 using FluentAssertions;
 using Libs.Beacons;
 using Libs.Beacons.Models;
@@ -26,7 +26,7 @@ namespace Test.Beacons.UseCaseTests
         {
             //Arrange
             var options = FourBeaconInRoom.CreateOption();
-            var sphereFactory= new SphereFactory(Algoritm.CalculateDistance, options);
+            var sphereFactory= new SphereFactory(Algoritms.CalculateDistance, options);
             var sourse = FourBeaconInRoom.CreateFlowImmediatly();
             var whiteList = options.Select(o => o.BeaconId).ToList();
             

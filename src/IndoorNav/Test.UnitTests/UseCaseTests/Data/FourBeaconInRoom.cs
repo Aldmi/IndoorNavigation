@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Reactive.Linq;
 using ApplicationCore.Domain;
 using ApplicationCore.Domain.Options;
-using ApplicationCore.Domain.Shared;
 using ApplicationCore.Domain.Trilateration.Spheres;
+using ApplicationCore.Shared;
 using Libs.Beacons;
 using Libs.Beacons.Models;
 using UseCase.Trilateration.Flow;
@@ -65,7 +65,7 @@ namespace Test.Beacons.UseCaseTests.Data
 
         public static SphereFactory CreateSphereFactory()
         {
-            return new SphereFactory(Algoritm.CalculateDistance, CreateOption());
+            return new SphereFactory(Algoritms.CalculateDistance, CreateOption());
         }
     }
 }

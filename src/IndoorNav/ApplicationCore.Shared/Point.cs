@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ApplicationCore.Domain.Shared
+namespace ApplicationCore.Shared
 {
     //TODO: Наследоваться от ValueObj
     public class Point: IEquatable<Point>
@@ -30,7 +30,7 @@ namespace ApplicationCore.Domain.Shared
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != this.GetType()) return false;
+            if (obj.GetType() != GetType()) return false;
             return Equals((Point) obj);
         }
 

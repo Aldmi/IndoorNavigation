@@ -1,4 +1,4 @@
-﻿using ApplicationCore.Domain.Shared;
+﻿using ApplicationCore.Shared;
 using Libs.Beacons.Models;
 
 namespace ApplicationCore.Domain.Options

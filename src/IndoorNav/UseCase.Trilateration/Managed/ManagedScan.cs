@@ -7,8 +7,8 @@ using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using ApplicationCore.Domain;
 using ApplicationCore.Domain.Options;
-using ApplicationCore.Domain.Shared;
 using ApplicationCore.Domain.Trilateration.Spheres;
+using ApplicationCore.Shared;
 using Libs.Beacons;
 
 using Libs.Beacons.Models;
@@ -17,7 +17,7 @@ using Libs.Excel;
 using Microsoft.Extensions.Logging;
 using Shiny;
 using UseCase.Trilateration.Flow;
-using Point = ApplicationCore.Domain.Shared.Point;
+using Point = ApplicationCore.Shared.Point;
 
 namespace UseCase.Trilateration.Managed
 {
@@ -46,7 +46,7 @@ namespace UseCase.Trilateration.Managed
                 //new BeaconOption(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 48943, 20570,2, -77,new Point(1, 1)),
                 //new BeaconOption(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 35144, 19824,2, -77,new Point(1, 1.3))
             };
-            _sphereFactory = new SphereFactory(Algoritm.CalculateDistance, _beaconOptions); // TODO: Можно зарегистрировать в DI
+            _sphereFactory = new SphereFactory(Algoritms.CalculateDistance, _beaconOptions); // TODO: Можно зарегистрировать в DI
         }
 
 

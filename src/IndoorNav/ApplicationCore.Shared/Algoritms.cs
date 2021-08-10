@@ -1,9 +1,9 @@
 ﻿using System;
 
-namespace ApplicationCore.Domain.Shared
+namespace ApplicationCore.Shared
 {
     
-    public static class Algoritm
+    public static class Algoritms
     {
         public static double CalculateDistance(int measuredPower, double rssi) 
         {
@@ -14,10 +14,9 @@ namespace ApplicationCore.Domain.Shared
             if (ratio < 1.0) {
                 return Math.Pow(ratio,10);
             }
-            else {
-                double distance =  (0.89976)*Math.Pow(ratio,7.7095) + 0.111;
-                return distance;
-            }
+
+            double distance =  (0.89976)*Math.Pow(ratio,7.7095) + 0.111;
+            return distance;
         }
         
         
@@ -30,10 +29,9 @@ namespace ApplicationCore.Domain.Shared
             if (ratio < 1.0) {
                 return Math.Pow(ratio,10);
             }
-            else {
-                double distance =  (0.89976)*Math.Pow(ratio,7.7095) + 0.111;
-                return distance;
-            }
+
+            double distance =  (0.89976)*Math.Pow(ratio,7.7095) + 0.111;
+            return distance;
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using ApplicationCore.Domain.Shared;
+using ApplicationCore.Shared;
 using FluentAssertions;
 using UseCase.Trilateration.Flow;
 using Xunit;
@@ -21,7 +21,7 @@ namespace Test.Beacons.AlgoritmTests
             
             //act
             var rangeDict= rssiList
-                .ToDictionary(rssi=>rssi, rssi=>Math.Round(Algoritm.CalculateDistance(-77, rssi), 2));
+                .ToDictionary(rssi=>rssi, rssi=>Math.Round(Algoritms.CalculateDistance(-77, rssi), 2));
 
             var r = Math.Round(3.690009,2, MidpointRounding.ToPositiveInfinity);
             

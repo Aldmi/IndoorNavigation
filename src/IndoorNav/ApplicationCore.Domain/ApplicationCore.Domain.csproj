@@ -6,6 +6,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\ApplicationCore.Shared\ApplicationCore.Shared.csproj" />
       <ProjectReference Include="..\Libs.Beacons\Libs.Beacons.csproj" />
     </ItemGroup>
 
