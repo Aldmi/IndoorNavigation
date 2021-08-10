@@ -84,11 +84,12 @@ namespace ApplicationCore.Shared.DataStruct
 
         /// <summary>
         /// Поиск вблизи узла.
+        /// в одном родителе и во всех наследниках.
         /// </summary>
         public TreeNode<T> FindForNeighbors(Func<TreeNode<T>, bool> predicate)
         {
-            if (predicate(this))
-                return this;
+            // if (predicate(this))
+            //     return this;
 
             if (predicate(Parent))
                 return Parent;
