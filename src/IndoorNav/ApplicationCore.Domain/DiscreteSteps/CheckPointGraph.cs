@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using ApplicationCore.Shared;
 using ApplicationCore.Shared.DataStruct;
 
@@ -25,35 +27,78 @@ namespace ApplicationCore.Domain.DiscreteSteps
         public bool CurrentNodeIsSet => CurrentNode != null;
  
         
+        
+        //TODO: перед обработкой упорядочевать по Range inputData (сначала с малым расстоянием).
+        
         /// <summary>
-        /// Попытка передвинуться по узлам графа, анализируя входные данные
+        /// Вычислить перемещение по узлам графа, анализируя входные данные.
         /// </summary>
-        public Moving TryMove(InputData inputData)
+        public Moving CalculateMove(IEnumerable<InputData> inputDataList)
         {
-            var predicate = new Func<TreeNode<CheckPoint>, bool>(node => node.Value.GetZone(inputData) == Zone.In);
-            var findNode = CurrentNodeIsSet ?
-                _root.FindForNeighbors(predicate) :
-                _root.FindInDepth(predicate);
-
-
-            //TODO: Расписатьт все варианты движениея
-            Moving moving = null;
-            if (findNode != null)
+            Moving moving;
+            if (!CurrentNodeIsSet)
             {
-                if (findNode != CurrentNode)
+                var findNode= FindFirstCurrentNode(inputDataList);
+                if (findNode != null)
                 {
                     CurrentNode = findNode;
-                    moving= Moving.CompleteSegment(CurrentNode.Value, findNode.Value);
+                    moving= Moving.InitSegment(CurrentNode.Value);                             //Выставить первый раз Стартовый сегмент.  
+                }
+                else
+                {
+                    moving= Moving.UnknownSegment();                                            //Стартовый сегмент не найден.
                 }
             }
             else
             {
-                moving= CurrentNodeIsSet ?
-                    Moving.StartSegment(CurrentNode.Value) :
-                    Moving.UnknownSegment();
+                var findNode= FindAmongNeighborsOfCurrentNode(inputDataList);
+                if (findNode != null)
+                {
+                    if (findNode == CurrentNode)
+                    {
+                        moving = Moving.StartSegment(CurrentNode!.Value);                      //Стоим около стартового сегмента.
+                    }
+                    else
+                    {
+                        moving = Moving.CompleteSegment(CurrentNode!.Value, findNode.Value);  //Однократно выставили завершающий сегмент.
+                        CurrentNode = findNode;
+                    }
+                }
+                else
+                {
+                    moving = Moving.GoToEnd(CurrentNode!.Value);                              //Начали движение от стартового сегмента.
+                }
             }
-            
             return moving;
+        }
+
+        
+        private TreeNode<CheckPoint>? FindFirstCurrentNode(IEnumerable<InputData> inputDataList)
+        {
+            foreach (var inputData in inputDataList)
+            {
+                var findNode = _root.FindInDepth(node => node.Value.GetZone(inputData) == Zone.In);
+                if (findNode != null)
+                    return findNode;
+            }
+            return null;
+        }
+        
+        
+        /// <summary>
+        /// Найти среди соседей текущего узла
+        /// </summary>
+        /// <param name="inputDataList"></param>
+        /// <returns></returns>
+        private TreeNode<CheckPoint>? FindAmongNeighborsOfCurrentNode(IEnumerable<InputData> inputDataList)
+        {
+            foreach (var inputData in inputDataList)
+            {
+                var findNode = CurrentNode!.FindForNeighbors(node => node.Value.GetZone(inputData) == Zone.In);
+                if (findNode != null)
+                    return findNode;
+            }
+            return null;
         }
     }
 }

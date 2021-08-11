@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace ApplicationCore.Shared.DataStruct
 {
-    public class TreeNode<T>
+    public class TreeNode<T>: IEquatable<TreeNode<T>>
     {
         private readonly T _value;
         private readonly List<TreeNode<T>> _children = new List<TreeNode<T>>();
@@ -67,7 +67,7 @@ namespace ApplicationCore.Shared.DataStruct
         /// Поиск в глубину.
         /// обход дерева от Parent к Child.
         /// </summary>
-        public TreeNode<T> FindInDepth(Func<TreeNode<T>, bool> predicate)
+        public TreeNode<T>? FindInDepth(Func<TreeNode<T>, bool> predicate)
         {
             if (predicate(this))
                 return this;
@@ -86,12 +86,15 @@ namespace ApplicationCore.Shared.DataStruct
         /// Поиск вблизи узла.
         /// в одном родителе и во всех наследниках.
         /// </summary>
-        public TreeNode<T> FindForNeighbors(Func<TreeNode<T>, bool> predicate)
+        /// <param name="predicate">условие посика</param>
+        /// <param name="isSelf">поиск начинаем с себя</param>
+        /// <returns></returns>
+        public TreeNode<T>? FindForNeighbors(Func<TreeNode<T>, bool> predicate, bool isSelf = true)
         {
-            // if (predicate(this))
-            //     return this;
+            if (isSelf && predicate(this))
+                return this;
 
-            if (predicate(Parent))
+            if (!IsRoot && predicate(Parent))
                 return Parent;
             
             var res= _children.FirstOrDefault(predicate);
@@ -104,5 +107,32 @@ namespace ApplicationCore.Shared.DataStruct
         }
         
         public override string ToString() => Value != null ? Value.ToString() : "[data null]";
+
+        
+        #region Equatable
+        public static bool operator ==(TreeNode<T> left, TreeNode<T>? right) => Equals(left, right);
+        public static bool operator !=(TreeNode<T>? left, TreeNode<T>? right) => !Equals(left, right);
+        
+        public bool Equals(TreeNode<T> other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return EqualityComparer<T>.Default.Equals(_value, other._value) && Equals(_children, other._children) && Equals(Parent, other.Parent);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != this.GetType()) return false;
+            return Equals((TreeNode<T>) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(_value, _children, Parent);
+        }
+        #endregion
+
     }
 }

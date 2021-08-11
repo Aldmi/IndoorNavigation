@@ -24,10 +24,16 @@ namespace ApplicationCore.Domain.DiscreteSteps
         }
 
 
+        /// <summary>
+        /// Вернуть статус попадания в зону действия маяка для входных дангных.
+        /// Если Id не совпадает, то зона Unknown
+        /// Если Id совпал, то определяем, внутри зоны маяка находимся или вне зоны.
+        /// </summary>
         public Zone GetZone(InputData inputData)
         {
-            //TODO:Проверка BeaconId
-            return Area.GetZone(inputData.Range);
+            return inputData.BeaconId == BeaconId ?
+                Area.GetZone(inputData.Range) :
+                Zone.Unknown;
         }
     }
 }
