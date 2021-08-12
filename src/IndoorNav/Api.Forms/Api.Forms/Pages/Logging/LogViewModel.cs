@@ -35,7 +35,7 @@ namespace Api.Forms.Pages.Logging
             // var results = await conn
             //     .Logs
             //     .Where(x => x.IsError)
-            //     .OrderByDescending(x => x.TimestampUtc)
+            //     .OrderByDescendingForRange(x => x.TimestampUtc)
             //     .ToListAsync();
             
             var results = await conn
