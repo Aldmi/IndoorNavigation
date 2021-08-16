@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using ApplicationCore.Shared;
 using ApplicationCore.Shared.DataStruct;
+using Libs.Beacons.Models;
 
 namespace ApplicationCore.Domain.DiscreteSteps
 {
@@ -25,6 +26,7 @@ namespace ApplicationCore.Domain.DiscreteSteps
         /// </summary>
         public TreeNode<CheckPoint>? CurrentNode { get; private set; }
         public bool CurrentNodeIsSet => CurrentNode != null;
+        public BeaconId RootId => _root.Value.BeaconId;
  
         
         

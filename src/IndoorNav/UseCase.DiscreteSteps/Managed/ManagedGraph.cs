@@ -30,46 +30,44 @@ namespace UseCase.DiscreteSteps.Managed
         }
         
         
-        public ObservableCollection<Moving> Movings { get; } = new ObservableCollection<Moving>();
+        public ObservableCollection<MovingDto> Movings { get; } = new ObservableCollection<MovingDto>();
         public BeaconRegion? ScanningRegion { get; private set; }
         public bool IsScanning => ScanningRegion != null;
         
         
         
-        public void Start(BeaconRegion scanRegion, IScheduler? scheduler = null)
+        public void Start(IScheduler? scheduler = null)
         {
             if (IsScanning)
                 throw new ArgumentException("A beacon scan is already running");
             
             _scheduler = scheduler;
-            ScanningRegion = scanRegion;
-
+            
+            Movings.Clear();
+            
             //Загрузить граф если граф пуст.
             _graph ??= _graphRepository.GetGraph();
-            
-            var observableListMovings= _beaconManager
-                .WhenBeaconRanged(scanRegion, BleScanType.LowLatency)
+            ScanningRegion ??= new BeaconRegion("Graph root", _graph.RootId.Uuid);
+
+            var observableListMovings = _beaconManager
+                .WhenBeaconRanged(ScanningRegion, BleScanType.LowLatency)
                 .ManagedScanDiscreteStepsFlow(
                     TimeSpan.FromSeconds(1),
-                    -77,
+                    -77, //TODO: брать из протокола.
                     _graph.CalculateMove,
                     _logger);
+                //Выдавать только первый найденный CheckPoint и затем только готовые отрезки.
+                //.Where(moving =>moving.MovingEvent == MovingEvent.InitSegment || moving.MovingEvent == MovingEvent.CompleteSegment);
             
             _scanSub = observableListMovings
-                //Аналитика
-                // .Do(async spheres =>
-                // {
-                //     var csvHeader = SphereStatistic.CsvHeader;
-                //     var csvLines = spheres.Select(SphereStatistic.Create).Select(statistic => statistic.Convert2CsvFormat()).ToArray();
-                //     await _excelAnalitic.Write2CsvDoc(csvHeader, csvLines, _firstStart);
-                //     _firstStart = false;
-                // })
                 //Обработка
                 .ObserveOnIf(_scheduler)
                 .Synchronize(Movings)
                 .Subscribe(moving =>
                 {
-                    // foreach (var sphere in spheres)
+                    
+                    Movings.Add(new MovingDto(moving.Start, moving.End, moving.MovingEvent));
+
                     // foreach (var sphere in spheres)
                     // {
                     //     var managed = Spheres.FirstOrDefault(x => x.Sphere.BeaconId.Equals(sphere.BeaconId));

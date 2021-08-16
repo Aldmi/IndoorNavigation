@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:graph="clr-namespace:Api.Forms.Pages.Graph;assembly=Api.Forms"
+             xmlns:managed="clr-namespace:UseCase.DiscreteSteps.Managed;assembly=UseCase.DiscreteSteps"
+             x:Class="Api.Forms.Pages.Graph.ManagedGraphPage"
+             x:DataType="graph:ManagedGraphViewModel"
+             Title="Graph Scan (Managed)">
+    
+    <ContentPage.Content>
+        <StackLayout>
+            <ListView ItemsSource="{Binding Movings}" HasUnevenRows="True">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <ViewCell.View>
+                                <Grid x:DataType="managed:MovingDto" VerticalOptions="Fill" HorizontalOptions="Fill">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Label Grid.Row="0"
+                                           LineBreakMode="WordWrap"
+                                           Text="{Binding MovingEvent }"
+                                           FontSize="Small"
+                                           TextDecorations="Underline"
+                                           TextTransform="Uppercase"/>
+                                    <!-- TODO: схематичное отображение перемещения-->
+                                    <!-- <Label Grid.Row="1"  Text="{Binding Analitic, StringFormat='Analitic: {0}'}" FontSize="Small" /> -->
+                                    <!-- <Label Grid.Row="2" Text="{Binding Radius, StringFormat='Radius: {0:F2}м'}" FontSize="Medium"  /> -->
+                                    <!-- <Label Grid.Row="3" Text="{Binding Center, StringFormat='Center: {0}м'}" FontSize="Medium"  /> -->
+                                    <!-- <Label Grid.Row="4" Text="{Binding LastSeen, StringFormat='LastSeen: {0:T} (UTC)'}" FontSize="Medium"  /> -->
+                                </Grid>
+                            </ViewCell.View>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            
+            <StackLayout Orientation="Horizontal" HorizontalOptions="Fill" Margin="2">
+                <Button 
+                        Text="{Binding ScanText}"
+                        Command="{Binding ScanToggle}"/>
+                <Label Text="Строка соятояния сканера" FontSize="Small" />
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

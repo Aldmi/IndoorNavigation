@@ -13,7 +13,7 @@ namespace UseCase.DiscreteSteps.Managed
         public CheckPointGraph GetGraph()
         {
             var root = new TreeNode<CheckPoint>(new CheckPoint(
-                new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 1, 1),
+                new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 65438, 43487),
                 new CheckPointDescription("Вход", "Вход на вокзал"),
                 new CoverageArea(2))
             );

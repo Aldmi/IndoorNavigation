@@ -14,6 +14,7 @@ using Prism.DryIoc;
 using Prism.Ioc;
 using Shiny;
 using Shiny.Notifications;
+using UseCase.DiscreteSteps.Managed;
 
 namespace Api.Forms
 {
@@ -31,7 +32,7 @@ namespace Api.Forms
 
         public override void ConfigureServices(IServiceCollection services, IPlatform platform)
         {
-            services.UseSqliteStore();
+            //services.UseSqliteStore();
             //services.UseNotifications();
             //services.AddSingleton<AppNotifications>();
             services.AddSingleton<IDialogs, Dialogs>();
@@ -40,6 +41,8 @@ namespace Api.Forms
             services.AddSingleton<SampleSqliteConnection>();
             services.AddSingleton<CoreDelegateServices>();
             services.AddScoped<IExcelAnalitic, ExcelAnalitic>();
+            
+            services.AddScoped<ICheckPointGraphRepository, CheckPointGraphRepository>();
             
             //register init jobs------------------------------------------------
             //services.AddSingleton<BeaconScanJob>();

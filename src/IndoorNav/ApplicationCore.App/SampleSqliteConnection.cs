@@ -6,11 +6,13 @@ using SQLite;
 
 namespace ApplicationCore.App
 {
+    //TODO: не использовать напрямую, а только через Repository.
+    //SampleSqliteConnection - аналог DbContext
     public class SampleSqliteConnection : SQLiteAsyncConnection
     {
         public SampleSqliteConnection(IPlatform platform) : base(Path.Combine(platform.AppData.FullName, "sample.db"))
         {
-            var hh = Path.Combine(platform.AppData.FullName, "sample.db");//DEBUG
+            //var hh = Path.Combine(platform.AppData.FullName, "sample.db");//DEBUG
             var conn = GetConnection();
             conn.CreateTable<BeaconEvent>();
             conn.CreateTable<JobLog>();

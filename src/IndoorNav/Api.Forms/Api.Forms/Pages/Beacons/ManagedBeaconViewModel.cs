@@ -91,7 +91,6 @@ namespace Api.Forms.Pages.Beacons
         public ICommand ScanToggle { get; }
         public ICommand IncExpectedRange { get; }
         public ICommand DecExpectedRange { get; }
-        public ICommand ResetExpectedRange { get; }
         
         [Reactive] public BeaconRegion? Region { get; private set; }
         [Reactive] public string ScanText { get; private set; } = "Scan";
