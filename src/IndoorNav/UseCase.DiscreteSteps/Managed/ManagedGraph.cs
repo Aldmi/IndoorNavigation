@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
+using System.Reactive.Subjects;
 using ApplicationCore.Domain.DiscreteSteps;
 using Libs.Beacons;
 using Libs.Beacons.Models;
@@ -20,6 +21,7 @@ namespace UseCase.DiscreteSteps.Managed
         private readonly ILogger? _logger;
         private IScheduler? _scheduler;
         private IDisposable? _scanSub;
+        private readonly Subject<MovingDto> _lastMovingSubj = new Subject<MovingDto>();
 
 
         public ManagedGraph(IBeaconRangingManager beaconManager, ICheckPointGraphRepository graphRepository, ILogger<ManagedGraph> logger)
@@ -33,9 +35,9 @@ namespace UseCase.DiscreteSteps.Managed
         public ObservableCollection<MovingDto> Movings { get; } = new ObservableCollection<MovingDto>();
         public BeaconRegion? ScanningRegion { get; private set; }
         public bool IsScanning => ScanningRegion != null;
-        
-        
-        
+        public IObservable<MovingDto> LastMoving => _lastMovingSubj.AsObservable();
+
+
         public void Start(IScheduler? scheduler = null)
         {
             if (IsScanning)
@@ -65,8 +67,10 @@ namespace UseCase.DiscreteSteps.Managed
                 .Synchronize(Movings)
                 .Subscribe(moving =>
                 {
+                    var dto = new MovingDto(moving.Start, moving.End, moving.MovingEvent);
                     
-                    Movings.Add(new MovingDto(moving.Start, moving.End, moving.MovingEvent));
+                    _lastMovingSubj.OnNext(dto);
+                    Movings.Add(dto);
 
                     // foreach (var sphere in spheres)
                     // {
@@ -91,10 +95,10 @@ namespace UseCase.DiscreteSteps.Managed
         }
         
         
-        
         public void Stop()
         {
             _scanSub?.Dispose();
+            _graph?.Reset();
             _scheduler = null;
             ScanningRegion = null;
         }
@@ -103,6 +107,7 @@ namespace UseCase.DiscreteSteps.Managed
         public void Dispose()
         {
             Stop();
+            _lastMovingSubj.Dispose();
             Movings.Clear();
         }
     }

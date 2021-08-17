@@ -5,11 +5,18 @@
              xmlns:managed="clr-namespace:UseCase.DiscreteSteps.Managed;assembly=UseCase.DiscreteSteps"
              x:Class="Api.Forms.Pages.Graph.ManagedGraphPage"
              x:DataType="graph:ManagedGraphViewModel"
+             xmlns:b="clr-namespace:Api.Forms.Behaviors"
              Title="Graph Scan (Managed)">
     
     <ContentPage.Content>
         <StackLayout>
-            <ListView ItemsSource="{Binding Movings}" HasUnevenRows="True">
+            <ListView ItemsSource="{Binding Movings}"
+                      HasUnevenRows="True">
+                
+                <!-- <ListView.Behaviors>   -->
+                <!--     <b:InfiniteScroll LoadMoreCommand="{Binding LoadMore}" />   -->
+                <!-- </ListView.Behaviors>   -->
+                
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
@@ -18,18 +25,24 @@
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto" />
                                         <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="Auto" />
                                     </Grid.RowDefinitions>
-                                    <Label Grid.Row="0"
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    
+                                    <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
                                            LineBreakMode="WordWrap"
                                            Text="{Binding MovingEvent }"
                                            FontSize="Small"
                                            TextDecorations="Underline"
-                                           TextTransform="Uppercase"/>
-                                    <!-- TODO: схематичное отображение перемещения-->
-                                    <!-- <Label Grid.Row="1"  Text="{Binding Analitic, StringFormat='Analitic: {0}'}" FontSize="Small" /> -->
+                                           TextTransform="Uppercase"
+                                           HorizontalOptions="Center"/>
+                                    <!-- схематичное отображение перемещения-->
+                                    <Label Grid.Row="1" Grid.Column="0" Text="{Binding Start.Description.Name}" FontSize="Medium" HorizontalOptions="Center"/>
+                                    <Label Grid.Row="1" Grid.Column="1" Text="--------->" HorizontalOptions="Center"/>
+                                    <Label Grid.Row="1" Grid.Column="2" Text="{Binding End.Description.Name}" FontSize="Large" HorizontalOptions="Center" />
                                     <!-- <Label Grid.Row="2" Text="{Binding Radius, StringFormat='Radius: {0:F2}м'}" FontSize="Medium"  /> -->
                                     <!-- <Label Grid.Row="3" Text="{Binding Center, StringFormat='Center: {0}м'}" FontSize="Medium"  /> -->
                                     <!-- <Label Grid.Row="4" Text="{Binding LastSeen, StringFormat='LastSeen: {0:T} (UTC)'}" FontSize="Medium"  /> -->
@@ -41,10 +54,12 @@
             </ListView>
             
             <StackLayout Orientation="Horizontal" HorizontalOptions="Fill" Margin="2">
-                <Button 
+                <Label HorizontalOptions="StartAndExpand"
+                       Text="{Binding LastMovingStr}"
+                       FontSize="Small" />
+                <Button HorizontalOptions="EndAndExpand"
                         Text="{Binding ScanText}"
                         Command="{Binding ScanToggle}"/>
-                <Label Text="Строка соятояния сканера" FontSize="Small" />
             </StackLayout>
         </StackLayout>
     </ContentPage.Content>

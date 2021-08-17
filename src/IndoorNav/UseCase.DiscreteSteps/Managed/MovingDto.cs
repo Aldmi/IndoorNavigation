@@ -1,4 +1,5 @@
-﻿using ApplicationCore.Domain.DiscreteSteps;
+﻿using System;
+using ApplicationCore.Domain.DiscreteSteps;
 
 namespace UseCase.DiscreteSteps.Managed
 {
@@ -9,10 +10,27 @@ namespace UseCase.DiscreteSteps.Managed
             Start = start;
             End = end;
             MovingEvent = movingEvent;
+            LastSeen = DateTimeOffset.UtcNow;
         }
         
         public CheckPoint? Start { get; }
         public CheckPoint? End { get; }
         public MovingEvent MovingEvent { get; }
+        public DateTimeOffset LastSeen { get; }
+
+        
+        public override string ToString()
+        {
+            var res= MovingEvent switch
+            {
+                MovingEvent.Unknown => $"Unknown",
+                MovingEvent.InitSegment => $"Init: '{Start.Description.Name}'",
+                MovingEvent.StartSegment => $"Start: '{Start.Description.Name}'",
+                MovingEvent.GoToEnd => $"GoToEnd: '{Start.Description.Name}'- ...",
+                MovingEvent.CompleteSegment => $"Complete: '{Start.Description.Name} - {End.Description.Name}'",
+                _ => throw new ArgumentOutOfRangeException()
+            };
+            return $"{res}   [{LastSeen:T}]";
+        }
     }
 }

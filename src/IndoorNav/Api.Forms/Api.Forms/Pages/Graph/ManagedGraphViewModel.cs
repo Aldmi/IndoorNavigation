@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Reactive.Linq;
 using System.Windows.Input;
 using Api.Forms.Infrastructure;
 using ApplicationCore.Domain.DiscreteSteps;
 using Prism.Navigation;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
+using Shiny;
 using UseCase.DiscreteSteps.Managed;
+using Xamarin.Forms;
 
 namespace Api.Forms.Pages.Graph
 {
@@ -29,12 +32,24 @@ namespace Api.Forms.Pages.Graph
                 else
                     StopScan();
             });
+            
+            
+          _graphScanner.LastMoving
+            .Select(lastMoving => lastMoving.ToString())
+              .ToPropertyEx(this, x => x.LastMovingStr);
+          
+
+
+
         }
 
         public ObservableCollection<MovingDto> Movings => _graphScanner.Movings;
         public ICommand ScanToggle { get; }
         [Reactive] public string ScanText { get; private set; } = "Scan";
+        public string LastMovingStr { [ObservableAsProperty] get; }
         
+       // [Reactive] public string LastMovingStr { get; private set; }
+       
         
         public void StartScan()
         {

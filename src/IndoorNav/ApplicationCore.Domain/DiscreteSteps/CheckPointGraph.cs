@@ -75,6 +75,12 @@ namespace ApplicationCore.Domain.DiscreteSteps
         }
 
         
+        /// <summary>
+        /// Сбросить текщее положение в графе.
+        /// </summary>
+        public void Reset() =>  CurrentNode = null;
+        
+        
         private TreeNode<CheckPoint>? FindFirstCurrentNode(IEnumerable<InputData> inputDataList)
         {
             foreach (var inputData in inputDataList)
@@ -102,5 +108,9 @@ namespace ApplicationCore.Domain.DiscreteSteps
             }
             return null;
         }
+
+        
+
+   
     }
 }

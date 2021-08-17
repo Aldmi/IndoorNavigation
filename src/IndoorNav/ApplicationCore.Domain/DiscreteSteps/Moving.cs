@@ -35,7 +35,6 @@ namespace ApplicationCore.Domain.DiscreteSteps
                 MovingEvent.CompleteSegment => $"CompleteSegment: '{Start.Description.Name} - {End.Description.Name}'",
                 _ => throw new ArgumentOutOfRangeException()
             };
-
         }
     }
 
