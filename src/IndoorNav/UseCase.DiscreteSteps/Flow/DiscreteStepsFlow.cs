@@ -34,7 +34,7 @@ namespace UseCase.DiscreteSteps.Flow
                 .GroupAfterBuffer(bufferTime)
                 //Маппинг к InData. (фильтрация значений в группе и преобразование к InData)
                 .Map2InData(txPower)
-                //Упорядочить по Range
+                //Упорядочить по Distance
                 .OrderByDescendingForRange()
                 //Определить перемещение в графе движения, используя функцию calculateMove.
                 .Select(listInData=> calculateMove(listInData));

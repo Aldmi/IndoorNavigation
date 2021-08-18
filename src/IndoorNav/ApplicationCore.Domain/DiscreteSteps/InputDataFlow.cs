@@ -30,7 +30,7 @@ namespace ApplicationCore.Domain.DiscreteSteps.Flows
         }
         
         /// <summary>
-        /// Упорядочить список InputData по Range.
+        /// Упорядочить список InputData по Distance (в порядке убывания).
         /// </summary>
         public static IObservable<IList<InputData>> OrderByDescendingForRange(this IObservable<IList<InputData>> sourse)
         {

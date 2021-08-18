@@ -30,7 +30,7 @@ namespace ApplicationCore.Domain.DiscreteSteps
  
         
         
-        //TODO: перед обработкой упорядочевать по Range inputData (сначала с малым расстоянием).
+        //TODO: перед обработкой упорядочевать по Distance inputData (сначала с малым расстоянием).
         
         /// <summary>
         /// Вычислить перемещение по узлам графа, анализируя входные данные.

@@ -41,7 +41,7 @@ namespace Api.Forms.Pages.Logging
                                 //await _excelAnalitic.SaveFile("test.txt", ms);
 
                                 await _excelAnalitic.Write2CsvDoc(
-                                    "Id;Rssi;Range;",
+                                    "Id;Rssi;Distance;",
                                     new[] {
                                         "111;-77;12,5;",
                                         "125;-76;13,9;"
