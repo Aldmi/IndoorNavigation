@@ -1,4 +1,5 @@
-﻿using ApplicationCore.Shared;
+﻿using ApplicationCore.Domain.Services;
+using ApplicationCore.Shared;
 using Libs.Beacons.Models;
 
 namespace ApplicationCore.Domain.DiscreteSteps
@@ -29,10 +30,10 @@ namespace ApplicationCore.Domain.DiscreteSteps
         /// Если Id не совпадает, то зона Unknown
         /// Если Id совпал, то определяем, внутри зоны маяка находимся или вне зоны.
         /// </summary>
-        public Zone GetZone(InputData inputData)
+        public Zone GetZone(BeaconDistanceModel inputData)
         {
             return inputData.BeaconId == BeaconId ?
-                Area.GetZone(inputData.Range) :
+                Area.GetZone(inputData.Distance) :
                 Zone.Unknown;
         }
     }

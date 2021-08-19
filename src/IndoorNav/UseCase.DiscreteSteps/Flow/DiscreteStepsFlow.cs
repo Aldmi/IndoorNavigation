@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Reactive.Linq;
 using ApplicationCore.Domain;
 using ApplicationCore.Domain.DiscreteSteps;
-using ApplicationCore.Domain.DiscreteSteps.Flows;
-using ApplicationCore.Domain.Trilateration.Flows;
+using ApplicationCore.Domain.Services;
 using ApplicationCore.Domain.Trilateration.Spheres;
 using Libs.Beacons.Flows;
 using Libs.Beacons.Models;
@@ -20,22 +19,24 @@ namespace UseCase.DiscreteSteps.Flow
         /// <param name="sourse"></param>
         /// <param name="bufferTime">время накопления данных по группам</param>
         /// <param name="txPower">мощность маяка на расстоянии 1м</param>
+        /// <param name="distanceHandler"></param>
         /// <param name="calculateMove"> Сервис реализующий calculateMove, должен быть StateFull чтобы хранить текущее положенгие в графе и вычислять Moving</param>
         /// <param name="logger"></param>
         /// <returns>Текушее положение объекта в графе.</returns>
         public static IObservable<Moving> ManagedScanDiscreteStepsFlow(this IObservable<Beacon> sourse,
             TimeSpan bufferTime,
             int txPower,
-            Func<IEnumerable<InputData>, Moving> calculateMove,
+            Func<BeaconId, IEnumerable<double>, double> distanceHandler,
+            Func<IEnumerable<BeaconDistanceModel>, Moving> calculateMove,
             ILogger? logger = null)
         {
             return sourse
                 //Буфферизация и разбиение на группы по Id
                 .GroupAfterBuffer(bufferTime)
                 //Маппинг к InData. (фильтрация значений в группе и преобразование к InData)
-                .Map2InData(txPower)
+                .Map2BeaconDistanceModel(distanceHandler, txPower)
                 //Упорядочить по Distance
-                .OrderByDescendingForRange()
+                .OrderByDescendingForDistance()
                 //Определить перемещение в графе движения, используя функцию calculateMove.
                 .Select(listInData=> calculateMove(listInData));
         }

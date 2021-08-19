@@ -4,6 +4,7 @@ using ApplicationCore.App;
 using ApplicationCore.App.Infrastructure;
 using ApplicationCore.App.Jobs;
 using ApplicationCore.App.StartupTasks;
+using ApplicationCore.Domain.Services;
 using DryIoc.Microsoft.DependencyInjection;
 using Libs.Beacons.Platforms.Shared;
 using Libs.BluetoothLE.Platforms.Shared;
@@ -43,6 +44,8 @@ namespace Api.Forms
             services.AddScoped<IExcelAnalitic, ExcelAnalitic>();
             
             services.AddScoped<ICheckPointGraphRepository, CheckPointGraphRepository>();
+            services.AddScoped<IBeaconDistanceHandler, BeaconDistanceAverageHandler>();
+            
             
             //register init jobs------------------------------------------------
             //services.AddSingleton<BeaconScanJob>();

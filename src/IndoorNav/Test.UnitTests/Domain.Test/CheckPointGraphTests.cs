@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using ApplicationCore.Domain.DiscreteSteps;
+using ApplicationCore.Domain.Services;
 using ApplicationCore.Shared.DataStruct;
 using Libs.Beacons.Models;
 using Xunit;
@@ -48,77 +49,77 @@ namespace Test.Beacons.Domain.Test
             var graph = new CheckPointGraph(root);
             
             
-            var route2Exitg = new List<List<InputData>>
+            var route2Exitg = new List<List<BeaconDistanceModel>>
             {
                 new()
                 {
-                    new InputData(new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 1, 1), 5),
-                    new InputData(new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 1, 2), 1.5),
-                    new InputData(new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 1, 3), 5),
+                    new BeaconDistanceModel(new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 1, 1), 5),
+                    new BeaconDistanceModel(new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 1, 2), 1.5),
+                    new BeaconDistanceModel(new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 1, 3), 5),
                 },
                 new()
                 {
-                    new InputData(new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 1, 1), 5),
-                    new InputData(new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 1, 2), 1.6),
-                    new InputData(new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 1, 3), 5),
+                    new BeaconDistanceModel(new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 1, 1), 5),
+                    new BeaconDistanceModel(new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 1, 2), 1.6),
+                    new BeaconDistanceModel(new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 1, 3), 5),
                 },
                 new()
                 {
-                    new InputData(new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 1, 1), 3),
-                    new InputData(new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 1, 2), 4),
-                    new InputData(new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 1, 3), 7),
+                    new BeaconDistanceModel(new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 1, 1), 3),
+                    new BeaconDistanceModel(new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 1, 2), 4),
+                    new BeaconDistanceModel(new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 1, 3), 7),
                 },
                 new()
                 {
-                    new InputData(new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 1, 1), 1.5),
-                    new InputData(new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 1, 2), 6),
-                    new InputData(new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 1, 3), 10),
+                    new BeaconDistanceModel(new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 1, 1), 1.5),
+                    new BeaconDistanceModel(new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 1, 2), 6),
+                    new BeaconDistanceModel(new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 1, 3), 10),
                 }
             };
             
-            var route2Kassy = new List<List<InputData>>
+            var route2Kassy = new List<List<BeaconDistanceModel>>
             {
                 new()// Обнаружили в зоне 2
                 {
-                    new InputData(new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 1, 1), 5),
-                    new InputData(new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 1, 2), 1.5),
-                    new InputData(new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 1, 3), 5),
+                    new BeaconDistanceModel(new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 1, 1), 5),
+                    new BeaconDistanceModel(new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 1, 2), 1.5),
+                    new BeaconDistanceModel(new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 1, 3), 5),
                 },
                 new()// продолжаем находится в зоне 2
                 {
-                    new InputData(new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 1, 1), 5),
-                    new InputData(new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 1, 2), 1.8),
-                    new InputData(new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 1, 3), 5),
+                    new BeaconDistanceModel(new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 1, 1), 5),
+                    new BeaconDistanceModel(new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 1, 2), 1.8),
+                    new BeaconDistanceModel(new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 1, 3), 5),
                 },
                 new() //вышли из всех зон (стали посупрать данные от зоне 5)
                 {
-                    new InputData(new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 1, 1), 8),
-                    new InputData(new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 1, 2), 4),
-                    new InputData(new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 1, 3), 7),
-                    new InputData(new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 1, 5), 5),
+                    new BeaconDistanceModel(new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 1, 1), 8),
+                    new BeaconDistanceModel(new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 1, 2), 4),
+                    new BeaconDistanceModel(new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 1, 3), 7),
+                    new BeaconDistanceModel(new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 1, 5), 5),
                 },
                 new() //вышли из всех зон (ближе к зоне 5)
                 {
-                    new InputData(new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 1, 2), 8),
-                    new InputData(new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 1, 5), 3),
+                    new BeaconDistanceModel(new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 1, 2), 8),
+                    new BeaconDistanceModel(new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 1, 5), 3),
                 },
                 new() //Пришли к зоне 5
                 {
-                    new InputData(new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 1, 2), 9),
-                    new InputData(new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 1, 5), 1.6),
+                    new BeaconDistanceModel(new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 1, 2), 9),
+                    new BeaconDistanceModel(new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 1, 5), 1.6),
                 },
                 
                 new() //Вышли из зоны 5
                 {
-                    new InputData(new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 1, 5), 9),
-                    new InputData(new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 1, 6), 3),
-                    new InputData(new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 1, 7), 10),
+                    new BeaconDistanceModel(new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 1, 5), 9),
+                    new BeaconDistanceModel(new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 1, 6), 3),
+                    new BeaconDistanceModel(new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 1, 7), 10),
                 },
                 new() // Пришли к зоне 6
                 {
-                    new InputData(new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 1, 5), 9),
-                    new InputData(new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 1, 6), 1.2),
-                    new InputData(new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 1, 7), 10),
+                    new BeaconDistanceModel(new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 1, 5), 9),
+                    new BeaconDistanceModel(new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 1, 6), 1.2),
+                    new BeaconDistanceModel(new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 1, 7), 10),
                 }
             };
                 

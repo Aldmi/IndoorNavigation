@@ -4,6 +4,7 @@ using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using ApplicationCore.Domain.DiscreteSteps;
+using ApplicationCore.Domain.Services;
 using Libs.Beacons;
 using Libs.Beacons.Models;
 using Libs.BluetoothLE;
@@ -17,6 +18,7 @@ namespace UseCase.DiscreteSteps.Managed
     {
         private readonly IBeaconRangingManager _beaconManager;
         private readonly ICheckPointGraphRepository _graphRepository;
+        private readonly IBeaconDistanceHandler _beaconDistanceHandler;
         private CheckPointGraph? _graph;
         private readonly ILogger? _logger;
         private IScheduler? _scheduler;
@@ -24,10 +26,15 @@ namespace UseCase.DiscreteSteps.Managed
         private readonly Subject<MovingDto> _lastMovingSubj = new Subject<MovingDto>();
 
 
-        public ManagedGraph(IBeaconRangingManager beaconManager, ICheckPointGraphRepository graphRepository, ILogger<ManagedGraph> logger)
+        public ManagedGraph(
+            IBeaconRangingManager beaconManager,
+            ICheckPointGraphRepository graphRepository,
+            IBeaconDistanceHandler beaconDistanceHandler,
+            ILogger<ManagedGraph> logger)
         {
             _beaconManager = beaconManager;
             _graphRepository = graphRepository;
+            _beaconDistanceHandler = beaconDistanceHandler;
             _logger = logger;
         }
         
@@ -55,7 +62,8 @@ namespace UseCase.DiscreteSteps.Managed
                 .WhenBeaconRanged(ScanningRegion, BleScanType.LowLatency)
                 .ManagedScanDiscreteStepsFlow(
                     TimeSpan.FromSeconds(1),
-                    -77, //TODO: брать из протокола.
+                    -59, //TODO: брать из протокола.
+                    _beaconDistanceHandler.Invoke,
                     _graph.CalculateMove,
                     _logger);
                 //Выдавать только первый найденный CheckPoint и затем только готовые отрезки.

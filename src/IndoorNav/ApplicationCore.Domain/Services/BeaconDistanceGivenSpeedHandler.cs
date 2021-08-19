@@ -6,12 +6,15 @@ using Libs.Beacons.Models;
 
 namespace ApplicationCore.Domain.Services
 {
-    public class DistanceHandlerService
+    /// <summary>
+    /// Обработчик ппорции Distance, учитывая текущую скорость объекта и предыдущее зангчение Distance.
+    /// </summary>
+    public class BeaconDistanceGivenSpeedHandler : IBeaconDistanceHandler
     {
         private readonly Dictionary<BeaconId, (double dist, DateTimeOffset lastSeen)> _lastDistance = new Dictionary<BeaconId, (double dist, DateTimeOffset lastSeen)>();
 
 
-        public DistanceHandlerService()
+        public BeaconDistanceGivenSpeedHandler()
         {
             
         }

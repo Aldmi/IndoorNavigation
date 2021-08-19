@@ -6,6 +6,10 @@ using System.Linq;
 
 namespace ApplicationCore.Shared.DataStruct
 {
+    /// <summary>
+    /// Дерево, не цикличный граф. Т.е. у каждого узла всегда максимум 1 родитель и может быть много детей
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class TreeNode<T>: IEquatable<TreeNode<T>>
     {
         private readonly T _value;

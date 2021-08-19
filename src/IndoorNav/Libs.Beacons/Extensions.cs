@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using Libs.Beacons.Models;
 using Microsoft.Extensions.Logging;
@@ -55,7 +56,7 @@ namespace Libs.Beacons
                 var txpower = data[22];
                 var accuracy = CalculateAccuracy(txpower, rssi);
                 var proximity = CalculateProximity(txpower, rssi);
-
+                //Debug.WriteLine(txpower);//DEBUG
                 return new Beacon(uuid, major, minor, proximity, rssi, accuracy, txpower);
             }
             throw new ArgumentException("TODO");

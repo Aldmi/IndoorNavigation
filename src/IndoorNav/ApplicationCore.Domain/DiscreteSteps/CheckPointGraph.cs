@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using ApplicationCore.Domain.Services;
 using ApplicationCore.Shared;
 using ApplicationCore.Shared.DataStruct;
 using Libs.Beacons.Models;
@@ -35,7 +36,7 @@ namespace ApplicationCore.Domain.DiscreteSteps
         /// <summary>
         /// Вычислить перемещение по узлам графа, анализируя входные данные.
         /// </summary>
-        public Moving CalculateMove(IEnumerable<InputData> inputDataList)
+        public Moving CalculateMove(IEnumerable<BeaconDistanceModel> inputDataList)
         {
             Moving moving;
             if (!CurrentNodeIsSet)
@@ -81,7 +82,7 @@ namespace ApplicationCore.Domain.DiscreteSteps
         public void Reset() =>  CurrentNode = null;
         
         
-        private TreeNode<CheckPoint>? FindFirstCurrentNode(IEnumerable<InputData> inputDataList)
+        private TreeNode<CheckPoint>? FindFirstCurrentNode(IEnumerable<BeaconDistanceModel> inputDataList)
         {
             foreach (var inputData in inputDataList)
             {
@@ -98,7 +99,7 @@ namespace ApplicationCore.Domain.DiscreteSteps
         /// </summary>
         /// <param name="inputDataList"></param>
         /// <returns></returns>
-        private TreeNode<CheckPoint>? FindAmongNeighborsOfCurrentNode(IEnumerable<InputData> inputDataList)
+        private TreeNode<CheckPoint>? FindAmongNeighborsOfCurrentNode(IEnumerable<BeaconDistanceModel> inputDataList)
         {
             foreach (var inputData in inputDataList)
             {

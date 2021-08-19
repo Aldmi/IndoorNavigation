@@ -11,7 +11,6 @@ using XF.Material.Forms;
 using beacons = Api.Forms.Pages.Beacons;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
-
 namespace Api.Forms
 {
     public partial class App 

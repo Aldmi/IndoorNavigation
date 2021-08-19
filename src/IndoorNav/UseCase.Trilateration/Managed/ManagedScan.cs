@@ -41,7 +41,7 @@ namespace UseCase.Trilateration.Managed
             _logger = logger;
             _beaconOptions = new List<BeaconOption>
             {
-                new BeaconOption(new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 65438, 43487),2,-77, new Point(1, 1)),
+                new BeaconOption(new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 65438, 43487),2,-59, new Point(1, 1)),
                 //new BeaconOption(new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 56954, 34501),2,-77, new Point(1, 1)),
                 //new BeaconOption(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 48943, 20570,2, -77,new Point(1, 1)),
                 //new BeaconOption(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 35144, 19824,2, -77,new Point(1, 1.3))
@@ -140,19 +140,19 @@ namespace UseCase.Trilateration.Managed
                 });
 
 
-            _writeAnaliticSub = observableListSphere
-                .Buffer(5)
-                .Subscribe(async spheres =>
-                {
-                    var csvHeader = SphereStatistic.CsvHeader;
-                    var csvLines = spheres
-                        .SelectMany(list =>list.Select(s=>SphereStatistic.Create(s, ExpectedRange4Analitic)))
-                        .Select(statistic => statistic.Convert2CsvFormat())
-                        .ToArray();
-                    //await _excelAnalitic.Write2CsvDoc(csvHeader, csvLines, _firstStart);
-                    _firstStart = false;
-                    Debug.WriteLine(ExpectedRange4Analitic);//DEBUG
-                });
+            // _writeAnaliticSub = observableListSphere
+            //     .Buffer(5)
+            //     .Subscribe(async spheres =>
+            //     {
+            //         var csvHeader = SphereStatistic.CsvHeader;
+            //         var csvLines = spheres
+            //             .SelectMany(list =>list.Select(s=>SphereStatistic.Create(s, ExpectedRange4Analitic)))
+            //             .Select(statistic => statistic.Convert2CsvFormat())
+            //             .ToArray();
+            //         await _excelAnalitic.Write2CsvDoc(csvHeader, csvLines, _firstStart);
+            //         _firstStart = false;
+            //         Debug.WriteLine(ExpectedRange4Analitic);//DEBUG
+            //     });
         }
 
 

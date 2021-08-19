@@ -56,7 +56,7 @@ namespace Test.Beacons.DataStructTest
         [Theory]
         [MemberData(nameof(Datas))]
         public void FindInDepthTest(string findName, int? expectedId)
-        {
+        { 
             //Arrange
             var root = new TreeNode<InData>(new InData(1,"0"));
             var k1= root.AddChild(new InData(10,"K1"));

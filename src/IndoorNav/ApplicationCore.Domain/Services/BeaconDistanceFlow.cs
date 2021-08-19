@@ -8,11 +8,12 @@ using Libs.Beacons.Models;
 
 namespace ApplicationCore.Domain.Services
 {
-    public static class BeaconDistanceModelFlow
+    public static class BeaconDistanceFlow
     {
         public static IObservable<IList<BeaconDistanceModel>> Map2BeaconDistanceModel(
             this IObservable<List<IGrouping<BeaconId, Beacon>>> sourse,
-            DistanceHandlerService handler)
+            Func<BeaconId, IEnumerable<double>, double> distanceHandler,
+            int txPower)
         {
             return sourse
                 .Select(listGr =>
@@ -21,10 +22,10 @@ namespace ApplicationCore.Domain.Services
                     {
                         var id = group.Key;
                         var rangeList = group
-                            .Select(b => Algoritms.CalculateDistance(-77, b.Rssi))
+                            .Select(b => Algoritms.CalculateDistance(txPower, b.Rssi))
                             .ToList();
 
-                        var range = handler.Invoke(id, rangeList);
+                        var range = distanceHandler(id, rangeList);
                         var model = new BeaconDistanceModel(id, range);
                         return model;
                     }).ToList();

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
 using ApplicationCore.Domain;
-using ApplicationCore.Domain.Trilateration.Flows;
 using ApplicationCore.Domain.Trilateration.Spheres;
 using Libs.Beacons.Flows;
 using Libs.Beacons.Models;
