@@ -1,11 +1,13 @@
-﻿namespace ApplicationCore.Shared.DataStruct.GraphNotOriented.DijkstraAlgoritm
+﻿using System;
+
+namespace ApplicationCore.Shared.DataStruct.GraphNotOriented.DijkstraAlgoritm
 {
     /// <summary>
     /// Информация о вершине
     /// </summary>
-    public class VertexInfo
+    public class VertexInfo<T> where T : IEquatable<T>
     {
-        public VertexInfo(Vertex vertex)
+        public VertexInfo(Vertex<T> vertex)
         {
             Vertex = vertex;
             IsUnvisited = true;
@@ -16,7 +18,7 @@
         /// <summary>
         /// Вершина
         /// </summary>
-        public Vertex Vertex { get; }
+        public Vertex<T> Vertex { get; }
 
         /// <summary>
         /// Не посещенная вершина
@@ -31,6 +33,6 @@
         /// <summary>
         /// Предыдущая вершина
         /// </summary>
-        public Vertex PreviousVertex { get; set;}
+        public Vertex<T> PreviousVertex { get; set;}
     }
 }

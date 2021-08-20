@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using ApplicationCore.Shared.DataStruct.GraphNotOriented;
 using ApplicationCore.Shared.DataStruct.GraphNotOriented.DijkstraAlgoritm;
 using Xunit;
@@ -7,9 +8,43 @@ namespace Test.Beacons.DataStructTest
 {
     public class DijkstraTest
     {
-        public Graph CreateGraph()
+        public class InData : IEquatable<InData>
         {
-            var g = new Graph();
+            public InData(int id, string name)
+            {
+                Id = id;
+                Name = name;
+            }
+            public int Id { get;}
+            public string Name { get;}
+
+            
+
+            public bool Equals(InData other)
+            {
+                if (ReferenceEquals(null, other)) return false;
+                if (ReferenceEquals(this, other)) return true;
+                return Id == other.Id && Name == other.Name;
+            }
+            
+            public override bool Equals(object obj)
+            {
+                if (ReferenceEquals(null, obj)) return false;
+                if (ReferenceEquals(this, obj)) return true;
+                if (obj.GetType() != GetType()) return false;
+                return Equals((InData) obj);
+            }
+            
+            public override int GetHashCode()
+            {
+                return HashCode.Combine(Id, Name);
+            }
+        }
+        
+        
+        public Graph<InData> CreateGraph()
+        {
+            var g = new Graph<InData>();
             
             // //добавление вершин
             // g.AddVertex("A");
@@ -37,14 +72,22 @@ namespace Test.Beacons.DataStructTest
             
             
             //добавление вершин
-            g.AddVertex("A");
-            g.AddVertex("B");
-            g.AddVertex("C");
+            var dataA = new InData(1, "A");
+            var dataB = new InData(2, "B");
+            var dataC = new InData(3, "C");
+            var dataD = new InData(4, "D");
+            
+            g.AddVertex(dataA);
+            g.AddVertex(dataB);
+            g.AddVertex(dataC);
+            g.AddVertex(dataD);
 
             
             //добавление ребер
-            g.AddEdge("A", "C", 22);
-            g.AddEdge("B", "C", 33);
+            g.AddEdge(dataA, dataC, 22);
+            g.AddEdge( dataB , dataC, 33);
+            g.AddEdge( dataC , dataD, 10);
+            g.AddEdge( dataB , dataD, 15);
             return g;
         }
         
@@ -75,10 +118,10 @@ namespace Test.Beacons.DataStructTest
         {
             //arrange
             var g = CreateGraph();
-            var dijkstra = new Dijkstra(g);
+            var dijkstra = new Dijkstra<InData>(g);
             
             //act
-            var path = dijkstra.FindShortestPath("A", "G");
+            var path = dijkstra.FindShortestPath(new InData(1, "A"), new InData(4, "D"));
             
             //assert
         }

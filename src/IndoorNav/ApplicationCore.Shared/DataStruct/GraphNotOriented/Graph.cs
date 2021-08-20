@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices;
 
 namespace ApplicationCore.Shared.DataStruct.GraphNotOriented
@@ -6,12 +8,12 @@ namespace ApplicationCore.Shared.DataStruct.GraphNotOriented
     /// <summary>
     /// Граф
     /// </summary>
-    public class Graph
+    public class Graph<T> where T : IEquatable<T>
     {
         /// <summary>
         /// Список вершин графа
         /// </summary>
-        public List<Vertex> Vertices { get; }
+        public List<Vertex<T>> Vertices { get; }
         public int VerticesCount => Vertices.Count;
         public int EdgesCount()
         {
@@ -25,45 +27,50 @@ namespace ApplicationCore.Shared.DataStruct.GraphNotOriented
         /// </summary>
         public Graph()
         {
-            Vertices = new List<Vertex>();
+            Vertices = new List<Vertex<T>>();
         }
 
         /// <summary>
         /// Добавление вершины
         /// </summary>
-        /// <param name="vertexName">Имя вершины</param>
-        public void AddVertex(string vertexName)
+        /// <param name="vertexValue">Данные</param>
+        public void AddVertex(T vertexValue)
         {
-            Vertices.Add(new Vertex(vertexName));
+            Vertices.Add(new Vertex<T>(vertexValue));
         }
 
+        
         /// <summary>
-        /// Поиск вершины
+        /// Поиск вершины по значению.
         /// </summary>
-        /// <param name="vertexName">Название вершины</param>
         /// <returns>Найденная вершина</returns>
-        public Vertex FindVertex(string vertexName)
+        public Vertex<T>? FindVertex(T value)
         {
-            foreach (var v in Vertices)
-            {
-                if (v.Name.Equals(vertexName))
-                {
-                    return v;
-                }
-            }
-            return null;
+            return FindVertex(v=> v.Value.Equals(value));
         }
-
+        
+        
+        /// <summary>
+        /// Поиск вершины.
+        /// </summary>
+        /// <param name="predicate">условия поиска вершины</param>
+        /// <returns>Найденная вершина</returns>
+        public Vertex<T>? FindVertex(Func<Vertex<T>, bool> predicate)
+        {
+            return Vertices.FirstOrDefault(predicate);
+        }
+        
+        
         /// <summary>
         /// Добавление ребра
         /// </summary>
-        /// <param name="firstName">Имя первой вершины</param>
-        /// <param name="secondName">Имя второй вершины</param>
+        /// <param name="firstValue">Имя первой вершины</param>
+        /// <param name="secondValue">Имя второй вершины</param>
         /// <param name="weight">Вес ребра соединяющего вершины</param>
-        public void AddEdge(string firstName, string secondName, int weight)
+        public void AddEdge(T firstValue, T secondValue, int weight)
         {
-            var v1 = FindVertex(firstName);
-            var v2 = FindVertex(secondName);
+            var v1 = FindVertex(vertex=>vertex.Value.Equals(firstValue));
+            var v2 = FindVertex(vertex=>vertex.Value.Equals(secondValue));
             if (v2 != null && v1 != null)
             {
                 v1.AddEdge(v2, weight);

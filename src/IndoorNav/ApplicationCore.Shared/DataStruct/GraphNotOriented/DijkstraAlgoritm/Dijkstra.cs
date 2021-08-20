@@ -1,20 +1,22 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ApplicationCore.Shared.DataStruct.GraphNotOriented.DijkstraAlgoritm
 {
     /// <summary>
     /// Алгоритм Дейкстры
     /// </summary>
-    public class Dijkstra
+    public class Dijkstra<T> where T : IEquatable<T>
     {
-        private readonly Graph _graph;
-        private List<VertexInfo> _infos;
+        private readonly Graph<T> _graph;
+        private List<VertexInfo<T>> _infos;
 
         /// <summary>
         /// Конструктор
         /// </summary>
         /// <param name="graph">Граф</param>
-        public Dijkstra(Graph graph)
+        public Dijkstra(Graph<T> graph)
         {
             _graph = graph;
         }
@@ -22,12 +24,12 @@ namespace ApplicationCore.Shared.DataStruct.GraphNotOriented.DijkstraAlgoritm
         /// <summary>
         /// Инициализация информации
         /// </summary>
-        void InitInfo()
+        private void InitInfo()
         {
-            _infos = new List<VertexInfo>();
+            _infos = new List<VertexInfo<T>>();
             foreach (var v in _graph.Vertices)
             {
-                _infos.Add(new VertexInfo(v));
+                _infos.Add(new VertexInfo<T>(v));
             }
         }
 
@@ -36,27 +38,18 @@ namespace ApplicationCore.Shared.DataStruct.GraphNotOriented.DijkstraAlgoritm
         /// </summary>
         /// <param name="v">Вершина</param>
         /// <returns>Информация о вершине</returns>
-        VertexInfo? GetVertexInfo(Vertex v)
-        {
-            foreach (var i in _infos)
-            {
-                if (i.Vertex.Equals(v))
-                {
-                    return i;
-                }
-            }
+        VertexInfo<T>? GetVertexInfo(Vertex<T> v) => 
+            _infos.FirstOrDefault(i => i.Vertex.Equals(v));
 
-            return null;
-        }
 
         /// <summary>
         /// Поиск непосещенной вершины с минимальным значением суммы
         /// </summary>
         /// <returns>Информация о вершине</returns>
-        public VertexInfo? FindUnvisitedVertexWithMinSum()
+        public VertexInfo<T>? FindUnvisitedVertexWithMinSum()
         {
             var minValue = int.MaxValue;
-            VertexInfo minVertexInfo = null;
+            VertexInfo<T> minVertexInfo = null;
             foreach (var i in _infos)
             {
                 if (i.IsUnvisited && i.EdgesWeightSum < minValue)
@@ -65,19 +58,18 @@ namespace ApplicationCore.Shared.DataStruct.GraphNotOriented.DijkstraAlgoritm
                     minValue = i.EdgesWeightSum;
                 }
             }
-
             return minVertexInfo;
         }
 
         /// <summary>
-        /// Поиск кратчайшего пути по названиям вершин
+        /// Поиск кратчайшего пути по данным вершин
         /// </summary>
-        /// <param name="startName">Название стартовой вершины</param>
-        /// <param name="finishName">Название финишной вершины</param>
+        /// <param name="startValue">данные стартовой вершины</param>
+        /// <param name="finishValue">данные финишной вершины</param>
         /// <returns>Кратчайший путь</returns>
-        public string FindShortestPath(string startName, string finishName)
+        public IEnumerable<Vertex<T>> FindShortestPath(T startValue, T finishValue)
         {
-            return FindShortestPath(_graph.FindVertex(startName), _graph.FindVertex(finishName));
+            return FindShortestPath(_graph.FindVertex(startValue), _graph.FindVertex(finishValue));
         }
 
         /// <summary>
@@ -86,7 +78,7 @@ namespace ApplicationCore.Shared.DataStruct.GraphNotOriented.DijkstraAlgoritm
         /// <param name="startVertex">Стартовая вершина</param>
         /// <param name="finishVertex">Финишная вершина</param>
         /// <returns>Кратчайший путь</returns>
-        public string FindShortestPath(Vertex startVertex, Vertex finishVertex)
+        public IEnumerable<Vertex<T>> FindShortestPath(Vertex<T>? startVertex, Vertex<T>? finishVertex)
         {
             InitInfo();
             var first = GetVertexInfo(startVertex);
@@ -98,10 +90,8 @@ namespace ApplicationCore.Shared.DataStruct.GraphNotOriented.DijkstraAlgoritm
                 {
                     break;
                 }
-
                 SetSumToNextVertex(current);
             }
-
             return GetPath(startVertex, finishVertex);
         }
 
@@ -109,7 +99,7 @@ namespace ApplicationCore.Shared.DataStruct.GraphNotOriented.DijkstraAlgoritm
         /// Вычисление суммы весов ребер для следующей вершины
         /// </summary>
         /// <param name="info">Информация о текущей вершине</param>
-        void SetSumToNextVertex(VertexInfo info)
+        void SetSumToNextVertex(VertexInfo<T> info)
         {
             info.IsUnvisited = false;
             foreach (var e in info.Vertex.Edges)
@@ -130,16 +120,18 @@ namespace ApplicationCore.Shared.DataStruct.GraphNotOriented.DijkstraAlgoritm
         /// <param name="startVertex">Начальная вершина</param>
         /// <param name="endVertex">Конечная вершина</param>
         /// <returns>Путь</returns>
-        string GetPath(Vertex startVertex, Vertex endVertex)
+        private IEnumerable<Vertex<T>> GetPath(Vertex<T> startVertex, Vertex<T> endVertex)
         {
-            var path = endVertex.ToString();
+            List<Vertex<T>> invertPath = new List<Vertex<T>>();
+            invertPath.Add(endVertex);
             while (startVertex != endVertex)
             {
                 endVertex = GetVertexInfo(endVertex).PreviousVertex;
-                path = endVertex.ToString() + path;
+                invertPath.Add(endVertex);
             }
 
-            return path;
+            invertPath.Reverse();
+            return invertPath;
         }
     }
 }
