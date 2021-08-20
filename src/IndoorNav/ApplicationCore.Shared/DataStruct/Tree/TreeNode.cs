@@ -1,16 +1,14 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
-namespace ApplicationCore.Shared.DataStruct
+namespace ApplicationCore.Shared.DataStruct.Tree
 {
     /// <summary>
     /// Дерево, не цикличный граф. Т.е. у каждого узла всегда максимум 1 родитель и может быть много детей
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    public class TreeNode<T>: IEquatable<TreeNode<T>>
+    public class TreeNode<T> : IEquatable<TreeNode<T>>
     {
         private readonly T _value;
         private readonly List<TreeNode<T>> _children = new List<TreeNode<T>>();

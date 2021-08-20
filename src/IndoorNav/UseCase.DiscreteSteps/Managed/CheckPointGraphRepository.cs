@@ -1,6 +1,7 @@
 ﻿using System;
 using ApplicationCore.Domain.DiscreteSteps;
 using ApplicationCore.Shared.DataStruct;
+using ApplicationCore.Shared.DataStruct.Tree;
 using Libs.Beacons.Models;
 
 namespace UseCase.DiscreteSteps.Managed

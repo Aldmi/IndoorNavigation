@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using ApplicationCore.Shared.DataStruct;
+using ApplicationCore.Shared.DataStruct.Tree;
 using FluentAssertions;
 using Xunit;
 

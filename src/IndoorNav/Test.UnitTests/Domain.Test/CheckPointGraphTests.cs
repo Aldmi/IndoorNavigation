@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using ApplicationCore.Domain.DiscreteSteps;
 using ApplicationCore.Domain.Services;
 using ApplicationCore.Shared.DataStruct;
+using ApplicationCore.Shared.DataStruct.Tree;
 using Libs.Beacons.Models;
 using Xunit;
 

@@ -4,6 +4,7 @@ using System.Linq;
 using ApplicationCore.Domain.Services;
 using ApplicationCore.Shared;
 using ApplicationCore.Shared.DataStruct;
+using ApplicationCore.Shared.DataStruct.Tree;
 using Libs.Beacons.Models;
 
 namespace ApplicationCore.Domain.DiscreteSteps
