@@ -10,21 +10,21 @@ using Libs.Beacons.Models;
 namespace ApplicationCore.Domain.DiscreteSteps
 {
     /// <summary>
-    /// Граф контрольных точек
+    /// Дерево контрольных точек
     /// </summary>
-    public class CheckPointGraph
+    public class CheckPointTree
     {
         /// <summary>
-        /// Начала графа.
+        /// Начало дерева.
         /// </summary>
         private readonly TreeNode<CheckPoint> _root;
-        public CheckPointGraph(TreeNode<CheckPoint> root)
+        public CheckPointTree(TreeNode<CheckPoint> root)
         {
             _root = root;
         }
         
         /// <summary>
-        /// Узел графа в котором мы находимся
+        /// Узел дерева в котором мы находимся
         /// </summary>
         public TreeNode<CheckPoint>? CurrentNode { get; private set; }
         public bool CurrentNodeIsSet => CurrentNode != null;
@@ -80,7 +80,7 @@ namespace ApplicationCore.Domain.DiscreteSteps
         /// <summary>
         /// Сбросить текщее положение в графе.
         /// </summary>
-        public void Reset() =>  CurrentNode = null;
+        public void Reset() => CurrentNode = null;
         
         
         private TreeNode<CheckPoint>? FindFirstCurrentNode(IEnumerable<BeaconDistanceModel> inputDataList)
@@ -110,9 +110,5 @@ namespace ApplicationCore.Domain.DiscreteSteps
             }
             return null;
         }
-
-        
-
-   
     }
 }

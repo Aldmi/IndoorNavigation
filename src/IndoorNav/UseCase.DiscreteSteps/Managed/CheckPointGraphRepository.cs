@@ -50,7 +50,7 @@ namespace UseCase.DiscreteSteps.Managed
         // }
         
         
-        public CheckPointGraph GetGraph()
+        public CheckPointTree GetGraph()
         {
             var root = new TreeNode<CheckPoint>(new CheckPoint(
                 new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 65438, 43487),
@@ -71,7 +71,7 @@ namespace UseCase.DiscreteSteps.Managed
                 new CheckPointDescription("Кв.'98'", "Конец коридора Кв '98'"),
                 new CoverageArea(1.3)));
             
-            var graph = new CheckPointGraph(root);
+            var graph = new CheckPointTree(root);
             return graph;
         }
     }

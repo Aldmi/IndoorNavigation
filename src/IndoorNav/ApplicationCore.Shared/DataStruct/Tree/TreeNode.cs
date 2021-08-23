@@ -135,6 +135,5 @@ namespace ApplicationCore.Shared.DataStruct.Tree
             return HashCode.Combine(_value, _children, Parent);
         }
         #endregion
-
     }
 }

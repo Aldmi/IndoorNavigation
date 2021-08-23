@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Linq;
 using ApplicationCore.Shared.DataStruct.GraphNotOriented;
 using ApplicationCore.Shared.DataStruct.GraphNotOriented.DijkstraAlgoritm;
+using FluentAssertions;
 using Xunit;
 
 namespace Test.Beacons.DataStructTest
@@ -86,7 +88,7 @@ namespace Test.Beacons.DataStructTest
             //добавление ребер
             g.AddEdge(dataA, dataC, 22);
             g.AddEdge( dataB , dataC, 33);
-            g.AddEdge( dataC , dataD, 10);
+            g.AddEdge( dataC , dataD, 100);
             g.AddEdge( dataB , dataD, 15);
             return g;
         }
@@ -121,9 +123,14 @@ namespace Test.Beacons.DataStructTest
             var dijkstra = new Dijkstra<InData>(g);
             
             //act
-            var path = dijkstra.FindShortestPath(new InData(1, "A"), new InData(4, "D"));
+            var path = dijkstra.FindShortestPath(new InData(1, "A"), new InData(4, "D")).ToList();
             
             //assert
+            //ACBD
+            path[0].Value.Name.Should().Be("A");
+            path[1].Value.Name.Should().Be("C");
+            path[2].Value.Name.Should().Be("B");
+            path[3].Value.Name.Should().Be("D");
         }
     }
 }

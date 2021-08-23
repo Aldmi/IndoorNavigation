@@ -1,13 +1,14 @@
-﻿using ApplicationCore.Domain.Services;
+﻿using System;
+using ApplicationCore.Domain.Services;
 using ApplicationCore.Shared;
 using Libs.Beacons.Models;
 
 namespace ApplicationCore.Domain.DiscreteSteps
 {
     /// <summary>
-    /// Узел графа.
+    /// контрольная точка
     /// </summary>
-    public class CheckPoint
+    public class CheckPoint : IEquatable<CheckPoint>
     {
         public CheckPointDescription Description { get; }
         public BeaconId BeaconId { get; }
@@ -35,6 +36,16 @@ namespace ApplicationCore.Domain.DiscreteSteps
             return inputData.BeaconId == BeaconId ?
                 Area.GetZone(inputData.Distance) :
                 Zone.Unknown;
+        }
+
+        
+        public bool Equals(CheckPoint other)
+        {
+            return BeaconId.Equals(other.BeaconId);
+        }
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Description, BeaconId, Area);
         }
     }
 }

@@ -19,7 +19,7 @@ namespace UseCase.DiscreteSteps.Managed
         private readonly IBeaconRangingManager _beaconManager;
         private readonly ICheckPointGraphRepository _graphRepository;
         private readonly IBeaconDistanceHandler _beaconDistanceHandler;
-        private CheckPointGraph? _graph;
+        private CheckPointTree? _graph;
         private readonly ILogger? _logger;
         private IScheduler? _scheduler;
         private IDisposable? _scanSub;

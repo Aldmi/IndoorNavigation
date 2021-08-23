@@ -39,6 +39,16 @@ namespace ApplicationCore.Shared.DataStruct.GraphNotOriented
             Vertices.Add(new Vertex<T>(vertexValue));
         }
 
+
+        /// <summary>
+        /// Добавление вершины
+        /// </summary>
+        /// <param name="listValues">список Данных</param>
+        public void AddVertexList(IEnumerable<T> listValues)
+        {
+            Vertices.AddRange(listValues.Select(vertexValue=> new Vertex<T>(vertexValue)));
+        }
+
         
         /// <summary>
         /// Поиск вершины по значению.
@@ -58,6 +68,23 @@ namespace ApplicationCore.Shared.DataStruct.GraphNotOriented
         public Vertex<T>? FindVertex(Func<Vertex<T>, bool> predicate)
         {
             return Vertices.FirstOrDefault(predicate);
+        }
+
+
+        /// <summary>
+        /// Поиск вершины только среди сязанных ребром вершин (поиск соседей).
+        /// Начинаем поиск с переданной вершины.
+        /// </summary>
+        /// <param name="vertex"></param>
+        /// <param name="predicate">условия поиска вершины</param>
+        /// <returns>Найденная вершина</returns>
+        public Vertex<T>? FindVertexAmongNeighbors(Vertex<T> vertex, Func<Vertex<T>, bool> predicate)
+        {
+            if (predicate(vertex))
+                return vertex;
+            
+            var neighborsVertexs = vertex!.Edges.Select(edge => edge.ConnectedVertex);
+            return neighborsVertexs.FirstOrDefault(predicate);
         }
         
         

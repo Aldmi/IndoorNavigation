@@ -9,7 +9,7 @@ using Xunit;
 
 namespace Test.Beacons.Domain.Test
 {
-    public class CheckPointGraphTests
+    public class CheckPointTreeTests
     {
         [Fact]
         public void CalculateMoveTest()
@@ -47,7 +47,7 @@ namespace Test.Beacons.Domain.Test
                 new CheckPointDescription("Столовая", "Столовая"),
                 new CoverageArea(2)));
             
-            var graph = new CheckPointGraph(root);
+            var tree = new CheckPointTree(root);
             
             
             var route2Exitg = new List<List<BeaconDistanceModel>>
@@ -137,19 +137,19 @@ namespace Test.Beacons.Domain.Test
             
             
             // Встали на "Коридор 1"
-            var res1 = graph.CalculateMove(route2Kassy[0]);
+            var res1 = tree.CalculateMove(route2Kassy[0]);
             // 
-            var res2 = graph.CalculateMove(route2Kassy[1]);
+            var res2 = tree.CalculateMove(route2Kassy[1]);
             // 
-            var res3 = graph.CalculateMove(route2Kassy[2]);
+            var res3 = tree.CalculateMove(route2Kassy[2]);
             //
-            var res4 = graph.CalculateMove(route2Kassy[3]);
+            var res4 = tree.CalculateMove(route2Kassy[3]);
             //
-            var res5 = graph.CalculateMove(route2Kassy[4]);
+            var res5 = tree.CalculateMove(route2Kassy[4]);
             // 
-            var res6 = graph.CalculateMove(route2Kassy[5]);
+            var res6 = tree.CalculateMove(route2Kassy[5]);
             // 
-            var res7 = graph.CalculateMove(route2Kassy[6]);
+            var res7 = tree.CalculateMove(route2Kassy[6]);
 
             
        
