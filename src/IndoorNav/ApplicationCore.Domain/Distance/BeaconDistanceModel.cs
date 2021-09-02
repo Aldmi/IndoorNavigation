@@ -1,7 +1,7 @@
 ﻿using System;
 using Libs.Beacons.Models;
 
-namespace ApplicationCore.Domain.Services
+namespace ApplicationCore.Domain.Distance
 {
     /// <summary>
     /// Данные от Beacon, обработанные и пмреобразованнные к модели расстояния. 

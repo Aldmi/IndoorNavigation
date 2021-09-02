@@ -37,19 +37,13 @@ namespace Api.Forms.Pages.Graph
           _graphScanner.LastMoving
             .Select(lastMoving => lastMoving.ToString())
               .ToPropertyEx(this, x => x.LastMovingStr);
-          
-
-
-
         }
 
         public ObservableCollection<MovingDto> Movings => _graphScanner.Movings;
         public ICommand ScanToggle { get; }
         [Reactive] public string ScanText { get; private set; } = "Scan";
         public string LastMovingStr { [ObservableAsProperty] get; }
-        
-       // [Reactive] public string LastMovingStr { get; private set; }
-       
+
         
         public void StartScan()
         {

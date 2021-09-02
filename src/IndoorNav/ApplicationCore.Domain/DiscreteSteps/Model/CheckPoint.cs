@@ -1,9 +1,9 @@
 ﻿using System;
-using ApplicationCore.Domain.Services;
+using ApplicationCore.Domain.Distance;
 using ApplicationCore.Shared;
 using Libs.Beacons.Models;
 
-namespace ApplicationCore.Domain.DiscreteSteps
+namespace ApplicationCore.Domain.DiscreteSteps.Model
 {
     /// <summary>
     /// контрольная точка
@@ -37,7 +37,6 @@ namespace ApplicationCore.Domain.DiscreteSteps
                 Area.GetZone(inputData.Distance) :
                 Zone.Unknown;
         }
-
         
         public bool Equals(CheckPoint other)
         {
@@ -47,5 +46,7 @@ namespace ApplicationCore.Domain.DiscreteSteps
         {
             return HashCode.Combine(Description, BeaconId, Area);
         }
+        
+        public override string ToString() => $"{BeaconId.StrMajorMinor} {Description.Name} {Area}";
     }
 }

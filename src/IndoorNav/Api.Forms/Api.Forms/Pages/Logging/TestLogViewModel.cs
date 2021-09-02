@@ -41,6 +41,7 @@ namespace Api.Forms.Pages.Logging
                                 //await _excelAnalitic.SaveFile("test.txt", ms);
 
                                 await _excelAnalitic.Write2CsvDoc(
+                                    "TrilaterationAnalitic.txt",
                                     "Id;Rssi;Distance;",
                                     new[] {
                                         "111;-77;12,5;",

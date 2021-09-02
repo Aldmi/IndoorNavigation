@@ -1,6 +1,6 @@
 ﻿using ApplicationCore.Shared;
 
-namespace ApplicationCore.Domain.DiscreteSteps
+namespace ApplicationCore.Domain.DiscreteSteps.Model
 {
     /// <summary>
     /// Зона охвата маяка

@@ -5,13 +5,13 @@ using Libs.Beacons.Models;
 
 namespace ApplicationCore.Domain.Trilateration.Spheres
 {
-    public class SphereStatistic
+    public class SphereCsvStatistic
     {
         private const string Separator = ";";
         //public static readonly string CsvHeader = $"{nameof(BeaconId)}{Separator}{nameof(LastSeen)}{Separator}{nameof(Center)}{Separator}{nameof(RangeList)}{Separator}{nameof(Radius)}{Separator}{nameof(ExpectedRadius)}";
         public static readonly string CsvHeader = $"{nameof(BeaconId)}{Separator}{nameof(LastSeen)}{Separator}{nameof(Center)}{Separator}CountSignal{Separator}{nameof(Radius)}{Separator}{nameof(ExpectedRadius)}";
 
-        private SphereStatistic(BeaconId beaconId, Point center, IReadOnlyList<RangeBle> rangeList, double radius, DateTimeOffset lastSeen, int expectedRadius)
+        private SphereCsvStatistic(BeaconId beaconId, Point center, IReadOnlyList<RangeBle> rangeList, double radius, DateTimeOffset lastSeen, int expectedRadius)
         {
             BeaconId = beaconId;
             Center = center;
@@ -29,9 +29,9 @@ namespace ApplicationCore.Domain.Trilateration.Spheres
         public int ExpectedRadius{ get; }
 
 
-        public static SphereStatistic Create(Sphere sphere, int expectedRadius)
+        public static SphereCsvStatistic Create(Sphere sphere, int expectedRadius)
         {
-            return new SphereStatistic(sphere.BeaconId, sphere.Center, sphere.RangeList, sphere.Radius, sphere.LastSeen, expectedRadius);
+            return new SphereCsvStatistic(sphere.BeaconId, sphere.Center, sphere.RangeList, sphere.Radius, sphere.LastSeen, expectedRadius);
         }
 
         // public string Convert2CsvFormat()

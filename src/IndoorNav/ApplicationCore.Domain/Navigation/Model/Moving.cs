@@ -1,7 +1,11 @@
 ﻿using System;
+using ApplicationCore.Domain.DiscreteSteps.Model;
 
-namespace ApplicationCore.Domain.DiscreteSteps
+namespace ApplicationCore.Domain.Navigation.Model
 {
+    /// <summary>
+    /// Объект перемещения их CheckPoint start в CheckPoint end.
+    /// </summary>
     public class Moving
     {
         private Moving(CheckPoint? start, CheckPoint? end, MovingEvent movingEvent)
@@ -9,18 +13,20 @@ namespace ApplicationCore.Domain.DiscreteSteps
             Start = start;
             End = end;
             MovingEvent = movingEvent;
+            LastSeen= DateTimeOffset.UtcNow;
         }
 
         public CheckPoint? Start { get; }
         public CheckPoint? End { get; }
         public MovingEvent MovingEvent { get; }
+        public DateTimeOffset LastSeen { get; }
 
 
 
         public static Moving UnknownSegment() => new Moving(null, null, MovingEvent.Unknown);
         public static Moving InitSegment(CheckPoint start) => new Moving(start, null, MovingEvent.InitSegment);
         public static Moving StartSegment(CheckPoint start) => new Moving(start, null, MovingEvent.StartSegment);
-        public static Moving GoToEnd(CheckPoint start) => new Moving(start, null, MovingEvent.GoToEnd);
+        public static Moving GoToEnd(CheckPoint start) => new Moving(start, null, MovingEvent.GoTo);
         public static Moving CompleteSegment(CheckPoint start, CheckPoint end) => new Moving(start, end, MovingEvent.CompleteSegment);
 
 
@@ -31,7 +37,7 @@ namespace ApplicationCore.Domain.DiscreteSteps
                 MovingEvent.Unknown => $"Unknown",
                 MovingEvent.InitSegment => $"InitSegment: '{Start.Description.Name}'",
                 MovingEvent.StartSegment => $"StartSegment: '{Start.Description.Name}'",
-                MovingEvent.GoToEnd => $"GoToEnd: '{Start.Description.Name}'- ...",
+                MovingEvent.GoTo => $"GoTo: '{Start.Description.Name}'- ...",
                 MovingEvent.CompleteSegment => $"CompleteSegment: '{Start.Description.Name} - {End.Description.Name}'",
                 _ => throw new ArgumentOutOfRangeException()
             };
@@ -43,7 +49,7 @@ namespace ApplicationCore.Domain.DiscreteSteps
         Unknown,
         InitSegment,
         StartSegment,
-        GoToEnd,
+        GoTo,
         CompleteSegment 
     }
 }

@@ -7,8 +7,8 @@ namespace Libs.Excel
 {
     public interface IExcelAnalitic
     {
-        Task SaveFile(string fileName, MemoryStream stream);
+       // Task SaveFile(string fileName, MemoryStream stream);
 
-        Task Write2CsvDoc(string header, string[] csvLines, bool reWriteFile);
+        Task Write2CsvDoc(string fileName, string header, string[] csvLines, bool reWriteFile);
     }
 }

@@ -38,5 +38,6 @@ namespace Libs.Beacons.Models
         //public override int GetHashCode20()=> HashCode.Combine(Uuid, Major, Minor); //TODO: не рабоатет в тестах
         
         public override string ToString() => $"{Uuid}. {Major}/{Minor}";
+        public string StrMajorMinor => $"{Major}/{Minor}";
     }
 }

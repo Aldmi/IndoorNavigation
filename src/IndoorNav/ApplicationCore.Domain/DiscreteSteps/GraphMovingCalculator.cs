@@ -1,18 +1,22 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using ApplicationCore.Domain.Services;
+﻿using System;
+using System.Collections.Generic;using System.Linq;
+using ApplicationCore.Domain.DiscreteSteps.Model;
+using ApplicationCore.Domain.Distance;
+using ApplicationCore.Domain.Navigation;
+using ApplicationCore.Domain.Navigation.Model;
 using ApplicationCore.Shared;
 using ApplicationCore.Shared.DataStruct.GraphNotOriented;
+using Libs.Beacons.Models;
 
 namespace ApplicationCore.Domain.DiscreteSteps
 {
     /// <summary>
     /// Сервис для работы с не направленным графом контрольных точек.
     /// </summary>
-    public class CheckPointGraphService
+    public class GraphMovingCalculator : IMovingCalculator
     {
         private readonly Graph<CheckPoint> _graph;
-        public CheckPointGraphService(Graph<CheckPoint> graph)
+        public GraphMovingCalculator(Graph<CheckPoint> graph)
         {
             _graph = graph;
         }
@@ -22,6 +26,7 @@ namespace ApplicationCore.Domain.DiscreteSteps
         /// </summary>
         public Vertex<CheckPoint>? CurrentVertex { get; private set; }
         public bool CurrentVertexIsSet => CurrentVertex != null;
+        public Guid SharedUuid => _graph.Vertices[0].Value.BeaconId.Uuid;
         
         
         /// <summary>
@@ -63,6 +68,8 @@ namespace ApplicationCore.Domain.DiscreteSteps
                     moving = Moving.GoToEnd(CurrentVertex!.Value);                              //Начали движение от стартового сегмента.
                 }
             }
+            
+            //moving = Moving.CompleteSegment(CurrentVertex!.Value, CurrentVertex!.Value);    //Debug
             return moving;
         }
         

@@ -34,7 +34,10 @@ namespace UseCase.Trilateration.Managed
         private readonly SphereFactory _sphereFactory;
         
         
-        public ManagedScan(IBeaconRangingManager beaconManager, IExcelAnalitic excelAnalitic, ILogger<ManagedScan> logger)
+        public ManagedScan(
+            IBeaconRangingManager beaconManager,
+            IExcelAnalitic excelAnalitic,
+            ILogger<ManagedScan> logger)
         {
             _beaconManager = beaconManager;
             _excelAnalitic = excelAnalitic;
@@ -42,9 +45,9 @@ namespace UseCase.Trilateration.Managed
             _beaconOptions = new List<BeaconOption>
             {
                 new BeaconOption(new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 65438, 43487),2,-59, new Point(1, 1)),
-                //new BeaconOption(new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 56954, 34501),2,-77, new Point(1, 1)),
-                //new BeaconOption(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 48943, 20570,2, -77,new Point(1, 1)),
-                //new BeaconOption(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 35144, 19824,2, -77,new Point(1, 1.3))
+                new BeaconOption(new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 56954, 34501),2,-59, new Point(1, 1)),
+                new BeaconOption(new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 35144, 19824),2,-59, new Point(1, 1)),
+               // new BeaconOption(new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 48943, 20570),2,-77, new Point(1, 1)),
             };
             _sphereFactory = new SphereFactory(Algoritms.CalculateDistance, _beaconOptions); // TODO: Можно зарегистрировать в DI
         }
@@ -101,17 +104,11 @@ namespace UseCase.Trilateration.Managed
 
             var observableListSphere = _beaconManager
                 .WhenBeaconRanged(scanRegion, BleScanType.LowLatency)
-                .ManagedScanFlow(whiteListBeaconsId, TimeSpan.FromSeconds(1), _sphereFactory);
+                .ManagedScanFlow(whiteListBeaconsId, TimeSpan.FromSeconds(1), _sphereFactory)
+                .Publish()
+                .RefCount();
             
             _scanSub = observableListSphere
-                //Аналитика
-                // .Do(async spheres =>
-                // {
-                //     var csvHeader = SphereStatistic.CsvHeader;
-                //     var csvLines = spheres.Select(SphereStatistic.Create).Select(statistic => statistic.Convert2CsvFormat()).ToArray();
-                //     await _excelAnalitic.Write2CsvDoc(csvHeader, csvLines, _firstStart);
-                //     _firstStart = false;
-                // })
                 //Обработка
                 .ObserveOnIf(_scheduler)
                 .Synchronize(Spheres)
@@ -144,12 +141,12 @@ namespace UseCase.Trilateration.Managed
             //     .Buffer(5)
             //     .Subscribe(async spheres =>
             //     {
-            //         var csvHeader = SphereStatistic.CsvHeader;
+            //         var csvHeader = SphereCsvStatistic.CsvHeader;
             //         var csvLines = spheres
-            //             .SelectMany(list =>list.Select(s=>SphereStatistic.Create(s, ExpectedRange4Analitic)))
+            //             .SelectMany(list =>list.Select(s=>SphereCsvStatistic.Create(s, ExpectedRange4Analitic)))
             //             .Select(statistic => statistic.Convert2CsvFormat())
             //             .ToArray();
-            //         await _excelAnalitic.Write2CsvDoc(csvHeader, csvLines, _firstStart);
+            //         await _excelAnalitic.Write2CsvDoc("TrilaterationAnalitic.txt", csvHeader, csvLines, _firstStart);
             //         _firstStart = false;
             //         Debug.WriteLine(ExpectedRange4Analitic);//DEBUG
             //     });

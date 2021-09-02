@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using ApplicationCore.Domain.DiscreteSteps;
-using ApplicationCore.Domain.Services;
+using ApplicationCore.Domain.DiscreteSteps.Model;
+using ApplicationCore.Domain.Distance;
 using ApplicationCore.Shared.DataStruct.GraphNotOriented;
 using Libs.Beacons.Models;
 

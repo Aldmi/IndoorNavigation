@@ -1,5 +1,8 @@
 ﻿using System;
 using ApplicationCore.Domain.DiscreteSteps;
+using ApplicationCore.Domain.DiscreteSteps.Model;
+using ApplicationCore.Domain.Navigation;
+using ApplicationCore.Domain.Navigation.Model;
 
 namespace UseCase.DiscreteSteps.Managed
 {
@@ -26,7 +29,7 @@ namespace UseCase.DiscreteSteps.Managed
                 MovingEvent.Unknown => $"Unknown",
                 MovingEvent.InitSegment => $"Init: '{Start.Description.Name}'",
                 MovingEvent.StartSegment => $"Start: '{Start.Description.Name}'",
-                MovingEvent.GoToEnd => $"GoToEnd: '{Start.Description.Name}'- ...",
+                MovingEvent.GoTo => $"GoToEnd: '{Start.Description.Name}'- ...",
                 MovingEvent.CompleteSegment => $"Complete: '{Start.Description.Name} - {End.Description.Name}'",
                 _ => throw new ArgumentOutOfRangeException()
             };

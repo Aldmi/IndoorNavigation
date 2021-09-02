@@ -15,18 +15,18 @@ namespace Libs.Excel
         {
             
         }
-        
+
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="fileName"></param>
         /// <param name="header"></param>
         /// <param name="csvLines"></param>
         /// <param name="reWriteFile"></param>
         /// <returns></returns>
         /// <exception cref="AccessControlException"></exception>
-        public async Task Write2CsvDoc(string header, string[] csvLines, bool reWriteFile)
+        public async Task Write2CsvDoc(string fileName, string header, string[] csvLines, bool reWriteFile)
         {
-            var fileName = "TrilaterationAnalitic.txt";
             if (!Android.OS.Environment.IsExternalStorageEmulated)
             {
                 throw new AccessControlException("Доступ к внешнему хранилищу '/storage/emulated/0' Запрещен");

@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Reactive.Linq;
 using ApplicationCore.Domain;
 using ApplicationCore.Domain.DiscreteSteps;
-using ApplicationCore.Domain.Services;
+using ApplicationCore.Domain.DiscreteSteps.Model;
+using ApplicationCore.Domain.Distance;
+using ApplicationCore.Domain.Navigation;
+using ApplicationCore.Domain.Navigation.Model;
 using ApplicationCore.Domain.Trilateration.Spheres;
 using Libs.Beacons.Flows;
 using Libs.Beacons.Models;
@@ -38,7 +41,7 @@ namespace UseCase.DiscreteSteps.Flow
                 //Упорядочить по Distance
                 .OrderByDescendingForDistance()
                 //Определить перемещение в графе движения, используя функцию calculateMove.
-                .Select(listInData=> calculateMove(listInData));
+                .Select(listDistance=> calculateMove(listDistance));
         }
     }
 }

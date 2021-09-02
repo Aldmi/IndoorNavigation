@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Libs.Beacons.Models;
 
-namespace ApplicationCore.Domain.Services
+namespace ApplicationCore.Domain.Distance.Handlers
 {
     public interface IBeaconDistanceHandler
     {

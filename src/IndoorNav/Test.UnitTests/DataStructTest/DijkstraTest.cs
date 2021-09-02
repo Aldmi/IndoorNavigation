@@ -112,6 +112,14 @@ namespace Test.Beacons.DataStructTest
                 }
                 Debug.WriteLine("");
             }
+            
+/*
+             	A  B  C  D 
+            A	00 00 22 00 
+            B	00 00 33 15 
+            C	22 33 00 100 
+            D	00 15 100 00 
+ */
         }
         
         

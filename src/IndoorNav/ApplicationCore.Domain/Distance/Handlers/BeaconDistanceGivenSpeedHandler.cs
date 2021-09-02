@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using Libs.Beacons.Models;
 
-namespace ApplicationCore.Domain.Services
+namespace ApplicationCore.Domain.Distance.Handlers
 {
     /// <summary>
     /// Обработчик ппорции Distance, учитывая текущую скорость объекта и предыдущее зангчение Distance.

@@ -2,7 +2,7 @@
 using System.Linq;
 using Libs.Beacons.Models;
 
-namespace ApplicationCore.Domain.Services
+namespace ApplicationCore.Domain.Distance.Handlers
 {
     public class BeaconDistanceAverageHandler: IBeaconDistanceHandler
     {
