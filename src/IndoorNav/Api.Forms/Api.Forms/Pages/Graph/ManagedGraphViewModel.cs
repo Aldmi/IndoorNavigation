@@ -3,7 +3,6 @@ using System.Collections.ObjectModel;
 using System.Reactive.Linq;
 using System.Windows.Input;
 using Api.Forms.Infrastructure;
-using ApplicationCore.Domain.DiscreteSteps;
 using Prism.Navigation;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;

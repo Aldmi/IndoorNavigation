@@ -1,5 +1,4 @@
-﻿using ApplicationCore.Domain.DiscreteSteps;
-using ApplicationCore.Domain.DiscreteSteps.Model;
+﻿using ApplicationCore.Domain.MovingService.DiscreteSteps.Model;
 using ApplicationCore.Shared.DataStruct.GraphNotOriented;
 
 namespace UseCase.DiscreteSteps.Managed

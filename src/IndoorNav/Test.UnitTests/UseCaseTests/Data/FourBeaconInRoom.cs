@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Reactive.Linq;
 using ApplicationCore.Domain;
+using ApplicationCore.Domain.MovingService.Trilateration.Spheres;
 using ApplicationCore.Domain.Options;
-using ApplicationCore.Domain.Trilateration.Spheres;
 using ApplicationCore.Shared;
 using Libs.Beacons;
 using Libs.Beacons.Models;

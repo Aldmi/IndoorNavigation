@@ -2,12 +2,8 @@
 using System.Collections.Generic;
 using System.Reactive.Linq;
 using ApplicationCore.Domain;
-using ApplicationCore.Domain.DiscreteSteps;
-using ApplicationCore.Domain.DiscreteSteps.Model;
-using ApplicationCore.Domain.Distance;
-using ApplicationCore.Domain.Navigation;
-using ApplicationCore.Domain.Navigation.Model;
-using ApplicationCore.Domain.Trilateration.Spheres;
+using ApplicationCore.Domain.DistanceService;
+using ApplicationCore.Domain.MovingService;
 using Libs.Beacons.Flows;
 using Libs.Beacons.Models;
 using Microsoft.Extensions.Logging;
@@ -30,7 +26,7 @@ namespace UseCase.DiscreteSteps.Flow
             TimeSpan bufferTime,
             int txPower,
             Func<BeaconId, IEnumerable<double>, double> distanceHandler,
-            Func<IEnumerable<BeaconDistanceModel>, Moving> calculateMove,
+            Func<IEnumerable<BeaconDistance>, Moving> calculateMove,
             ILogger? logger = null)
         {
             return sourse

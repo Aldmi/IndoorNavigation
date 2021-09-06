@@ -1,8 +1,6 @@
 ﻿using System;
-using ApplicationCore.Domain.DiscreteSteps;
-using ApplicationCore.Domain.DiscreteSteps.Model;
-using ApplicationCore.Domain.Navigation;
-using ApplicationCore.Domain.Navigation.Model;
+using ApplicationCore.Domain.MovingService;
+using ApplicationCore.Domain.MovingService.DiscreteSteps.Model;
 
 namespace UseCase.DiscreteSteps.Managed
 {

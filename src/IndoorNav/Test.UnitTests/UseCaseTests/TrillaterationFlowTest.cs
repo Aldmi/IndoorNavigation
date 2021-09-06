@@ -6,7 +6,7 @@ using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
 using System.Threading.Tasks;
 using ApplicationCore.Domain;
-using ApplicationCore.Domain.Trilateration.Spheres;
+using ApplicationCore.Domain.MovingService.Trilateration.Spheres;
 using ApplicationCore.Shared;
 using FluentAssertions;
 using Libs.Beacons;
