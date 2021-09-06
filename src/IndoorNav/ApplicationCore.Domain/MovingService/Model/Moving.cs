@@ -1,14 +1,14 @@
 ﻿using System;
-using ApplicationCore.Domain.MovingService.DiscreteSteps.Model;
+using ApplicationCore.Domain.CheckPointModel;
 
-namespace ApplicationCore.Domain.MovingService
+namespace ApplicationCore.Domain.MovingService.Model
 {
     /// <summary>
     /// Объект перемещения их CheckPoint start в CheckPoint end.
     /// </summary>
     public class Moving
     {
-        private Moving(CheckPoint? start, CheckPoint? end, MovingEvent movingEvent)
+        private Moving(CheckPointBase? start, CheckPointBase? end, MovingEvent movingEvent)
         {
             Start = start;
             End = end;
@@ -16,18 +16,18 @@ namespace ApplicationCore.Domain.MovingService
             LastSeen= DateTimeOffset.UtcNow;
         }
 
-        public CheckPoint? Start { get; }
-        public CheckPoint? End { get; }
+        public CheckPointBase? Start { get; }
+        public CheckPointBase? End { get; }
         public MovingEvent MovingEvent { get; }
         public DateTimeOffset LastSeen { get; }
 
 
 
         public static Moving UnknownSegment() => new Moving(null, null, MovingEvent.Unknown);
-        public static Moving InitSegment(CheckPoint start) => new Moving(start, null, MovingEvent.InitSegment);
-        public static Moving StartSegment(CheckPoint start) => new Moving(start, null, MovingEvent.StartSegment);
-        public static Moving GoToEnd(CheckPoint start) => new Moving(start, null, MovingEvent.GoTo);
-        public static Moving CompleteSegment(CheckPoint start, CheckPoint end) => new Moving(start, end, MovingEvent.CompleteSegment);
+        public static Moving InitSegment(CheckPointBase start) => new Moving(start, null, MovingEvent.InitSegment);
+        public static Moving StartSegment(CheckPointBase start) => new Moving(start, null, MovingEvent.StartSegment);
+        public static Moving GoToEnd(CheckPointBase start) => new Moving(start, null, MovingEvent.GoTo);
+        public static Moving CompleteSegment(CheckPointBase start, CheckPointBase end) => new Moving(start, end, MovingEvent.CompleteSegment);
 
 
         public override string ToString()

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using ApplicationCore.Domain.MovingService;
 using ApplicationCore.Domain.MovingService.DiscreteSteps;
+using ApplicationCore.Domain.MovingService.Model;
 using ApplicationCore.Shared.DataStruct.GraphNotOriented;
 using FluentAssertions;
 using Libs.Beacons.Models;

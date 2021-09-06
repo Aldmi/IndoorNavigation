@@ -1,12 +1,14 @@
 ﻿using System;
+using ApplicationCore.Domain.CheckPointModel;
 using ApplicationCore.Domain.MovingService;
 using ApplicationCore.Domain.MovingService.DiscreteSteps.Model;
+using ApplicationCore.Domain.MovingService.Model;
 
 namespace UseCase.DiscreteSteps.Managed
 {
     public class MovingDto
     {
-        public MovingDto(CheckPoint? start, CheckPoint? end, MovingEvent movingEvent)
+        public MovingDto(CheckPointBase? start, CheckPointBase? end, MovingEvent movingEvent)
         {
             Start = start;
             End = end;
@@ -14,8 +16,8 @@ namespace UseCase.DiscreteSteps.Managed
             LastSeen = DateTimeOffset.UtcNow;
         }
         
-        public CheckPoint? Start { get; }
-        public CheckPoint? End { get; }
+        public CheckPointBase? Start { get; }
+        public CheckPointBase? End { get; }
         public MovingEvent MovingEvent { get; }
         public DateTimeOffset LastSeen { get; }
 

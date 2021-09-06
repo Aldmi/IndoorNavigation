@@ -8,6 +8,6 @@ namespace ApplicationCore.Domain.RouteService
     /// </summary>
     public interface IRouteBuilder
     {
-        public Route Build(CheckPoint startCh, CheckPoint endCh);
+        public Route Build(CheckPointDs startCh, CheckPointDs endCh);
     }
 }

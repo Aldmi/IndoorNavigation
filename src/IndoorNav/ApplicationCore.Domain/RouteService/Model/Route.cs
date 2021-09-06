@@ -8,17 +8,17 @@ namespace ApplicationCore.Domain.RouteService.Model
     /// </summary>
     public class Route
     {
-        public Route(string name, IReadOnlyList<CheckPoint> listCheckPoints)
+        public Route(string name, IReadOnlyList<CheckPointDs> listCheckPoints)
         {
             Name = name;
             ListCheckPoints = listCheckPoints;
         }
 
         public string Name { get; }
-        public IReadOnlyList<CheckPoint> ListCheckPoints { get;}
+        public IReadOnlyList<CheckPointDs> ListCheckPoints { get;}
 
 
-        public CheckPoint GetStart() => ListCheckPoints[0];
-        public CheckPoint GetEnd() => ListCheckPoints[^0];
+        public CheckPointDs GetStart() => ListCheckPoints[0];
+        public CheckPointDs GetEnd() => ListCheckPoints[^0];
     }
 }

@@ -5,7 +5,7 @@ namespace ApplicationCore.Domain.RouteService
 {
     public class RouteBuilder : IRouteBuilder
     {
-        public Route Build(CheckPoint startCh, CheckPoint endCh)
+        public Route Build(CheckPointDs startCh, CheckPointDs endCh)
         {
             throw new System.NotImplementedException();
         }

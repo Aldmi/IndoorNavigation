@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using ApplicationCore.Domain.CheckPointModel;
 using ApplicationCore.Domain.DistanceService;
+using ApplicationCore.Domain.DistanceService.Model;
 using ApplicationCore.Domain.MovingService.DiscreteSteps.Model;
 using ApplicationCore.Shared.DataStruct.GraphNotOriented;
 using Libs.Beacons.Models;
@@ -9,44 +11,44 @@ namespace Test.Beacons.Domain.Test.Data
 {
     public static class CheckPointGraphSampleOne
     {
-        public static Graph<CheckPoint> CreateSimpleGraph()
+        public static Graph<CheckPointBase> CreateSimpleGraph()
         {
-             var graph = new Graph<CheckPoint>();
+             var graph = new Graph<CheckPointBase>();
             
             //Создание чекпоинтов
-            var checkPoints = new List<CheckPoint>()
+            var checkPoints = new List<CheckPointDs>()
             {
-                new CheckPoint(
+                new CheckPointDs(
                     new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 1, 1),
                     new CheckPointDescription("Вход", "Зона 1"),
                     new CoverageArea(2)),
                 
-                new CheckPoint(
+                new CheckPointDs(
                     new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 1, 2),
                     new CheckPointDescription("Коридор 1", "Зона 2"),
                     new CoverageArea(2)),
                 
-                new CheckPoint(
+                new CheckPointDs(
                     new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 1, 3),
                     new CheckPointDescription("К поездам", "Зона 3"),
                     new CoverageArea(2)),
                 
-                new CheckPoint(
+                new CheckPointDs(
                     new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 1, 4),
                     new CheckPointDescription("Выход в город", "Зона 4"),
                     new CoverageArea(2)),
                 
-                new CheckPoint(
+                new CheckPointDs(
                     new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 1, 5),
                     new CheckPointDescription("Коридор 2", "Зона 5"),
                     new CoverageArea(2)),
                 
-                new CheckPoint(
+                new CheckPointDs(
                     new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 1, 6),
                     new CheckPointDescription("Кассы", "Зона 6"),
                     new CoverageArea(2)),
                 
-                new CheckPoint(
+                new CheckPointDs(
                     new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 1, 7),
                     new CheckPointDescription("Столовая", "Зона 7"),
                     new CoverageArea(2)),

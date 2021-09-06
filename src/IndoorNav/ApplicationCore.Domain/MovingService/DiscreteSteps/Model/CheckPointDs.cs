@@ -1,27 +1,24 @@
 ﻿using System;
+using ApplicationCore.Domain.CheckPointModel;
 using ApplicationCore.Domain.DistanceService;
+using ApplicationCore.Domain.DistanceService.Model;
 using ApplicationCore.Shared;
 using Libs.Beacons.Models;
 
 namespace ApplicationCore.Domain.MovingService.DiscreteSteps.Model
 {
     /// <summary>
-    /// контрольная точка
+    /// контрольная точка.
+    /// для алгоритма DiscreteSteps
     /// </summary>
-    public class CheckPoint : IEquatable<CheckPoint>
+    public class CheckPointDs : CheckPointBase
     {
-        public CheckPointDescription Description { get; }
-        public BeaconId BeaconId { get; }
         public CoverageArea Area { get; }
 
         
-        public CheckPoint(
-            BeaconId beaconId,
-            CheckPointDescription description,
-            CoverageArea area)
+        public CheckPointDs(BeaconId beaconId, CheckPointDescription description, CoverageArea area) 
+            : base(beaconId, description)
         {
-            BeaconId = beaconId;
-            Description = description;
             Area = area;
         }
 
@@ -31,21 +28,13 @@ namespace ApplicationCore.Domain.MovingService.DiscreteSteps.Model
         /// Если Id не совпадает, то зона Unknown
         /// Если Id совпал, то определяем, внутри зоны маяка находимся или вне зоны.
         /// </summary>
-        public Zone GetZone(BeaconDistance inputData)
+        public override Zone GetZone(BeaconDistance inputData)
         {
             return inputData.BeaconId == BeaconId ?
                 Area.GetZone(inputData.Distance) :
                 Zone.Unknown;
         }
         
-        public bool Equals(CheckPoint other)
-        {
-            return BeaconId.Equals(other.BeaconId);
-        }
-        public override int GetHashCode()
-        {
-            return HashCode.Combine(Description, BeaconId, Area);
-        }
         
         public override string ToString() => $"{BeaconId.StrMajorMinor} {Description.Name} {Area}";
     }

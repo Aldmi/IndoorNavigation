@@ -1,4 +1,4 @@
-﻿namespace ApplicationCore.Domain.MovingService.DiscreteSteps.Model
+﻿namespace ApplicationCore.Domain.CheckPointModel
 {
     public class CheckPointDescription
     {

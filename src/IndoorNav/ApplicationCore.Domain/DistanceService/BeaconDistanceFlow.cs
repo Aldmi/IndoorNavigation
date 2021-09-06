@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
+using ApplicationCore.Domain.DistanceService.Model;
 using ApplicationCore.Shared;
 using Libs.Beacons.Models;
 

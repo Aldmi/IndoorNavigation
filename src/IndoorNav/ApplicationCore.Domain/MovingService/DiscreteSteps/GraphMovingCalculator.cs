@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using ApplicationCore.Domain.CheckPointModel;
 using ApplicationCore.Domain.DistanceService;
+using ApplicationCore.Domain.DistanceService.Model;
 using ApplicationCore.Domain.MovingService.DiscreteSteps.Model;
+using ApplicationCore.Domain.MovingService.Model;
 using ApplicationCore.Shared;
 using ApplicationCore.Shared.DataStruct.GraphNotOriented;
 
@@ -12,8 +15,8 @@ namespace ApplicationCore.Domain.MovingService.DiscreteSteps
     /// </summary>
     public class GraphMovingCalculator : IMovingCalculator
     {
-        private readonly Graph<CheckPoint> _graph;
-        public GraphMovingCalculator(Graph<CheckPoint> graph)
+        private readonly Graph<CheckPointBase> _graph;
+        public GraphMovingCalculator(Graph<CheckPointBase> graph)
         {
             _graph = graph;
         }
@@ -21,7 +24,7 @@ namespace ApplicationCore.Domain.MovingService.DiscreteSteps
         /// <summary>
         /// Узел графа в котором мы находимся
         /// </summary>
-        public Vertex<CheckPoint>? CurrentVertex { get; private set; }
+        public Vertex<CheckPointBase>? CurrentVertex { get; private set; }
         public bool CurrentVertexIsSet => CurrentVertex != null;
         public Guid SharedUuid => _graph.Vertices[0].Value.BeaconId.Uuid;
         
@@ -80,7 +83,7 @@ namespace ApplicationCore.Domain.MovingService.DiscreteSteps
         /// <summary>
         /// Найти текущую вершину графа в первый раз.
         /// </summary>
-        private Vertex<CheckPoint>? FindFirstCurrentVertex(IEnumerable<BeaconDistance> inputDataList)
+        private Vertex<CheckPointBase>? FindFirstCurrentVertex(IEnumerable<BeaconDistance> inputDataList)
         {
             foreach (var inputData in inputDataList)
             {
@@ -95,7 +98,7 @@ namespace ApplicationCore.Domain.MovingService.DiscreteSteps
         /// <summary>
         /// Найти среди соседей текущей врешины.
         /// </summary>
-        private Vertex<CheckPoint>? FindAmongNeighborsOfCurrentVertex(IEnumerable<BeaconDistance> inputDataList)
+        private Vertex<CheckPointBase>? FindAmongNeighborsOfCurrentVertex(IEnumerable<BeaconDistance> inputDataList)
         {
             foreach (var inputData in inputDataList)
             {

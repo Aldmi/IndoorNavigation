@@ -1,5 +1,7 @@
 ﻿using System;
+using ApplicationCore.Domain.CheckPointModel;
 using ApplicationCore.Domain.MovingService.DiscreteSteps.Model;
+using ApplicationCore.Domain.MovingService.Model;
 
 namespace ApplicationCore.Domain.MovingService
 {
@@ -9,7 +11,7 @@ namespace ApplicationCore.Domain.MovingService
         public static readonly string CsvHeader = $"{nameof(MovingEvent)}{Separator}{nameof(Start)}{Separator}{nameof(End)}{Separator}{nameof(LastSeen)}";
 
         
-        private MovingCsvStatistic(CheckPoint? start, CheckPoint? end, MovingEvent movingEvent, DateTimeOffset lastSeen)
+        private MovingCsvStatistic(CheckPointBase? start, CheckPointBase? end, MovingEvent movingEvent, DateTimeOffset lastSeen)
         {
             Start = start;
             End = end;
@@ -18,8 +20,8 @@ namespace ApplicationCore.Domain.MovingService
         }
 
 
-        public CheckPoint? Start { get; }
-        public CheckPoint? End { get; }
+        public CheckPointBase? Start { get; }
+        public CheckPointBase? End { get; }
         public MovingEvent MovingEvent { get; }
         public DateTimeOffset LastSeen { get; }
         
