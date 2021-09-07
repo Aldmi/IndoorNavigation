@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using ApplicationCore.Domain.DistanceService;
 using ApplicationCore.Domain.DistanceService.Model;
 using ApplicationCore.Domain.MovingService.DiscreteSteps.Model;
@@ -22,8 +23,8 @@ namespace ApplicationCore.Domain.CheckPointModel
             BeaconId = beaconId;
         }
 
-
-        public abstract Zone GetZone(BeaconDistance inputData);
+        
+        public abstract Zone GetZone(IEnumerable<BeaconDistance> distances);
         
         
         public bool Equals(CheckPointBase other)

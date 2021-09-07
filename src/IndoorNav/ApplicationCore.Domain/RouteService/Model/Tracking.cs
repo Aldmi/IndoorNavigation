@@ -16,6 +16,7 @@
     public enum TrackingState
     {
         OnRoute,
-        LeftRoute
+        LeftRoute,
+        CompleteRoute
     }
 }

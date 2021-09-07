@@ -2,7 +2,6 @@
 {
     public class CheckPointDescription
     {
-        
         public CheckPointDescription(string name, string description)
         {
             Name = name;

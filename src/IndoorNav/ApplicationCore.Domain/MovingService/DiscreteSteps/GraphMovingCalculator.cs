@@ -13,7 +13,7 @@ namespace ApplicationCore.Domain.MovingService.DiscreteSteps
     /// <summary>
     /// Сервис для работы с не направленным графом контрольных точек.
     /// </summary>
-    public class GraphMovingCalculator : IMovingCalculator
+    public class GraphMovingCalculator : IGraphMovingCalculator
     {
         private readonly Graph<CheckPointBase> _graph;
         public GraphMovingCalculator(Graph<CheckPointBase> graph)
@@ -83,30 +83,20 @@ namespace ApplicationCore.Domain.MovingService.DiscreteSteps
         /// <summary>
         /// Найти текущую вершину графа в первый раз.
         /// </summary>
-        private Vertex<CheckPointBase>? FindFirstCurrentVertex(IEnumerable<BeaconDistance> inputDataList)
+        private Vertex<CheckPointBase>? FindFirstCurrentVertex(IEnumerable<BeaconDistance> distances)
         {
-            foreach (var inputData in inputDataList)
-            {
-                var vertex = _graph.FindVertex(node => node.Value.GetZone(inputData) == Zone.In);
-                if (vertex != null)
-                    return vertex;
-            }
-            return null;
+            var vertex = _graph.FindVertex(v => v.Value.GetZone(distances) == Zone.In);
+            return vertex;
         }
         
         
         /// <summary>
         /// Найти среди соседей текущей врешины.
         /// </summary>
-        private Vertex<CheckPointBase>? FindAmongNeighborsOfCurrentVertex(IEnumerable<BeaconDistance> inputDataList)
+        private Vertex<CheckPointBase>? FindAmongNeighborsOfCurrentVertex(IEnumerable<BeaconDistance> distances)
         {
-            foreach (var inputData in inputDataList)
-            {
-                var vertex = _graph.FindVertexAmongNeighbors(CurrentVertex!, node => node.Value.GetZone(inputData) == Zone.In);
-                if (vertex != null)
-                    return vertex;
-            }
-            return null;
+            var vertex = _graph.FindVertexAmongNeighbors(CurrentVertex!, v => v.Value.GetZone(distances) == Zone.In);
+            return vertex;
         }
     }
 }

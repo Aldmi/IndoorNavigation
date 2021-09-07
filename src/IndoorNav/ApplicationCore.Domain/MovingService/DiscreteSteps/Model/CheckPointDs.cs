@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using ApplicationCore.Domain.CheckPointModel;
 using ApplicationCore.Domain.DistanceService;
 using ApplicationCore.Domain.DistanceService.Model;
@@ -21,21 +23,21 @@ namespace ApplicationCore.Domain.MovingService.DiscreteSteps.Model
         {
             Area = area;
         }
-
+        
+        
 
         /// <summary>
         /// Вернуть статус попадания в зону действия маяка для входных дангных.
         /// Если Id не совпадает, то зона Unknown
         /// Если Id совпал, то определяем, внутри зоны маяка находимся или вне зоны.
         /// </summary>
-        public override Zone GetZone(BeaconDistance inputData)
+        public override Zone GetZone(IEnumerable<BeaconDistance> distances)
         {
-            return inputData.BeaconId == BeaconId ?
-                Area.GetZone(inputData.Distance) :
-                Zone.Unknown;
+           var distance= distances.FirstOrDefault(d => d.BeaconId == BeaconId);
+           return distance != null ? Area.GetZone(distance.Distance) : Zone.Unknown;
         }
-        
-        
+
+
         public override string ToString() => $"{BeaconId.StrMajorMinor} {Description.Name} {Area}";
     }
 }

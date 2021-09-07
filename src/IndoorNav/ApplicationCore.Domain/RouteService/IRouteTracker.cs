@@ -7,8 +7,11 @@ namespace ApplicationCore.Domain.RouteService
     /// <summary>
     /// Слежение за маршрутом.
     /// </summary>
-    public interface IRouteTracking
+    public interface IRouteTracker
     {
+        Route Route { get;}
+        Tracking CurrentTracking { get;}
+        void SetRoute(Route route);
         public Tracking Control(Moving moving);
     }
 }

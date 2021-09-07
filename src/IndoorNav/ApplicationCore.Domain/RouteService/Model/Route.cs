@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using ApplicationCore.Domain.CheckPointModel;
 using ApplicationCore.Domain.MovingService.DiscreteSteps.Model;
 
 namespace ApplicationCore.Domain.RouteService.Model
@@ -8,17 +9,17 @@ namespace ApplicationCore.Domain.RouteService.Model
     /// </summary>
     public class Route
     {
-        public Route(string name, IReadOnlyList<CheckPointDs> listCheckPoints)
+        public Route(string name, IReadOnlyList<CheckPointBase> listCheckPoints)
         {
             Name = name;
             ListCheckPoints = listCheckPoints;
         }
 
         public string Name { get; }
-        public IReadOnlyList<CheckPointDs> ListCheckPoints { get;}
+        public IReadOnlyList<CheckPointBase> ListCheckPoints { get;}
 
 
-        public CheckPointDs GetStart() => ListCheckPoints[0];
-        public CheckPointDs GetEnd() => ListCheckPoints[^0];
+        public CheckPointBase GetStart() => ListCheckPoints[0];
+        public CheckPointBase GetEnd() => ListCheckPoints[^0];
     }
 }

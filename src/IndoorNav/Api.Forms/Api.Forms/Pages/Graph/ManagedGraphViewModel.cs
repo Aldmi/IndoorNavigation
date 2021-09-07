@@ -66,7 +66,7 @@ namespace Api.Forms.Pages.Graph
         public void StopScan()
         {
             ScanText = "Scan";
-            _graphScanner.Stop();
+            _graphScanner.StopScan();
         }
     }
 }
