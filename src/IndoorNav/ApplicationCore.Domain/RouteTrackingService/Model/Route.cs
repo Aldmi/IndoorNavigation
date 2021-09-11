@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using ApplicationCore.Domain.CheckPointModel;
-using ApplicationCore.Domain.MovingService.DiscreteSteps.Model;
 
-namespace ApplicationCore.Domain.RouteService.Model
+namespace ApplicationCore.Domain.RouteTrackingService.Model
 {
     /// <summary>
     /// Маршрут

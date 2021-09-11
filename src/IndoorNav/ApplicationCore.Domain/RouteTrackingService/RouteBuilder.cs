@@ -1,11 +1,11 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using ApplicationCore.Domain.CheckPointModel;
-using ApplicationCore.Domain.MovingService.DiscreteSteps.Model;
-using ApplicationCore.Domain.RouteService.Model;
+using ApplicationCore.Domain.RouteTrackingService.Model;
 using ApplicationCore.Shared.DataStruct.GraphNotOriented;
 using ApplicationCore.Shared.DataStruct.GraphNotOriented.DijkstraAlgoritm;
 
-namespace ApplicationCore.Domain.RouteService
+namespace ApplicationCore.Domain.RouteTrackingService
 {
     public class RouteBuilder : IRouteBuilder
     {
@@ -24,5 +24,7 @@ namespace ApplicationCore.Domain.RouteService
 
             return new Route(name, listCheckPoints);
         }
+
+        public IObservable<Route> BuildRouteRx { get; }
     }
 }

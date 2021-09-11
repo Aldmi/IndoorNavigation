@@ -1,8 +1,7 @@
-﻿using ApplicationCore.Domain.MovingService;
-using ApplicationCore.Domain.MovingService.Model;
-using ApplicationCore.Domain.RouteService.Model;
+﻿using ApplicationCore.Domain.MovingService.Model;
+using ApplicationCore.Domain.RouteTrackingService.Model;
 
-namespace ApplicationCore.Domain.RouteService
+namespace ApplicationCore.Domain.RouteTrackingService
 {
     /// <summary>
     /// Слежение за маршрутом.
@@ -10,7 +9,7 @@ namespace ApplicationCore.Domain.RouteService
     public class RouteTracker : IRouteTracker
     {
         public Route Route { get; private set;}
-        public Tracking CurrentTracking { get; private set;}
+        public TrackingResult CurrentTrackingResult { get; private set;}
         
         public void SetRoute(Route route)
         {
@@ -18,7 +17,7 @@ namespace ApplicationCore.Domain.RouteService
         }
         
         
-        public Tracking Control(Moving moving)
+        public TrackingResult Control(Moving moving)
         {
             /*
                 проверяем верно ли мы дыижемся по Route
@@ -31,7 +30,7 @@ namespace ApplicationCore.Domain.RouteService
                  CompleteRoute нужно давать после выдачи последнего удачного Tracking(OnRoute)
             */
             
-            return new Tracking(TrackingState.OnRoute);
+            return new TrackingResult(TrackingState.OnRoute);
         }
         
     }

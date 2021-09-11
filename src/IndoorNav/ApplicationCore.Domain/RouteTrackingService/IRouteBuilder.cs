@@ -1,8 +1,8 @@
-﻿using ApplicationCore.Domain.CheckPointModel;
-using ApplicationCore.Domain.MovingService.DiscreteSteps.Model;
-using ApplicationCore.Domain.RouteService.Model;
+﻿using System;
+using ApplicationCore.Domain.CheckPointModel;
+using ApplicationCore.Domain.RouteTrackingService.Model;
 
-namespace ApplicationCore.Domain.RouteService
+namespace ApplicationCore.Domain.RouteTrackingService
 {
     /// <summary>
     /// Построитель маршрута.
@@ -10,5 +10,6 @@ namespace ApplicationCore.Domain.RouteService
     public interface IRouteBuilder
     {
         public Route Build(string name, CheckPointBase startCh, CheckPointBase endCh);
+        IObservable<Route> BuildRouteRx { get; }
     }
 }
