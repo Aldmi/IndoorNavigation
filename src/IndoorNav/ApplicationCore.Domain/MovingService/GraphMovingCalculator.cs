@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using ApplicationCore.Domain.CheckPointModel;
-using ApplicationCore.Domain.DistanceService;
 using ApplicationCore.Domain.DistanceService.Model;
-using ApplicationCore.Domain.MovingService.DiscreteSteps.Model;
 using ApplicationCore.Domain.MovingService.Model;
 using ApplicationCore.Shared;
 using ApplicationCore.Shared.DataStruct.GraphNotOriented;
 
-namespace ApplicationCore.Domain.MovingService.DiscreteSteps
+namespace ApplicationCore.Domain.MovingService
 {
     /// <summary>
     /// Сервис для работы с не направленным графом контрольных точек.
@@ -16,16 +14,17 @@ namespace ApplicationCore.Domain.MovingService.DiscreteSteps
     public class GraphMovingCalculator : IGraphMovingCalculator
     {
         private readonly Graph<CheckPointBase> _graph;
+        private Vertex<CheckPointBase>? _сurrentVertex;
         public GraphMovingCalculator(Graph<CheckPointBase> graph)
         {
             _graph = graph;
         }
-        
+
         /// <summary>
         /// Узел графа в котором мы находимся
         /// </summary>
-        public Vertex<CheckPointBase>? CurrentVertex { get; private set; }
-        public bool CurrentVertexIsSet => CurrentVertex != null;
+        public CheckPointBase? CurrentCheckPoint => _сurrentVertex?.Value;
+        public bool CurrentVertexIsSet => _сurrentVertex != null;
         public Guid SharedUuid => _graph.Vertices[0].Value.BeaconId.Uuid;
         
         
@@ -40,7 +39,7 @@ namespace ApplicationCore.Domain.MovingService.DiscreteSteps
                 var vertex= FindFirstCurrentVertex(inputDataList);
                 if (vertex != null)
                 {
-                    CurrentVertex = vertex;
+                    _сurrentVertex = vertex;
                     moving= Moving.InitSegment(vertex.Value);                                   //Выставить первый раз Стартовый сегмент.  
                 }
                 else
@@ -53,19 +52,19 @@ namespace ApplicationCore.Domain.MovingService.DiscreteSteps
                 var vertex= FindAmongNeighborsOfCurrentVertex(inputDataList);
                 if (vertex != null)
                 {
-                    if (vertex == CurrentVertex)
+                    if (vertex == _сurrentVertex)
                     {
-                        moving = Moving.StartSegment(CurrentVertex!.Value);                      //Стоим около стартового сегмента.
+                        moving = Moving.StartSegment(_сurrentVertex!.Value);                      //Стоим около стартового сегмента.
                     }
                     else
                     {
-                        moving = Moving.CompleteSegment(CurrentVertex!.Value, vertex.Value);    //Однократно выставили завершающий сегмент.
-                        CurrentVertex = vertex;
+                        moving = Moving.CompleteSegment(_сurrentVertex!.Value, vertex.Value);    //Однократно выставили завершающий сегмент.
+                        _сurrentVertex = vertex;
                     }
                 }
                 else
                 {
-                    moving = Moving.GoToEnd(CurrentVertex!.Value);                              //Начали движение от стартового сегмента.
+                    moving = Moving.GoToEnd(_сurrentVertex!.Value);                              //Начали движение от стартового сегмента.
                 }
             }
             
@@ -77,7 +76,7 @@ namespace ApplicationCore.Domain.MovingService.DiscreteSteps
         /// <summary>
         /// Сбросить текщее положение в графе.
         /// </summary>
-        public void Reset() => CurrentVertex = null;
+        public void Reset() => _сurrentVertex = null;
         
         
         /// <summary>
@@ -95,7 +94,7 @@ namespace ApplicationCore.Domain.MovingService.DiscreteSteps
         /// </summary>
         private Vertex<CheckPointBase>? FindAmongNeighborsOfCurrentVertex(IEnumerable<BeaconDistance> distances)
         {
-            var vertex = _graph.FindVertexAmongNeighbors(CurrentVertex!, v => v.Value.GetZone(distances) == Zone.In);
+            var vertex = _graph.FindVertexAmongNeighbors(_сurrentVertex!, v => v.Value.GetZone(distances) == Zone.In);
             return vertex;
         }
     }

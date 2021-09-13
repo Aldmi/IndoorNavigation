@@ -1,6 +1,6 @@
 ﻿using ApplicationCore.Shared;
 
-namespace ApplicationCore.Domain.MovingService.DiscreteSteps.Model
+namespace ApplicationCore.Domain.CheckPointModel.DiscreteSteps
 {
     /// <summary>
     /// Зона охвата маяка

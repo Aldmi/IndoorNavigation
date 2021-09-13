@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using ApplicationCore.Domain.DistanceService;
 using ApplicationCore.Domain.DistanceService.Model;
-using ApplicationCore.Domain.MovingService.DiscreteSteps.Model;
 using ApplicationCore.Shared;
 using Libs.Beacons.Models;
 

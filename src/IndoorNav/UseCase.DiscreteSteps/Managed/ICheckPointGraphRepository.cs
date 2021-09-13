@@ -1,5 +1,4 @@
 ﻿using ApplicationCore.Domain.CheckPointModel;
-using ApplicationCore.Domain.MovingService.DiscreteSteps.Model;
 using ApplicationCore.Shared.DataStruct.GraphNotOriented;
 
 namespace UseCase.DiscreteSteps.Managed

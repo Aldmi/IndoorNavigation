@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using ApplicationCore.Shared;
 using Libs.Beacons.Models;
 
-namespace ApplicationCore.Domain.MovingService.Trilateration.Spheres
+namespace ApplicationCore.Domain.CheckPointModel.Trilateration.Spheres
 {
     public class Sphere : IEquatable<Sphere>
     {

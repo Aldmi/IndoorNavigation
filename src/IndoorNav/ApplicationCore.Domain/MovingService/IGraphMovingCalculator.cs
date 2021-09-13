@@ -13,8 +13,7 @@ namespace ApplicationCore.Domain.MovingService
     /// </summary>
     public interface IGraphMovingCalculator
     {
-        Vertex<CheckPointBase>? CurrentVertex { get; }
-        bool CurrentVertexIsSet { get; }
+        CheckPointBase? CurrentCheckPoint { get; }
         Guid SharedUuid { get; }
 
         Moving CalculateMove(IEnumerable<BeaconDistance> inputDataList);

@@ -6,7 +6,7 @@ using System.Linq;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using ApplicationCore.Domain;
-using ApplicationCore.Domain.MovingService.Trilateration.Spheres;
+using ApplicationCore.Domain.CheckPointModel.Trilateration.Spheres;
 using ApplicationCore.Domain.Options;
 using ApplicationCore.Shared;
 using Libs.Beacons;

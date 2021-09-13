@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using ApplicationCore.Domain.CheckPointModel;
-using ApplicationCore.Domain.MovingService.DiscreteSteps.Model;
+using ApplicationCore.Domain.CheckPointModel.DiscreteSteps;
 using ApplicationCore.Shared.DataStruct;
 using ApplicationCore.Shared.DataStruct.GraphNotOriented;
 using ApplicationCore.Shared.DataStruct.Tree;

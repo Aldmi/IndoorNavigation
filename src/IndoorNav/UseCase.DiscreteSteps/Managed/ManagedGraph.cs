@@ -8,7 +8,6 @@ using System.Reactive.Subjects;
 using ApplicationCore.Domain.CheckPointModel;
 using ApplicationCore.Domain.DistanceService.Handlers;
 using ApplicationCore.Domain.MovingService;
-using ApplicationCore.Domain.MovingService.DiscreteSteps;
 using ApplicationCore.Domain.MovingService.Model;
 using ApplicationCore.Domain.RouteTrackingService;
 using ApplicationCore.Domain.RouteTrackingService.Model;
@@ -123,7 +122,7 @@ namespace UseCase.DiscreteSteps.Managed
         /// <exception cref="Exception"></exception>
         public void BuildRoute(string routeName, CheckPointBase endCh)
         {
-           var startCh = _graphMovingCalculator.CurrentVertex?.Value;
+           var startCh = _graphMovingCalculator.CurrentCheckPoint;
            if (startCh == null)
            {
                throw new Exception("Стартовая точка не установлена"); //TODO: создать custom exception

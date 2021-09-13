@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using ApplicationCore.Domain.CheckPointModel;
+using ApplicationCore.Domain.CheckPointModel.DiscreteSteps;
 using ApplicationCore.Domain.DistanceService;
 using ApplicationCore.Domain.DistanceService.Model;
-using ApplicationCore.Domain.MovingService.DiscreteSteps.Model;
 using ApplicationCore.Shared.DataStruct.GraphNotOriented;
 using Libs.Beacons.Models;
 

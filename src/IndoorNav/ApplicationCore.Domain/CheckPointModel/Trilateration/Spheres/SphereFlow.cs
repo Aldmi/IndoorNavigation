@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reactive.Linq;
 using Libs.Beacons.Models;
 
-namespace ApplicationCore.Domain.MovingService.Trilateration.Spheres
+namespace ApplicationCore.Domain.CheckPointModel.Trilateration.Spheres
 {
     public static class SphereFlow
     {

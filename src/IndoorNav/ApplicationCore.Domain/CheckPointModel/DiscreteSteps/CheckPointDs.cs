@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using ApplicationCore.Domain.CheckPointModel;
-using ApplicationCore.Domain.DistanceService;
 using ApplicationCore.Domain.DistanceService.Model;
 using ApplicationCore.Shared;
 using Libs.Beacons.Models;
 
-namespace ApplicationCore.Domain.MovingService.DiscreteSteps.Model
+namespace ApplicationCore.Domain.CheckPointModel.DiscreteSteps
 {
     /// <summary>
     /// контрольная точка.
@@ -15,7 +12,7 @@ namespace ApplicationCore.Domain.MovingService.DiscreteSteps.Model
     /// </summary>
     public class CheckPointDs : CheckPointBase
     {
-        public CoverageArea Area { get; }
+        private CoverageArea Area { get; }
 
         
         public CheckPointDs(BeaconId beaconId, CheckPointDescription description, CoverageArea area) 
