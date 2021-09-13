@@ -38,9 +38,10 @@ namespace UseCase.DiscreteSteps.Managed
         private IDisposable? _writeAnaliticSub;
         private IDisposable? _trackingSub;
         private readonly Subject<MovingDto> _lastMovingSubj = new Subject<MovingDto>();
-
+        
         private IObservable<Moving> _observableListMovings;
 
+        
         public ManagedGraph(
             IBeaconRangingManager beaconManager,
             ICheckPointGraphRepository graphRepository,
@@ -75,7 +76,7 @@ namespace UseCase.DiscreteSteps.Managed
             _observableListMovings = _beaconManager
                 .WhenBeaconRanged(ScanningRegion, BleScanType.LowLatency)
                 .ManagedScanDiscreteStepsFlow(
-                    TimeSpan.FromSeconds(1),
+                    TimeSpan.FromSeconds(0.6),
                     -59, //TODO: брать из протокола.
                     _beaconDistanceHandler.Invoke,
                     _graphMovingCalculator.CalculateMove,
@@ -110,7 +111,7 @@ namespace UseCase.DiscreteSteps.Managed
                     _logger?.LogError(exception, "Ошибка сканирования");
                 });
 
-            AnaliticRec();
+            //AnaliticRec();
         }
 
 

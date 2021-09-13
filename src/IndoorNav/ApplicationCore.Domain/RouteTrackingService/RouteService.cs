@@ -7,6 +7,10 @@ using ApplicationCore.Domain.RouteTrackingService.Model;
 
 namespace ApplicationCore.Domain.RouteTrackingService
 {
+    /// <summary>
+    /// Сервис построения и слежения за маршрутом.
+    /// Если сбились с маршрута, то маршрут перестроим от новой точки до конечной.
+    /// </summary>
     public class RouteService
     {
         private readonly IRouteBuilder _builder;
@@ -41,7 +45,9 @@ namespace ApplicationCore.Domain.RouteTrackingService
         /// <returns></returns>
         public IObservable<TrackingResult> StartTracker(IObservable<Moving> observableMoving, CheckPointBase start, CheckPointBase end)
         {
-            _cts?.Dispose();
+            if (IsTrakerStarted)
+                throw new Exception("Трекер уже запущен");
+            
             _cts = new CancellationTokenSource();
             var route = _builder.Build("", start, end);
             _tracker.SetRoute(route);
@@ -66,13 +72,15 @@ namespace ApplicationCore.Domain.RouteTrackingService
             return obs;
         }
 
+        
         /// <summary>
         /// Остановить трекер.
         /// </summary>
         public void StopTracker()
         {
             _cts?.Cancel();
+            _cts?.Dispose();
+            _cts = null;
         }
-        
     }
 }
