@@ -7,7 +7,7 @@ using Libs.Beacons.Models;
 namespace ApplicationCore.Domain.CheckPointModel.DiscreteSteps
 {
     /// <summary>
-    /// Модель маяка
+    /// Модель чек поинта, определяющая зону попадания через CoverageArea от маяка.
     /// </summary>
     public class BeaconCheckPointItem
     {
@@ -17,13 +17,13 @@ namespace ApplicationCore.Domain.CheckPointModel.DiscreteSteps
         
         public BeaconCheckPointItem(BeaconId beaconId, CoverageArea area)
         {
+            BeaconId = beaconId;
             Area = area;
         }
         
-        
 
         /// <summary>
-        /// Вернуть статус попадания в зону действия маяка для входных дангных.
+        /// Вернуть статус попадания в зону действия маяка для входных данных.
         /// Если Id не совпадает, то зона Unknown
         /// Если Id совпал, то определяем, внутри зоны маяка находимся или вне зоны.
         /// </summary>

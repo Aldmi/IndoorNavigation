@@ -15,8 +15,9 @@ namespace ApplicationCore.Domain.MovingService
     {
         private readonly Graph<CheckPointBase> _graph;
         private Vertex<CheckPointBase>? _сurrentVertex;
-        public GraphMovingCalculator(Graph<CheckPointBase> graph)
+        public GraphMovingCalculator(Guid sharedUuid, Graph<CheckPointBase> graph)
         {
+            SharedUuid = sharedUuid;
             _graph = graph;
         }
 
@@ -25,9 +26,13 @@ namespace ApplicationCore.Domain.MovingService
         /// </summary>
         public CheckPointBase? CurrentCheckPoint => _сurrentVertex?.Value;
         public bool CurrentVertexIsSet => _сurrentVertex != null;
-        public Guid SharedUuid => _graph.Vertices[0].Value.BeaconId.Uuid;
         
-        
+        /// <summary>
+        /// 
+        /// </summary>
+        public Guid SharedUuid { get; }
+
+
         /// <summary>
         /// Вычислить перемещение по узлам графа, анализируя входные данные.
         /// </summary>

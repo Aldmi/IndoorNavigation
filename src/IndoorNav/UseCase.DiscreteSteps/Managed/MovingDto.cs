@@ -32,7 +32,7 @@ namespace UseCase.DiscreteSteps.Managed
                 MovingEvent.CompleteSegment => $"Complete: '{Start.Description.Name} - {End.Description.Name}'",
                 _ => throw new ArgumentOutOfRangeException()
             };
-            return $"{res}   [{LastSeen:T}]";
+            return $"{res}   [{LastSeen:HH:mm:ss:ffff}]";
         }
     }
 }

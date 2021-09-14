@@ -13,13 +13,14 @@ namespace ApplicationCore.Domain.CheckPointModel
     /// </summary>
     public abstract class CheckPointBase : IEquatable<CheckPointBase>
     {
+        public Guid Id { get; }
         public CheckPointDescription Description { get; }
-        public BeaconId BeaconId { get; }
+
         
-        protected CheckPointBase(BeaconId beaconId, CheckPointDescription description)
+        protected CheckPointBase(CheckPointDescription description)
         {
+            Id = Guid.NewGuid();
             Description = description;
-            BeaconId = beaconId;
         }
 
         
@@ -28,12 +29,12 @@ namespace ApplicationCore.Domain.CheckPointModel
         
         public bool Equals(CheckPointBase other)
         {
-            return BeaconId.Equals(other.BeaconId);
+            return Id.Equals(other.Id);
         }
         public override int GetHashCode()
         {
-            return HashCode.Combine(Description, BeaconId);
+            return HashCode.Combine(Description, Id);
         }
-        public override string ToString() => $"{BeaconId.StrMajorMinor} {Description.Name}";
+        public override string ToString() => $"{Id} {Description.Name}";
     }
 }

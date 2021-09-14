@@ -11,7 +11,7 @@ namespace ApplicationCore.Domain.CheckPointModel.RssiFingerprinting.Model
     /// </summary>
     public class CheckPointFp : CheckPointBase
     {
-        public CheckPointFp(BeaconId beaconId, CheckPointDescription description) : base(beaconId, description)
+        public CheckPointFp(CheckPointDescription description) : base(description)
         {
         }
 

@@ -59,30 +59,35 @@ namespace UseCase.DiscreteSteps.Managed
            //Создание чекпоинтов
            var checkPoints = new List<CheckPointDs>
            {
-               new CheckPointDs(
-                   new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"),  65438, 43487),
-                   new CheckPointDescription("Кабинет 1", "Кабинет 1 - выход в холл"),
-                   new CoverageArea(1.5)),
-                
-               new CheckPointDs(
-                   new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 35144, 19824),
-                   new CheckPointDescription("Кабинет 2", "Кабинет 2"),
-                   new CoverageArea(0.8)),
-                
-               new CheckPointDs(
-                   new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 56400, 31127),
-                   new CheckPointDescription("Кабинет 3", "Кабинет 3"),
-                   new CoverageArea(0.8)),
-                
-               new CheckPointDs(
-                   new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 56954, 34501),
-                   new CheckPointDescription("Кабинет 4", "Кабинет 4"),
-                   new CoverageArea(1.5)),
+               new CheckPointDs(new CheckPointDescription("Кабинет 1", "Кабинет 1 - выход в холл"),
+                   new BeaconCheckPointItem(
+                       new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"),  65438, 43487),
+                       new CoverageArea(1.5))
+                   ),
                
-               new CheckPointDs(
-                   new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 58734, 51137),
-                   new CheckPointDescription("Сан узел", "Сан узел"),
-                   new CoverageArea(1.5)),
+               new CheckPointDs(new CheckPointDescription("Кабинет 2", "Кабинет 2"),
+                   new BeaconCheckPointItem(
+                       new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 35144, 19824),
+                       new CoverageArea(0.8))
+               ),
+               
+               new CheckPointDs(new CheckPointDescription("Кабинет 3", "Кабинет 3"),
+                   new BeaconCheckPointItem(
+                       new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 56400, 31127),
+                       new CoverageArea(0.8))
+               ),
+               
+               new CheckPointDs(new CheckPointDescription("Кабинет 4", "Кабинет 4"),
+                   new BeaconCheckPointItem(
+                       new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 56954, 34501),
+                       new CoverageArea(1.5))
+               ),
+               
+               new CheckPointDs(new CheckPointDescription("Сан узел", "Сан узел"),
+                   new BeaconCheckPointItem(
+                       new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 58734, 51137),
+                       new CoverageArea(1.5))
+               ),
            };
             
            //добавление вершин
@@ -94,8 +99,11 @@ namespace UseCase.DiscreteSteps.Managed
            graph.AddEdge(checkPoints[2], checkPoints[3], 5449); //Кабинет3-Кабинет4
            graph.AddEdge(checkPoints[3], checkPoints[4], 7314); //Кабинет4-Сан узел
            return graph;
-       } 
-        
-        
+       }
+
+       public Guid GetSharedUuid()
+       {
+           return Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e");
+       }
     }
 }

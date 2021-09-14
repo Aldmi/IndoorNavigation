@@ -70,7 +70,7 @@ namespace UseCase.DiscreteSteps.Managed
         private void Init()
         {
             //Загрузить граф если граф пуст.
-            _graphMovingCalculator = new GraphMovingCalculator(_graphRepository.GetGraph()); //TODO: сами сервисы внедрять через фабрику Func<>();
+            _graphMovingCalculator = new GraphMovingCalculator(_graphRepository.GetSharedUuid(), _graphRepository.GetGraph()); //TODO: сами сервисы внедрять через фабрику Func<>();
             _routeBuilder = new RouteBuilder(_graphRepository.GetGraph());
             _observableListMovings = _beaconManager
                 .WhenBeaconRanged(ScanningRegion, BleScanType.LowLatency)
