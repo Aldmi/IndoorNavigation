@@ -16,7 +16,7 @@ namespace ApplicationCore.Domain.DistanceService
         /// <param name="sourse">список групп Beacon, сгрупированных по BeaconId</param>
         /// <param name="distanceHandler">Rssi преобразуется к distance</param>
         /// <param name="txPower"></param>
-        public static IObservable<IList<BeaconDistance>> Map2BeaconDistanceModel(
+        public static IObservable<IList<BeaconDistance>> Map2BeaconDistance(
             this IObservable<List<IGrouping<BeaconId, Beacon>>> sourse,
             Func<BeaconId, IEnumerable<double>, double> distanceHandler,
             int txPower)
@@ -30,7 +30,7 @@ namespace ApplicationCore.Domain.DistanceService
                         var distanceList = group
                             .Select(b => Algoritms.CalculateDistance(txPower, b.Rssi))
                             .ToList();
-
+                        
                         var distance = distanceHandler(id, distanceList);
                         var model = new BeaconDistance(id, distance);
                         return model;

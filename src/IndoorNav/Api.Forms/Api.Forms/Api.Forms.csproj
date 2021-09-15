@@ -35,4 +35,11 @@
       <ProjectReference Include="..\..\UseCase.DiscreteSteps\UseCase.DiscreteSteps.csproj" />
       <ProjectReference Include="..\..\UseCase.Trilateration\UseCase.Trilateration.csproj" />
     </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="Pages\MainPage.xaml.cs">
+        <DependentUpon>MainPage.xaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+    </ItemGroup>
 </Project>

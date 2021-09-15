@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using ApplicationCore.Domain.CheckPointModel;
 using ApplicationCore.Domain.CheckPointModel.DiscreteSteps;
-using ApplicationCore.Shared.DataStruct;
 using ApplicationCore.Shared.DataStruct.GraphNotOriented;
-using ApplicationCore.Shared.DataStruct.Tree;
 using Libs.Beacons.Models;
 
 namespace UseCase.DiscreteSteps.Managed

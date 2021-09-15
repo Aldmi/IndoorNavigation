@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
@@ -72,6 +71,7 @@ namespace UseCase.DiscreteSteps.Managed
             //Загрузить граф если граф пуст.
             _graphMovingCalculator = new GraphMovingCalculator(_graphRepository.GetSharedUuid(), _graphRepository.GetGraph()); //TODO: сами сервисы внедрять через фабрику Func<>();
             _routeBuilder = new RouteBuilder(_graphRepository.GetGraph());
+            ScanningRegion = new BeaconRegion("Graph root", _graphMovingCalculator.SharedUuid);
             _observableListMovings = _beaconManager
                 .WhenBeaconRanged(ScanningRegion, BleScanType.LowLatency)
                 .ManagedScanDiscreteStepsFlow(
@@ -94,7 +94,7 @@ namespace UseCase.DiscreteSteps.Managed
                 throw new ArgumentException("A beacon scan is already running");
 
             Movings.Clear();
-            ScanningRegion ??= new BeaconRegion("Graph root", _graphMovingCalculator.SharedUuid);
+
             
             _scanSub = _observableListMovings
                 //Обработка

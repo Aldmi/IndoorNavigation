@@ -4,7 +4,7 @@ using Prism.Navigation;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 
-namespace Api.Forms
+namespace Api.Forms.Pages
 {
     public class MainViewModel : ViewModel
     {

@@ -104,7 +104,7 @@ namespace UseCase.Trilateration.Managed
 
             var observableListSphere = _beaconManager
                 .WhenBeaconRanged(scanRegion, BleScanType.LowLatency)
-                .ManagedScanFlow(whiteListBeaconsId, TimeSpan.FromSeconds(1), _sphereFactory)
+                .ManagedScanFlow(whiteListBeaconsId, TimeSpan.FromSeconds(0.6), _sphereFactory)
                 .Publish()
                 .RefCount();
             

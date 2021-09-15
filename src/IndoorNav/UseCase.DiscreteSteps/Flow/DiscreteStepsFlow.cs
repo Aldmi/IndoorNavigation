@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reactive.Linq;
-using ApplicationCore.Domain;
 using ApplicationCore.Domain.DistanceService;
 using ApplicationCore.Domain.DistanceService.Model;
-using ApplicationCore.Domain.MovingService;
 using ApplicationCore.Domain.MovingService.Model;
 using Libs.Beacons.Flows;
 using Libs.Beacons.Models;
@@ -21,7 +19,7 @@ namespace UseCase.DiscreteSteps.Flow
         /// <param name="bufferTime">время накопления данных по группам</param>
         /// <param name="txPower">мощность маяка на расстоянии 1м</param>
         /// <param name="distanceHandler"></param>
-        /// <param name="calculateMove"> Сервис реализующий calculateMove, должен быть StateFull чтобы хранить текущее положенгие в графе и вычислять Moving</param>
+        /// <param name="calculateMove"> Сервис реализующий calculateMove, должен быть StateFull чтобы хранить текущее положение в графе и вычислять Moving</param>
         /// <param name="logger"></param>
         /// <returns>Текушее положение объекта в графе.</returns>
         public static IObservable<Moving> ManagedScanDiscreteStepsFlow(this IObservable<Beacon> sourse,
@@ -35,7 +33,7 @@ namespace UseCase.DiscreteSteps.Flow
                 //Буфферизация и разбиение на группы по Id
                 .GroupAfterBuffer(bufferTime)
                 //Маппинг к InData. (фильтрация значений в группе и преобразование к InData)
-                .Map2BeaconDistanceModel(distanceHandler, txPower)
+                .Map2BeaconDistance(distanceHandler, txPower)
                 //Упорядочить по Distance
                 .OrderByDescendingForDistance()
                 //Определить перемещение в графе движения, используя функцию calculateMove.

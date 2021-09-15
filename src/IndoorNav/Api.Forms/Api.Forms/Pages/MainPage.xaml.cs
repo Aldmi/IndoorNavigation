@@ -1,6 +1,6 @@
 ﻿using Xamarin.Forms;
 
-namespace Api.Forms
+namespace Api.Forms.Pages
 {
     public partial class MainPage : ContentPage
     {

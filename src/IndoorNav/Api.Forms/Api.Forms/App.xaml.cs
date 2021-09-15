@@ -1,4 +1,5 @@
-﻿using Api.Forms.Pages.Beacons;
+﻿using Api.Forms.Pages;
+using Api.Forms.Pages.Beacons;
 using Api.Forms.Pages.BluetoothLE;
 using Api.Forms.Pages.Graph;
 using Api.Forms.Pages.Logging;

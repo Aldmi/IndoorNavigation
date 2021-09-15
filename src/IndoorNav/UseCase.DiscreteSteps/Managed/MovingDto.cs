@@ -1,6 +1,5 @@
 ﻿using System;
 using ApplicationCore.Domain.CheckPointModel;
-using ApplicationCore.Domain.MovingService;
 using ApplicationCore.Domain.MovingService.Model;
 
 namespace UseCase.DiscreteSteps.Managed
