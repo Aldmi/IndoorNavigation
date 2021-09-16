@@ -29,7 +29,7 @@ namespace UseCase.Trilateration.Flow
         {
             return sourse
                 //Проходят только значения из списка
-                .WhenWhiteList(whiteList)
+               // .WhenWhiteList(whiteList)
                 //Буфферизация и разбиение на группы по Id
                 .GroupAfterBuffer(bufferTime)
                 //Создание сфер

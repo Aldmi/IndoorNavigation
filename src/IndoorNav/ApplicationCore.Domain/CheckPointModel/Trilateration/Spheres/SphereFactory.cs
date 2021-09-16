@@ -29,7 +29,7 @@ namespace ApplicationCore.Domain.CheckPointModel.Trilateration.Spheres
                 var option = _beaconOptions.FirstOrDefault(o => o.EqualById(beaconId));
                 var center = option?.Ancore ?? Point.EmptyPoint;
                 var ranges=beacons
-                    .Select(b =>  RangeBle.Create(b.Rssi, option?.TxPower ?? b.TxPower, _rssi2RangeConverter))
+                    .Select(b => RangeBle.Create(b.Rssi, option?.TxPower ?? b.TxPower, _rssi2RangeConverter))
                     .ToList();
                 var sphere = new Sphere(beaconId, center, ranges);
                 return sphere;

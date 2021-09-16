@@ -137,19 +137,19 @@ namespace UseCase.Trilateration.Managed
                 });
 
 
-            // _writeAnaliticSub = observableListSphere
-            //     .Buffer(5)
-            //     .Subscribe(async spheres =>
-            //     {
-            //         var csvHeader = SphereCsvStatistic.CsvHeader;
-            //         var csvLines = spheres
-            //             .SelectMany(list =>list.Select(s=>SphereCsvStatistic.Create(s, ExpectedRange4Analitic)))
-            //             .Select(statistic => statistic.Convert2CsvFormat())
-            //             .ToArray();
-            //         await _excelAnalitic.Write2CsvDoc("TrilaterationAnalitic.txt", csvHeader, csvLines, _firstStart);
-            //         _firstStart = false;
-            //         Debug.WriteLine(ExpectedRange4Analitic);//DEBUG
-            //     });
+            _writeAnaliticSub = observableListSphere
+                .Buffer(10)
+                .Subscribe(async spheres =>
+                {
+                    var csvHeader = SphereCsvStatistic.CsvHeader;
+                    var csvLines = spheres
+                        .SelectMany(list =>list.Select(s=>SphereCsvStatistic.Create(s, ExpectedRange4Analitic)))
+                        .Select(statistic => statistic.Convert2CsvFormat())
+                        .ToArray();
+                    await _excelAnalitic.Write2CsvDoc("TrilaterationAnalitic.txt", csvHeader, csvLines, _firstStart);
+                    _firstStart = false;
+                    Debug.WriteLine(ExpectedRange4Analitic);//DEBUG
+                });
         }
 
 

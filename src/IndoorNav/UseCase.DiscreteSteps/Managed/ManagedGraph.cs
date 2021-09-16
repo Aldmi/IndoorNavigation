@@ -5,6 +5,7 @@ using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using ApplicationCore.Domain.CheckPointModel;
+using ApplicationCore.Domain.DistanceService;
 using ApplicationCore.Domain.DistanceService.Handlers;
 using ApplicationCore.Domain.MovingService;
 using ApplicationCore.Domain.MovingService.Model;
@@ -16,7 +17,7 @@ using Libs.BluetoothLE;
 using Libs.Excel;
 using Microsoft.Extensions.Logging;
 using Shiny;
-using UseCase.DiscreteSteps.Flow;
+
 
 namespace UseCase.DiscreteSteps.Managed
 {
@@ -72,14 +73,15 @@ namespace UseCase.DiscreteSteps.Managed
             _graphMovingCalculator = new GraphMovingCalculator(_graphRepository.GetSharedUuid(), _graphRepository.GetGraph()); //TODO: сами сервисы внедрять через фабрику Func<>();
             _routeBuilder = new RouteBuilder(_graphRepository.GetGraph());
             ScanningRegion = new BeaconRegion("Graph root", _graphMovingCalculator.SharedUuid);
-            _observableListMovings = _beaconManager
+            
+           _observableListMovings= _beaconManager
                 .WhenBeaconRanged(ScanningRegion, BleScanType.LowLatency)
-                .ManagedScanDiscreteStepsFlow(
+                .Beacon2BeaconDistance(
                     TimeSpan.FromSeconds(0.6),
-                    -59, //TODO: брать из протокола.
-                    _beaconDistanceHandler.Invoke,
-                    _graphMovingCalculator.CalculateMove,
-                    _logger)
+                    -59, 
+                    _beaconDistanceHandler.Invoke)
+                 //Определить перемещение в графе движения, используя функцию calculateMove.
+                .Select(listDistance=> _graphMovingCalculator.CalculateMove(listDistance))
                 //Выдавать только первый найденный CheckPoint и затем только готовые отрезки.
                 //.Where(moving =>moving.MovingEvent == MovingEvent.InitSegment || moving.MovingEvent == MovingEvent.CompleteSegment);
                 .Publish()

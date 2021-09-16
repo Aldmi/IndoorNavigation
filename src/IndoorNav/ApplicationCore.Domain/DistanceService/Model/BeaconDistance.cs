@@ -4,7 +4,7 @@ using Libs.Beacons.Models;
 namespace ApplicationCore.Domain.DistanceService.Model
 {
     /// <summary>
-    /// Данные от Beacon, обработанные и пмреобразованнные к модели расстояния. 
+    /// Данные от Beacon, обработанные и преобразованнные к модели расстояния. 
     /// </summary>
     public class BeaconDistance
     {
@@ -18,5 +18,7 @@ namespace ApplicationCore.Domain.DistanceService.Model
             Distance = distance;
             LastSeen = DateTimeOffset.UtcNow;
         }
+        
+        public override string ToString() => $"{Distance:F1}м";
     }
 }
