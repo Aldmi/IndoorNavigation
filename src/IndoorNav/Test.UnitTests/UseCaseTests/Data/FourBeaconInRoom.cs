@@ -5,6 +5,8 @@ using ApplicationCore.Domain;
 using ApplicationCore.Domain.CheckPointModel.Trilateration.Spheres;
 using ApplicationCore.Domain.Options;
 using ApplicationCore.Shared;
+using ApplicationCore.Shared.Algoritms;
+using ApplicationCore.Shared.Models;
 using Libs.Beacons;
 using Libs.Beacons.Models;
 using UseCase.Trilateration.Flow;
@@ -65,7 +67,7 @@ namespace Test.Beacons.UseCaseTests.Data
 
         public static SphereFactory CreateSphereFactory()
         {
-            return new SphereFactory(Algoritms.CalculateDistance, CreateOption());
+            return new SphereFactory(Rssi2DistanceAlgoritm.CalculateDistance, CreateOption());
         }
     }
 }

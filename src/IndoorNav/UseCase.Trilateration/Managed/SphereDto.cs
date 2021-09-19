@@ -2,6 +2,7 @@
 using ApplicationCore.Domain;
 using ApplicationCore.Domain.CheckPointModel.Trilateration.Spheres;
 using ApplicationCore.Shared;
+using ApplicationCore.Shared.Models;
 using Libs.Beacons;
 using Shiny;
 

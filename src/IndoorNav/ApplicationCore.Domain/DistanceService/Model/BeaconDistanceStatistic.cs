@@ -20,7 +20,6 @@ namespace ApplicationCore.Domain.DistanceService.Model
         public BeaconId BeaconId { get; }
         public IReadOnlyList<double> DistanceList { get; }
         public double DistanceResult { get; }
-  
         public DateTimeOffset LastSeen { get; }
     }
 }

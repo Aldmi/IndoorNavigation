@@ -5,6 +5,7 @@ using System.Reactive.Linq;
 using ApplicationCore.Domain.DistanceService.Model;
 using ApplicationCore.Domain.MovingService.Model;
 using ApplicationCore.Shared;
+using ApplicationCore.Shared.Algoritms;
 using Libs.Beacons.Flows;
 using Libs.Beacons.Models;
 
@@ -36,6 +37,25 @@ namespace ApplicationCore.Domain.DistanceService
         
         
         /// <summary>
+        /// Сырые Beacon данные преобразует к расстоянию от маяка и обрабатывает массив расстояний с помощью distanceHandler.
+        /// </summary>
+        /// <param name="sourse"></param>
+        /// <param name="bufferTime"></param>
+        /// <param name="txPower"></param>
+        /// <param name="distanceHandler"></param>
+        /// <returns></returns>
+        public static IObservable<IList<BeaconDistanceStatistic>>Beacon2BeaconDistanceStatistic(this IObservable<Beacon> sourse,
+            TimeSpan bufferTime,
+            int txPower,
+            Func<BeaconId, IEnumerable<double>, double> distanceHandler)
+        {
+            return sourse
+                .GroupAfterBuffer(bufferTime)
+                .Map2BeaconDistanceStatistic(distanceHandler, txPower);
+        }
+        
+        
+        /// <summary>
         /// Обработка сигналов, накопленных за определенное время и сгрупированных по BeaconId.
         /// </summary>
         /// <param name="sourse">список групп Beacon, сгрупированных по BeaconId</param>
@@ -53,7 +73,7 @@ namespace ApplicationCore.Domain.DistanceService
                     {
                         var id = group.Key;
                         var distanceList = group
-                            .Select(b => Algoritms.CalculateDistance(txPower, b.Rssi))
+                            .Select(b => Rssi2DistanceAlgoritm.CalculateDistance(txPower, b.Rssi))
                             .ToList();
                         
                         var distance = distanceHandler(id, distanceList);
@@ -84,7 +104,7 @@ namespace ApplicationCore.Domain.DistanceService
                     {
                         var id = group.Key;
                         var distanceList = group
-                            .Select(b => Algoritms.CalculateDistance(txPower, b.Rssi))
+                            .Select(b => Rssi2DistanceAlgoritm.CalculateDistance(txPower, b.Rssi))
                             .ToList();
                         
                         var distance = distanceHandler(id, distanceList);

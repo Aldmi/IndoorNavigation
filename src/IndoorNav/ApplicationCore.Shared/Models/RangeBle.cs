@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ApplicationCore.Shared
+namespace ApplicationCore.Shared.Models
 {
     public class RangeBle
     {

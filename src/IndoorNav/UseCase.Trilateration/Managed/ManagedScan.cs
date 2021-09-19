@@ -7,6 +7,9 @@ using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using ApplicationCore.Domain;
 using ApplicationCore.Domain.CheckPointModel.Trilateration.Spheres;
+using ApplicationCore.Domain.DistanceService;
+using ApplicationCore.Domain.DistanceService.Handlers;
+using ApplicationCore.Domain.DistanceService.Model;
 using ApplicationCore.Domain.Options;
 using ApplicationCore.Shared;
 using Libs.Beacons;
@@ -17,13 +20,14 @@ using Libs.Excel;
 using Microsoft.Extensions.Logging;
 using Shiny;
 using UseCase.Trilateration.Flow;
-using Point = ApplicationCore.Shared.Point;
+using Point = ApplicationCore.Shared.Models.Point;
 
 namespace UseCase.Trilateration.Managed
 {
     public class ManagedScan : IDisposable
     {
         private readonly IBeaconRangingManager _beaconManager;
+        private readonly IBeaconDistanceHandler _beaconDistanceHandler;
         private readonly IExcelAnalitic _excelAnalitic;
         private readonly ILogger? _logger;
         private IScheduler? _scheduler;
@@ -31,15 +35,17 @@ namespace UseCase.Trilateration.Managed
         private IDisposable? _scanSub;
         private IDisposable? _writeAnaliticSub;
         private readonly IEnumerable<BeaconOption> _beaconOptions; //TODO: внедрять сервис репозитория, загружать настройки из БД.
-        private readonly SphereFactory _sphereFactory;
+        //private readonly SphereFactory _sphereFactory;
         
         
         public ManagedScan(
             IBeaconRangingManager beaconManager,
+            IBeaconDistanceHandler beaconDistanceHandler,
             IExcelAnalitic excelAnalitic,
             ILogger<ManagedScan> logger)
         {
             _beaconManager = beaconManager;
+            _beaconDistanceHandler = beaconDistanceHandler;
             _excelAnalitic = excelAnalitic;
             _logger = logger;
             _beaconOptions = new List<BeaconOption>
@@ -49,11 +55,11 @@ namespace UseCase.Trilateration.Managed
                 new BeaconOption(new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 35144, 19824),2,-59, new Point(1, 1)),
                // new BeaconOption(new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 48943, 20570),2,-77, new Point(1, 1)),
             };
-            _sphereFactory = new SphereFactory(Algoritms.CalculateDistance, _beaconOptions); // TODO: Можно зарегистрировать в DI
+            //_sphereFactory = new SphereFactory(Algoritms.CalculateDistance, _beaconOptions); // TODO: Можно зарегистрировать в DI
         }
 
 
-        public ObservableCollection<SphereDto> Spheres { get; } = new ObservableCollection<SphereDto>();
+        public ObservableCollection<BeaconDistanceStatisticDto> Statistic { get; } = new ObservableCollection<BeaconDistanceStatisticDto>();
         public BeaconRegion? ScanningRegion { get; private set; }
         public bool IsScanning => ScanningRegion != null;
         public int ExpectedRange4Analitic { get; set; }
@@ -74,13 +80,13 @@ namespace UseCase.Trilateration.Managed
                     _clearSub = Observable
                         .Interval(TimeSpan.FromSeconds(5))
                         .ObserveOnIf(_scheduler)
-                        .Synchronize(Spheres)
+                        .Synchronize(Statistic)
                         .Subscribe(_ =>
                         {
                             var maxAge = DateTimeOffset.UtcNow.Subtract(value.Value);
-                            var tmp = Spheres.Where(x => x.LastSeen < maxAge).ToList();
+                            var tmp = Statistic.Where(x => x.LastSeen < maxAge).ToList();
                             foreach (var sphere in tmp)
-                                Spheres.Remove(sphere);
+                                Statistic.Remove(sphere);
                         });
                 }
             }
@@ -95,39 +101,39 @@ namespace UseCase.Trilateration.Managed
             _firstStart = true;
             _scheduler = scheduler;
             ScanningRegion = scanRegion;
-            Spheres.Clear();
+            Statistic.Clear();
 
             // restart clear if applicable
             ClearTime = ClearTime;
 
             var whiteListBeaconsId = _beaconOptions.Select(b => b.BeaconId).ToList();
 
-            var observableListSphere = _beaconManager
+            var observableListStatistic = _beaconManager
                 .WhenBeaconRanged(scanRegion, BleScanType.LowLatency)
-                .ManagedScanFlow(whiteListBeaconsId, TimeSpan.FromSeconds(0.6), _sphereFactory)
+                .Beacon2BeaconDistanceStatistic(
+                    TimeSpan.FromSeconds(0.6),
+                    -59, 
+                    _beaconDistanceHandler.Invoke)
                 .Publish()
                 .RefCount();
             
-            _scanSub = observableListSphere
+            _scanSub = observableListStatistic
                 //Обработка
                 .ObserveOnIf(_scheduler)
-                .Synchronize(Spheres)
-                .Subscribe(spheres =>
+                .Synchronize(Statistic)
+                .Subscribe(beaconStat =>
                 {
-                    foreach (var sphere in spheres)
+                    foreach (var stat in beaconStat)
                     {
-                        var managed = Spheres.FirstOrDefault(x => x.Sphere.BeaconId.Equals(sphere.BeaconId));
+                        var managed = Statistic.FirstOrDefault(x => x.Statistic.BeaconId.Equals(stat.BeaconId));
                         if (managed == null)
                         {
-                            managed = new SphereDto(sphere);
-                            Spheres.Add(managed);
+                            managed = new BeaconDistanceStatisticDto(stat);
+                            Statistic.Add(managed);
                         }
                         managed.LastSeen = DateTimeOffset.UtcNow;
-                        managed.Analitic = sphere.RangeList.Select(r=>r.ToString()).Aggregate((r1, r2) => $"{r1}, {r2}");
-                        managed.Center = sphere.Center;
-                        managed.Radius = sphere.Radius;
-                         
-                        //_logger.LogInformation($"{sphere.Beacon.Analitic}");
+                        managed.DistanceList = stat.DistanceList.Select(r=>r.ToString()).Aggregate((r1, r2) => $"{r1}, {r2}");
+                        managed.DistanceResult = stat.DistanceResult.ToString("F1");
                     }
                     //TODO: можно вычислять местоположение. 
                     // var location= Trilateration.CalcLocation(spheres);
@@ -137,16 +143,16 @@ namespace UseCase.Trilateration.Managed
                 });
 
 
-            _writeAnaliticSub = observableListSphere
+            _writeAnaliticSub = observableListStatistic
                 .Buffer(10)
-                .Subscribe(async spheres =>
+                .Subscribe(async statisticList =>
                 {
-                    var csvHeader = SphereCsvStatistic.CsvHeader;
-                    var csvLines = spheres
-                        .SelectMany(list =>list.Select(s=>SphereCsvStatistic.Create(s, ExpectedRange4Analitic)))
+                    var csvHeader = BeaconDistanceStatisticCsv.CsvHeader;
+                    var csvLines = statisticList
+                        .SelectMany(list =>list.Select(distanceStatistic=>BeaconDistanceStatisticCsv.Create(distanceStatistic, ExpectedRange4Analitic)))
                         .Select(statistic => statistic.Convert2CsvFormat())
                         .ToArray();
-                    await _excelAnalitic.Write2CsvDoc("TrilaterationAnalitic.txt", csvHeader, csvLines, _firstStart);
+                    await _excelAnalitic.Write2CsvDoc("BeaconDistance.txt", csvHeader, csvLines, _firstStart);
                     _firstStart = false;
                     Debug.WriteLine(ExpectedRange4Analitic);//DEBUG
                 });
@@ -166,7 +172,7 @@ namespace UseCase.Trilateration.Managed
         public void Dispose()
         {
             Stop();
-            Spheres.Clear();
+            Statistic.Clear();
         }
     }
 }

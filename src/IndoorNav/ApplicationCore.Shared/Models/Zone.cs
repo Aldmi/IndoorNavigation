@@ -1,4 +1,4 @@
-﻿namespace ApplicationCore.Shared
+﻿namespace ApplicationCore.Shared.Models
 {
     public enum Zone
     {

@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Diagnostics;
 
-namespace ApplicationCore.Shared
+namespace ApplicationCore.Shared.Algoritms
 {
-    
-    public static class Algoritms
+    public static class Rssi2DistanceAlgoritm
     {
         public static double CalculateDistance(int measuredPower, double rssi) 
         {

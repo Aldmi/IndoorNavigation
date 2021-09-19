@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ApplicationCore.Shared
+namespace ApplicationCore.Shared.Models
 {
     //TODO: Наследоваться от ValueObj
     public class Point: IEquatable<Point>

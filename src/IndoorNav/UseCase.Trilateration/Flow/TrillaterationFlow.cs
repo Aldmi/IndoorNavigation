@@ -29,11 +29,13 @@ namespace UseCase.Trilateration.Flow
         {
             return sourse
                 //Проходят только значения из списка
-               // .WhenWhiteList(whiteList)
+                .WhenWhiteList(whiteList)
+                
+                //TODO: убрать все что ниже и использовать BeaconDistanceFlow(), и потом на базе этих данных создавать Flow.
                 //Буфферизация и разбиение на группы по Id
                 .GroupAfterBuffer(bufferTime)
                 //Создание сфер
-                .CreateSphere(sphereFactory);
+                .CreateSphere(sphereFactory);                
         }
     }
 }

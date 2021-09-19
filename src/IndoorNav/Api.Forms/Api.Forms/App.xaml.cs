@@ -33,8 +33,8 @@ namespace Api.Forms
             //var res=await NavigationService.NavigateAsync("Nav/Main");
             //var res=await NavigationService.NavigateAsync("Nav/BleCentral");
             //var res=await NavigationService.NavigateAsync("Main/Nav/TestLogProviders/");
-            // var res= await NavigationService.NavigateAsync("Main/Nav/ManagedBeacon");
-            var res=await NavigationService.NavigateAsync("Main/Nav/ManagedGraph");
+             var res= await NavigationService.NavigateAsync("Main/Nav/ManagedBeacon");
+            //var res=await NavigationService.NavigateAsync("Main/Nav/ManagedGraph");
         }
         
         

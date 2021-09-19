@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using ApplicationCore.Domain.DistanceService;
 using ApplicationCore.Domain.DistanceService.Model;
 using ApplicationCore.Shared;
+using ApplicationCore.Shared.Models;
 using Libs.Beacons.Models;
 
 namespace ApplicationCore.Domain.CheckPointModel

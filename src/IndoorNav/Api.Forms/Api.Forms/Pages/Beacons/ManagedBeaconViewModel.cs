@@ -59,7 +59,7 @@ namespace Api.Forms.Pages.Beacons
             ClearRegion = ReactiveCommand.Create(() =>
             {
                 Region = null;
-                Spheres.Clear();//TODO: ??? прокинуть команду в MyManagedScan по очищению списка.
+                Statistics.Clear();//TODO: ??? прокинуть команду в MyManagedScan по очищению списка.
             });
             
             ScanToggle = ReactiveCommand.Create(() =>
@@ -84,7 +84,7 @@ namespace Api.Forms.Pages.Beacons
         }
 
         
-        public ObservableCollection<SphereDto> Spheres => _scanner.Spheres;
+        public ObservableCollection<BeaconDistanceStatisticDto> Statistics => _scanner.Statistic;
         
         public ICommand SetRegion { get; }
         public ICommand ClearRegion { get; }

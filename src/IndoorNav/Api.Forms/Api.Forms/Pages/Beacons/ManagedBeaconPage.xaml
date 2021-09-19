@@ -45,12 +45,12 @@
                 </StackLayout>
             </Frame>
             
-            <ListView ItemsSource="{Binding Spheres}" HasUnevenRows="True">
+            <ListView ItemsSource="{Binding Statistics}" HasUnevenRows="True">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
                             <ViewCell.View>
-                                <Grid x:DataType="managed:SphereDto" VerticalOptions="Fill" HorizontalOptions="Fill">
+                                <Grid x:DataType="managed:BeaconDistanceStatisticDto" VerticalOptions="Fill" HorizontalOptions="Fill">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto" />
                                         <RowDefinition Height="Auto" />
@@ -64,9 +64,8 @@
                                            FontSize="Small"
                                            TextDecorations="Underline"
                                            TextTransform="Uppercase"/>
-                                    <Label Grid.Row="1"  Text="{Binding Analitic, StringFormat='Analitic: {0}'}" FontSize="Small" />
-                                    <Label Grid.Row="2" Text="{Binding Radius, StringFormat='Radius: {0:F2}м'}" FontSize="Medium"  />
-                                    <Label Grid.Row="3" Text="{Binding Center, StringFormat='Center: {0}м'}" FontSize="Medium"  />
+                                    <Label Grid.Row="1"  Text="{Binding DistanceList, StringFormat='Distances: {0}'}" FontSize="Small" />
+                                    <Label Grid.Row="2" Text="{Binding DistanceResult, StringFormat='Result: {0}м'}" FontSize="Medium"  />
                                     <Label Grid.Row="4" Text="{Binding LastSeen, StringFormat='LastSeen: {0:T} (UTC)'}" FontSize="Medium"  />
                                 </Grid>
                             </ViewCell.View>
