@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using ApplicationCore.Domain.CheckPointModel;
 using ApplicationCore.Domain.CheckPointModel.DiscreteSteps;
-using ApplicationCore.Domain.DistanceService;
 using ApplicationCore.Domain.DistanceService.Model;
 using ApplicationCore.Shared.DataStruct.GraphNotOriented;
 using Libs.Beacons.Models;
 
-namespace Test.Beacons.Domain.Test.Data
+namespace Test.Beacons.Domain.Test.MovingService.Data
 {
     public static class CheckPointGraphSampleTwo
     {

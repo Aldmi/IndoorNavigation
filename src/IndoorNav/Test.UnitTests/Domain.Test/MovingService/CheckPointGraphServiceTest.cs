@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using ApplicationCore.Domain.MovingService;
 using ApplicationCore.Domain.MovingService.Model;
-using ApplicationCore.Shared.DataStruct.GraphNotOriented;
 using FluentAssertions;
-using Libs.Beacons.Models;
-using Test.Beacons.Domain.Test.Data;
+using Test.Beacons.Domain.Test.MovingService.Data;
 using Xunit;
 
-namespace Test.Beacons.Domain.Test
+namespace Test.Beacons.Domain.Test.MovingService
 {
     public class CheckPointGraphServiceTest
     {

@@ -10,7 +10,7 @@ namespace ApplicationCore.Domain.DistanceService.Handlers
     {
         public double Invoke(BeaconId id, IEnumerable<double> distances)
         {
-            Debug.WriteLine(String.Join("  ", distances.Select(d => d.ToString("F"))));
+            //Debug.WriteLine(String.Join("  ", distances.Select(d => d.ToString("F"))));
             return distances.Average();
         }
     }

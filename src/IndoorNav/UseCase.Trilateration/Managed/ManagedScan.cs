@@ -13,7 +13,7 @@ using ApplicationCore.Domain.DistanceService.Model;
 using ApplicationCore.Domain.Options;
 using ApplicationCore.Shared;
 using Libs.Beacons;
-
+using Libs.Beacons.Flows;
 using Libs.Beacons.Models;
 using Libs.BluetoothLE;
 using Libs.Excel;
@@ -106,13 +106,14 @@ namespace UseCase.Trilateration.Managed
             // restart clear if applicable
             ClearTime = ClearTime;
 
-            var whiteListBeaconsId = _beaconOptions.Select(b => b.BeaconId).ToList();
-
+            var whiteList = _beaconOptions.Select(b => b.BeaconId).ToList();
             var observableListStatistic = _beaconManager
                 .WhenBeaconRanged(scanRegion, BleScanType.LowLatency)
+                //Проходят только значения из списка
+               // .WhenWhiteList(whiteList)
                 .Beacon2BeaconDistanceStatistic(
-                    TimeSpan.FromSeconds(0.6),
-                    -59, 
+                    TimeSpan.FromSeconds(0.5),
+                    -50, // -59, 
                     _beaconDistanceHandler.Invoke)
                 .Publish()
                 .RefCount();
@@ -132,7 +133,7 @@ namespace UseCase.Trilateration.Managed
                             Statistic.Add(managed);
                         }
                         managed.LastSeen = DateTimeOffset.UtcNow;
-                        managed.DistanceList = stat.DistanceList.Select(r=>r.ToString()).Aggregate((r1, r2) => $"{r1}, {r2}");
+                        managed.DistanceList = stat.DistanceList.Select(r => r.ToString("F1")).Aggregate((s1, s2) => $"{s1} / {s2}");
                         managed.DistanceResult = stat.DistanceResult.ToString("F1");
                     }
                     //TODO: можно вычислять местоположение. 
