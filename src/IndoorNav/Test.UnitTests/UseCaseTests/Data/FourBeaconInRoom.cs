@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Reactive.Linq;
 using ApplicationCore.Domain;
 using ApplicationCore.Domain.CheckPointModel.Trilateration.Spheres;
+using ApplicationCore.Domain.DistanceService;
 using ApplicationCore.Domain.Options;
 using ApplicationCore.Shared;
-using ApplicationCore.Shared.Algoritms;
 using ApplicationCore.Shared.Models;
 using Libs.Beacons;
 using Libs.Beacons.Models;
@@ -67,7 +67,7 @@ namespace Test.Beacons.UseCaseTests.Data
 
         public static SphereFactory CreateSphereFactory()
         {
-            return new SphereFactory(Rssi2DistanceAlgoritm.CalculateDistance, CreateOption());
+            return new SphereFactory(Rssi2DistanceConverter.CalculateDistance, CreateOption());
         }
     }
 }

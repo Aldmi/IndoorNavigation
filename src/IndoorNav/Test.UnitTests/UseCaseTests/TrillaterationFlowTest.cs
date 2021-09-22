@@ -7,8 +7,8 @@ using System.Reactive.Threading.Tasks;
 using System.Threading.Tasks;
 using ApplicationCore.Domain;
 using ApplicationCore.Domain.CheckPointModel.Trilateration.Spheres;
+using ApplicationCore.Domain.DistanceService;
 using ApplicationCore.Shared;
-using ApplicationCore.Shared.Algoritms;
 using FluentAssertions;
 using Libs.Beacons;
 using Libs.Beacons.Models;
@@ -27,7 +27,7 @@ namespace Test.Beacons.UseCaseTests
         {
             //Arrange
             var options = FourBeaconInRoom.CreateOption();
-            var sphereFactory= new SphereFactory(Rssi2DistanceAlgoritm.CalculateDistance, options);
+            var sphereFactory= new SphereFactory(Rssi2DistanceConverter.CalculateDistance, options);
             var sourse = FourBeaconInRoom.CreateFlowImmediatly();
             var whiteList = options.Select(o => o.BeaconId).ToList();
             

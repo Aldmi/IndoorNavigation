@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using ApplicationCore.Shared.Algoritms;
+using ApplicationCore.Domain.DistanceService;
 using Xunit;
 
 namespace Test.Beacons.AlgoritmTests
@@ -8,7 +9,7 @@ namespace Test.Beacons.AlgoritmTests
     public class RssiAverageTest
     {
         //private List<int> RssiBufer = new() {-52, -53, -55, -54, -70};
-        private List<int> RssiBufer = new() {-72, -73, -75, -74, -58};
+        private List<int> RssiBufer = new() {-62, -63, -65, -74, -58};
         
         /// <summary>
         /// Считать лутчше среднее Rssi 
@@ -16,10 +17,10 @@ namespace Test.Beacons.AlgoritmTests
         [Fact]
         public void CalcAverageRssi()
         {
-           var averageRssi= RssiBufer.Average();
-           var dist=Rssi2DistanceAlgoritm.CalculateDistance(-50, averageRssi);
+           var averageRssi= (int)Math.Round(RssiBufer.Average());
+           var dist=Rssi2DistanceConverter.CalculateDistance(-50, averageRssi);
 
-           var distList = RssiBufer.Select(rssi => Rssi2DistanceAlgoritm.CalculateDistance(-50, rssi)).ToList();
+           var distList = RssiBufer.Select(rssi => Rssi2DistanceConverter.CalculateDistance(-50, rssi)).ToList();
            var dist2 = distList.Average();
         }
     }

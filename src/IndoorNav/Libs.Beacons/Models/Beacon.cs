@@ -15,6 +15,17 @@ namespace Libs.Beacons.Models
             Accuracy = accuracy;
             TxPower = txPower;
         }
+        
+        
+        public Beacon(BeaconId id, int rssi, int txPower)
+        {
+            Id = id;
+            Uuid = Id.Uuid; //TODO: переделать только под Id
+            Major = Id.Major;
+            Minor = Id.Minor;
+            Rssi = rssi;
+            TxPower = txPower;
+        }
 
 
         public BeaconId Id { get;  }

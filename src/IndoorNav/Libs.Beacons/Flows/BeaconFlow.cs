@@ -24,6 +24,33 @@ namespace Libs.Beacons.Flows
         
         
         /// <summary>
+        /// Вычислить среднее значение rssi из группы сигналов.
+        /// </summary>
+        /// <param name="sourse"></param>
+        /// <param name="averageRssiCalc"></param>
+        /// <returns></returns>
+        public static IObservable<IList<Beacon>> CalcAverageRssiInGroupBeacons(this IObservable<List<IGrouping<BeaconId, Beacon>>> sourse, Func<List<int>, int> averageRssiCalc)
+        {
+            return sourse
+                .Select(listGr =>
+                {
+                    var inDataList = listGr.Select(group =>
+                    {
+                        var id = group.Key;
+                        var rssiList = group
+                            .Select(b => b.Rssi)
+                            .ToList();
+
+                        var averageRssi= averageRssiCalc(rssiList);
+                        var model = new Beacon(id, averageRssi, 0);
+                        return model;
+                    }).ToList();
+                    return inDataList;
+                });
+        }
+        
+        
+        /// <summary>
         /// Фильтрация маяков по белому списку Id.
         /// </summary>
         /// <param name="sourse"></param>

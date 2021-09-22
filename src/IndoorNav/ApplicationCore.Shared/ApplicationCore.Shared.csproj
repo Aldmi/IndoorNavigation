@@ -6,4 +6,12 @@
         <LangVersion>9</LangVersion>
     </PropertyGroup>
 
+    <ItemGroup>
+      <PackageReference Include="CSharpFunctionalExtensions" Version="2.20.3" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Algoritms" />
+    </ItemGroup>
+
 </Project>

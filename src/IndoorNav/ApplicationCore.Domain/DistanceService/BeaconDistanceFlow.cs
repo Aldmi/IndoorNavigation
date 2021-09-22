@@ -5,7 +5,7 @@ using System.Reactive.Linq;
 using ApplicationCore.Domain.DistanceService.Model;
 using ApplicationCore.Domain.MovingService.Model;
 using ApplicationCore.Shared;
-using ApplicationCore.Shared.Algoritms;
+using CSharpFunctionalExtensions;
 using Libs.Beacons.Flows;
 using Libs.Beacons.Models;
 
@@ -13,6 +13,26 @@ namespace ApplicationCore.Domain.DistanceService
 {
     public static class BeaconDistanceFlow
     {
+        public static IObservable<IList<BeaconDistance>>Beacon2BeaconDistance(this IObservable<Beacon> sourse,
+            TimeSpan bufferTime,
+            double beaconHeight,
+            int txPower,
+            Func<List<int>, int> averageRssiCalc)
+        {
+            return sourse
+                //Буфферизация и разбиение на группы по Id
+                .GroupAfterBuffer(bufferTime)
+                //Среднее из сигналов Rssi одного датчика
+                .CalcAverageRssiInGroupBeacons(averageRssiCalc)
+                //Rssi -> Distance
+                .MapBeaconRssi2BeaconDistanceResult(beaconHeight, txPower)
+                //Вернуть только валидные Distance
+                .OnlyValidDistance()
+                //Упорядочить по Distance
+                .OrderByDescendingForDistance();
+        }
+        
+        
         /// <summary>
         /// Сырые Beacon данные преобразует к расстоянию от маяка и обрабатывает массив расстояний с помощью distanceHandler.
         /// </summary>
@@ -53,6 +73,37 @@ namespace ApplicationCore.Domain.DistanceService
                 .GroupAfterBuffer(bufferTime)
                 .Map2BeaconDistanceStatistic(distanceHandler, txPower);
         }
+
+
+        /// <summary>
+        /// Обработка сигналов Rssi, у маяков
+        /// Для каждой группы сигналов 
+        /// 1. Вычислим расстяние по прямой (гипотенуза) до маяка на потолке
+        /// 2. Вычислим проекцию на ось X, зная расстояние до маяка.
+        /// 
+        /// </summary>
+        /// <param name="sourse">список групп Beacon, сгрупированных по BeaconId</param>
+        /// <param name="beaconHeight">Высота маяка над приемником</param>
+        /// <param name="txPower"></param>
+        public static IObservable<IList<Result<BeaconDistance>>> MapBeaconRssi2BeaconDistanceResult(
+            this IObservable<IList<Beacon>> sourse,
+            double beaconHeight,
+            int txPower)
+        {
+            return sourse
+                .Select(listBeacons =>
+                {
+                    var inDataList = listBeacons.Select(beacon =>
+                    {
+                        var beaconDistanceResult = Rssi2DistanceConverter.CalculateDistance2(txPower, beacon.Rssi)
+                            .Bind(hypotenuseDistance => DistanceXProjectionCalculator.CalculateXProjection(hypotenuseDistance, beaconHeight))
+                            .Map(xProjection => new BeaconDistance(beacon.Id, xProjection));
+                           
+                       return beaconDistanceResult; 
+                    }).ToList();
+                    return inDataList;
+                });
+        }
         
         
         /// <summary>
@@ -73,7 +124,7 @@ namespace ApplicationCore.Domain.DistanceService
                     {
                         var id = group.Key;
                         var distanceList = group
-                            .Select(b => Rssi2DistanceAlgoritm.CalculateDistance(txPower, b.Rssi))
+                            .Select(b => Rssi2DistanceConverter.CalculateDistance(txPower, b.Rssi))
                             .ToList();
                         
                         var distance = distanceHandler(id, distanceList);
@@ -104,7 +155,7 @@ namespace ApplicationCore.Domain.DistanceService
                     {
                         var id = group.Key;
                         var distanceList = group
-                            .Select(b => Rssi2DistanceAlgoritm.CalculateDistance(txPower, b.Rssi))
+                            .Select(b => Rssi2DistanceConverter.CalculateDistance(txPower, b.Rssi))
                             .ToList();
                         
                         var distance = distanceHandler(id, distanceList);
@@ -127,5 +178,24 @@ namespace ApplicationCore.Domain.DistanceService
                     return list.OrderByDescending(inData => inData.Distance).ToList();
                 });
         }
+        
+        
+        /// <summary>
+        /// Упорядочить список InputData по Distance (в порядке убывания).
+        /// </summary>
+        /// OrderByDescendingForDistance
+        public static IObservable<IList<BeaconDistance>> OnlyValidDistance(this IObservable<IList<Result<BeaconDistance>>> sourse)
+        {
+            return sourse
+                .Select(list =>
+                {
+                    return list.Where(distanceRes => distanceRes.IsSuccess)
+                        .Select(distanceRes=> distanceRes.Value).ToList().
+                        ToList();
+                });
+        }
+        
+        
+
     }
 }
