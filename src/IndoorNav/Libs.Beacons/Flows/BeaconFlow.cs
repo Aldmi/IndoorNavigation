@@ -29,7 +29,7 @@ namespace Libs.Beacons.Flows
         /// <param name="sourse"></param>
         /// <param name="averageRssiCalc"></param>
         /// <returns></returns>
-        public static IObservable<IList<Beacon>> CalcAverageRssiInGroupBeacons(this IObservable<List<IGrouping<BeaconId, Beacon>>> sourse, Func<List<int>, int> averageRssiCalc)
+        public static IObservable<IList<BeaconAverage>> CalcAverageRssiInGroupBeacons(this IObservable<List<IGrouping<BeaconId, Beacon>>> sourse, Func<List<int>, double> averageRssiCalc)
         {
             return sourse
                 .Select(listGr =>
@@ -37,12 +37,13 @@ namespace Libs.Beacons.Flows
                     var inDataList = listGr.Select(group =>
                     {
                         var id = group.Key;
+                        var txPower = group.First().TxPower;
                         var rssiList = group
                             .Select(b => b.Rssi)
                             .ToList();
-
+                        
                         var averageRssi= averageRssiCalc(rssiList);
-                        var model = new Beacon(id, averageRssi, 0);
+                        var model = new BeaconAverage(id, averageRssi, txPower);
                         return model;
                     }).ToList();
                     return inDataList;

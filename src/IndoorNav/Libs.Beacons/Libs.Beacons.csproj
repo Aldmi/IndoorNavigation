@@ -255,6 +255,7 @@
     <Compile Include="IBeaconMonitoringManager.cs" />
     <Compile Include="IBeaconRangingManager.cs" />
     <Compile Include="Models\Beacon.cs" />
+    <Compile Include="Models\BeaconAverage.cs" />
     <Compile Include="Models\BeaconId.cs" />
     <Compile Include="Models\BeaconRegion.cs" />
     <Compile Include="Models\BeaconRegionState.cs" />

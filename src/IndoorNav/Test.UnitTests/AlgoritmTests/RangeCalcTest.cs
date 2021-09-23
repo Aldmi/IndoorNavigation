@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using ApplicationCore.Domain.DistanceService;
+using ApplicationCore.Domain.DistanceService.Helpers;
 using ApplicationCore.Shared;
 using FluentAssertions;
 using UseCase.Trilateration.Flow;
@@ -22,7 +23,7 @@ namespace Test.Beacons.AlgoritmTests
             
             //act
             var rangeDict= rssiList
-                .ToDictionary(rssi=>rssi, rssi=>Rssi2DistanceConverter.CalculateDistance(-59, rssi));
+                .ToDictionary(rssi=>rssi, rssi=>RssiHelpers.CalculateDistance(-59, rssi));
             
             //TODO: записать значения
             //assert
@@ -82,7 +83,7 @@ namespace Test.Beacons.AlgoritmTests
         [Fact]
         public void xxxxx()
         {
-            var dist = Rssi2DistanceConverter.CalculateDistance(-59, -86);
+            var dist = RssiHelpers.CalculateDistance(-59, -86);
             
         }
         

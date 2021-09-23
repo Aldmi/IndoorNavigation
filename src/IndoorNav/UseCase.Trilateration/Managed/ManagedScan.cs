@@ -8,7 +8,6 @@ using System.Reactive.Linq;
 using ApplicationCore.Domain;
 using ApplicationCore.Domain.CheckPointModel.Trilateration.Spheres;
 using ApplicationCore.Domain.DistanceService;
-using ApplicationCore.Domain.DistanceService.Handlers;
 using ApplicationCore.Domain.DistanceService.Model;
 using ApplicationCore.Domain.Options;
 using ApplicationCore.Shared;
@@ -27,7 +26,6 @@ namespace UseCase.Trilateration.Managed
     public class ManagedScan : IDisposable
     {
         private readonly IBeaconRangingManager _beaconManager;
-        private readonly IBeaconDistanceHandler _beaconDistanceHandler;
         private readonly IExcelAnalitic _excelAnalitic;
         private readonly ILogger? _logger;
         private IScheduler? _scheduler;
@@ -40,12 +38,10 @@ namespace UseCase.Trilateration.Managed
         
         public ManagedScan(
             IBeaconRangingManager beaconManager,
-            IBeaconDistanceHandler beaconDistanceHandler,
             IExcelAnalitic excelAnalitic,
             ILogger<ManagedScan> logger)
         {
             _beaconManager = beaconManager;
-            _beaconDistanceHandler = beaconDistanceHandler;
             _excelAnalitic = excelAnalitic;
             _logger = logger;
             _beaconOptions = new List<BeaconOption>
@@ -111,10 +107,9 @@ namespace UseCase.Trilateration.Managed
                 .WhenBeaconRanged(scanRegion, BleScanType.LowLatency)
                 //Проходят только значения из списка
                // .WhenWhiteList(whiteList)
-                .Beacon2BeaconDistanceStatistic(
-                    TimeSpan.FromSeconds(0.5),
-                    -50, // -59, 
-                    _beaconDistanceHandler.Invoke)
+                .Beacon2BeaconDistance(
+                    TimeSpan.FromSeconds(0.6),
+                    1.0)
                 .Publish()
                 .RefCount();
             
@@ -129,12 +124,13 @@ namespace UseCase.Trilateration.Managed
                         var managed = Statistic.FirstOrDefault(x => x.Statistic.BeaconId.Equals(stat.BeaconId));
                         if (managed == null)
                         {
-                            managed = new BeaconDistanceStatisticDto(stat);
+                            var statistic = new BeaconDistanceStatistic(stat.BeaconId, null, stat.Distance);
+                            managed = new BeaconDistanceStatisticDto(statistic);
                             Statistic.Add(managed);
                         }
                         managed.LastSeen = DateTimeOffset.UtcNow;
-                        managed.DistanceList = stat.DistanceList.Select(r => r.ToString("F1")).Aggregate((s1, s2) => $"{s1} / {s2}");
-                        managed.DistanceResult = stat.DistanceResult.ToString("F1");
+                        //managed.DistanceList = stat.DistanceList.Select(r => r.ToString("F1")).Aggregate((s1, s2) => $"{s1} / {s2}");
+                        managed.DistanceResult = stat.Distance.ToString("F1");
                     }
                     //TODO: можно вычислять местоположение. 
                     // var location= Trilateration.CalcLocation(spheres);
@@ -144,19 +140,19 @@ namespace UseCase.Trilateration.Managed
                 });
 
 
-            _writeAnaliticSub = observableListStatistic
-                .Buffer(10)
-                .Subscribe(async statisticList =>
-                {
-                    var csvHeader = BeaconDistanceStatisticCsv.CsvHeader;
-                    var csvLines = statisticList
-                        .SelectMany(list =>list.Select(distanceStatistic=>BeaconDistanceStatisticCsv.Create(distanceStatistic, ExpectedRange4Analitic)))
-                        .Select(statistic => statistic.Convert2CsvFormat())
-                        .ToArray();
-                    await _excelAnalitic.Write2CsvDoc("BeaconDistance.txt", csvHeader, csvLines, _firstStart);
-                    _firstStart = false;
-                    Debug.WriteLine(ExpectedRange4Analitic);//DEBUG
-                });
+            // _writeAnaliticSub = observableListStatistic
+            //     .Buffer(10)
+            //     .Subscribe(async statisticList =>
+            //     {
+            //         var csvHeader = BeaconDistanceStatisticCsv.CsvHeader;
+            //         var csvLines = statisticList
+            //             .SelectMany(list =>list.Select(stat=>BeaconDistanceStatisticCsv.Create(new BeaconDistanceStatistic(stat.BeaconId, null, stat.Distance), ExpectedRange4Analitic)))
+            //             .Select(statistic => statistic.Convert2CsvFormat())
+            //             .ToArray();
+            //         await _excelAnalitic.Write2CsvDoc("BeaconDistance.txt", csvHeader, csvLines, _firstStart);
+            //         _firstStart = false;
+            //         Debug.WriteLine(ExpectedRange4Analitic);//DEBUG
+            //     });
         }
 
 

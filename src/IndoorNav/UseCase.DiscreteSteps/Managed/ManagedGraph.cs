@@ -6,7 +6,6 @@ using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using ApplicationCore.Domain.CheckPointModel;
 using ApplicationCore.Domain.DistanceService;
-using ApplicationCore.Domain.DistanceService.Handlers;
 using ApplicationCore.Domain.MovingService;
 using ApplicationCore.Domain.MovingService.Model;
 using ApplicationCore.Domain.RouteTrackingService;
@@ -25,13 +24,10 @@ namespace UseCase.DiscreteSteps.Managed
     {
         private readonly IBeaconRangingManager _beaconManager;
         private readonly ICheckPointGraphRepository _graphRepository;
-        private readonly IBeaconDistanceHandler _beaconDistanceHandler;
         private readonly IExcelAnalitic _excelAnalitic;
-        
         private IGraphMovingCalculator _graphMovingCalculator;
         private IRouteBuilder _routeBuilder;
         private IRouteTracker _routeTracker;
-        
         private readonly ILogger? _logger;
         private IDisposable? _scanSub;
         private IDisposable? _writeAnaliticSub;
@@ -44,13 +40,12 @@ namespace UseCase.DiscreteSteps.Managed
         public ManagedGraph(
             IBeaconRangingManager beaconManager,
             ICheckPointGraphRepository graphRepository,
-            IBeaconDistanceHandler beaconDistanceHandler,
             IExcelAnalitic excelAnalitic,
             ILogger<ManagedGraph> logger)
         {
             _beaconManager = beaconManager;
             _graphRepository = graphRepository;
-            _beaconDistanceHandler = beaconDistanceHandler;
+
             _excelAnalitic = excelAnalitic;
             _logger = logger;
             
@@ -78,8 +73,7 @@ namespace UseCase.DiscreteSteps.Managed
                 .WhenBeaconRanged(ScanningRegion, BleScanType.LowLatency)
                 .Beacon2BeaconDistance(
                     TimeSpan.FromSeconds(0.6),
-                    -59, 
-                    _beaconDistanceHandler.Invoke)
+                    1.0)
                  //Определить перемещение в графе движения, используя функцию calculateMove.
                 .Select(listDistance=> _graphMovingCalculator.CalculateMove(listDistance))
                 //Выдавать только первый найденный CheckPoint и затем только готовые отрезки.

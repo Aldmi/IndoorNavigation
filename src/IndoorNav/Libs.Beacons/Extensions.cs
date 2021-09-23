@@ -53,7 +53,7 @@ namespace Libs.Beacons
                 var uuid = new Guid(uuidString);
                 var major = BitConverter.ToUInt16(data.Skip(18).Take(2).Reverse().ToArray(), 0);
                 var minor = BitConverter.ToUInt16(data.Skip(20).Take(2).Reverse().ToArray(), 0);
-                var txpower = data[22];
+                var txpower = 256-data[22];
                 var accuracy = CalculateAccuracy(txpower, rssi);
                 var proximity = CalculateProximity(txpower, rssi);
                 //Debug.WriteLine(txpower);//DEBUG

@@ -17,11 +17,9 @@ namespace Test.Beacons.FlowsTest
             var beaconsFlow= BeaconFlowData.CreateFlowImmediatly_ForOneBeacon();
 
             //act
-            var resultFlow= beaconsFlow.Beacon2BeaconDistance(
-                TimeSpan.FromSeconds(0.1),
-                1.0,
-                -50,
-                ints => (int) ints.Average());
+            var resultFlow = beaconsFlow.Beacon2BeaconDistance(
+                TimeSpan.FromSeconds(0.6),
+                1.0);
             var beaconDistances= (await resultFlow.ToTask()).ToList();
           
             //assert

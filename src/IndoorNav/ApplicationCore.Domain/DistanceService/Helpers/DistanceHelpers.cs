@@ -1,13 +1,16 @@
 ﻿using System;
 using CSharpFunctionalExtensions;
 
-namespace ApplicationCore.Domain.DistanceService
+namespace ApplicationCore.Domain.DistanceService.Helpers
 {
     
-    public static class DistanceXProjectionCalculator
+    public static class DistanceHelpers
     {
         public static Result<double> CalculateXProjection(double hypotenuse, double yProjection)
         {
+            if (yProjection == 0)
+                return hypotenuse;
+            
             if (hypotenuse < yProjection)
                 return Result.Failure<double>($"гипотенуза не может быть меньше катета");
                 

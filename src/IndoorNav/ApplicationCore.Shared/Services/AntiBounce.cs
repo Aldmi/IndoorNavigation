@@ -29,7 +29,7 @@ namespace ApplicationCore.Shared.Services
         public AntiBounce(int acceptedCount)
         {
             _acceptedCount = acceptedCount;
-            _acceptedValue = default(T);
+            _acceptedValue = default;
         }
         
         
