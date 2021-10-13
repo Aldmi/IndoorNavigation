@@ -6,6 +6,7 @@ using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using ApplicationCore.Domain.CheckPointModel;
 using ApplicationCore.Domain.DistanceService;
+using ApplicationCore.Domain.DistanceService.Filters;
 using ApplicationCore.Domain.MovingService;
 using ApplicationCore.Domain.MovingService.Model;
 using ApplicationCore.Domain.RouteTrackingService;
@@ -73,7 +74,8 @@ namespace UseCase.DiscreteSteps.Managed
                 .WhenBeaconRanged(ScanningRegion, BleScanType.LowLatency)
                 .Beacon2BeaconDistance(
                     TimeSpan.FromSeconds(0.6),
-                    1.0)
+                    1.0,
+                    new KalmanBeaconDistanceFilter(1.0, 15.0, 0.1))
                  //Определить перемещение в графе движения, используя функцию calculateMove.
                 .Select(listDistance=> _graphMovingCalculator.CalculateMove(listDistance))
                 //Выдавать только первый найденный CheckPoint и затем только готовые отрезки.

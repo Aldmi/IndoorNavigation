@@ -8,6 +8,7 @@ using System.Reactive.Linq;
 using ApplicationCore.Domain;
 using ApplicationCore.Domain.CheckPointModel.Trilateration.Spheres;
 using ApplicationCore.Domain.DistanceService;
+using ApplicationCore.Domain.DistanceService.Filters;
 using ApplicationCore.Domain.DistanceService.Model;
 using ApplicationCore.Domain.Options;
 using ApplicationCore.Shared;
@@ -109,7 +110,8 @@ namespace UseCase.Trilateration.Managed
                // .WhenWhiteList(whiteList)
                 .Beacon2BeaconDistance(
                     TimeSpan.FromSeconds(0.6),
-                    1.0)
+                    0,
+                    new KalmanBeaconDistanceFilter(1.0, 15.0, 0.1))
                 .Publish()
                 .RefCount();
             

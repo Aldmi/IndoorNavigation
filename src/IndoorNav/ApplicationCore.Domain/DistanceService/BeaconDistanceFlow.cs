@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
+using ApplicationCore.Domain.DistanceService.Filters;
 using ApplicationCore.Domain.DistanceService.Helpers;
 using ApplicationCore.Domain.DistanceService.Model;
 using CSharpFunctionalExtensions;
@@ -12,9 +13,10 @@ namespace ApplicationCore.Domain.DistanceService
 {
     public static class BeaconDistanceFlow
     {
-        public static IObservable<IList<BeaconDistance>>Beacon2BeaconDistance(this IObservable<Beacon> sourse,
+        public static IObservable<IList<BeaconDistance>> Beacon2BeaconDistance(this IObservable<Beacon> sourse,
             TimeSpan bufferTime,
-            double beaconHeight)
+            double beaconHeight,
+            KalmanBeaconDistanceFilter? kalmanDistanceFilter)
         {
             return sourse
                 //Буфферизация и разбиение на группы по Id
@@ -25,32 +27,28 @@ namespace ApplicationCore.Domain.DistanceService
                 .MapBeaconRssi2BeaconDistanceResult(beaconHeight)
                 //Вернуть только валидные Distance
                 .OnlyValidDistance()
+                //Отфильтровать экстремумы (фильтр кламана 1D)
+                .FiltredByKalman1D(kalmanDistanceFilter)
                 //Упорядочить по Distance
                 .OrderByDescendingForDistance();
         }
         
+        /// <summary>
+        /// Фильтр убирает экстремумы.
+        /// </summary>
+        private static IObservable<IList<BeaconDistance>> FiltredByKalman1D(this IObservable<IList<BeaconDistance>> sourse,
+            KalmanBeaconDistanceFilter? kalmanDistanceFilter)
+        {
+            if (kalmanDistanceFilter == null)
+                return sourse;
+            
+            return sourse
+                .Select(list => list
+                    .Select(beaconDistance => kalmanDistanceFilter.Filtred(beaconDistance))
+                    .ToList());
+        }
         
-
         
-        // /// <summary>
-        // /// Сырые Beacon данные преобразует к расстоянию от маяка и обрабатывает массив расстояний с помощью distanceHandler.
-        // /// </summary>
-        // /// <param name="sourse"></param>
-        // /// <param name="bufferTime"></param>
-        // /// <param name="txPower"></param>
-        // /// <param name="distanceHandler"></param>
-        // /// <returns></returns>
-        // public static IObservable<IList<BeaconDistanceStatistic>>Beacon2BeaconDistanceStatistic(this IObservable<Beacon> sourse,
-        //     TimeSpan bufferTime,
-        //     int txPower,
-        //     Func<BeaconId, IEnumerable<double>, double> distanceHandler)
-        // {
-        //     return sourse
-        //         .GroupAfterBuffer(bufferTime)
-        //         .Map2BeaconDistanceStatistic(distanceHandler, txPower);
-        // }
-
-
         /// <summary>
         /// Обработка сигналов Rssi, у маяков
         /// Для каждой группы сигналов 
@@ -69,72 +67,37 @@ namespace ApplicationCore.Domain.DistanceService
                     var inDataList = listBeacons.Select(beacon =>
                     {
                         var beaconDistanceResult = RssiHelpers.CalculateDistance(beacon.TxPower, beacon.Rssi)
-                            .Bind(hypotenuseDistance => DistanceHelpers.CalculateXProjection(hypotenuseDistance, beaconHeight))
+                            .Bind(hypotenuseDistance =>
+                                DistanceHelpers.CalculateXProjection(hypotenuseDistance, beaconHeight))
                             .Map(xProjection => new BeaconDistance(beacon.Id, xProjection));
-                           
-                       return beaconDistanceResult; 
+
+                        return beaconDistanceResult;
                     }).ToList();
                     return inDataList;
                 });
         }
+
         
-        
-        
-        // /// <summary>
-        // /// Обработка сигналов, накопленных за определенное время и сгрупированных по BeaconId.
-        // /// В виде объекта статистики, показывающего список входных сигналов rssi их преобразование к списку distance
-        // /// </summary>
-        // /// <param name="sourse">список групп Beacon, сгрупированных по BeaconId</param>
-        // /// <param name="distanceHandler">Rssi преобразуется к distance</param>
-        // /// <param name="txPower"></param>
-        // public static IObservable<IList<BeaconDistanceStatistic>> Map2BeaconDistanceStatistic(
-        //     this IObservable<List<IGrouping<BeaconId, Beacon>>> sourse,
-        //     Func<BeaconId, IEnumerable<double>, double> distanceHandler,
-        //     int txPower)
-        // {
-        //     return sourse
-        //         .Select(listGr =>
-        //         {
-        //             var inDataList = listGr.Select(group =>
-        //             {
-        //                 var id = group.Key;
-        //                 var distanceList = group
-        //                     .Select(b => RssiHelpers.CalculateDistance(txPower, b.Rssi))
-        //                     .ToList();
-        //                 
-        //                 var distance = distanceHandler(id, distanceList);
-        //                 var model = new BeaconDistanceStatistic(id, distanceList, distance);
-        //                 return model;
-        //             }).ToList();
-        //             return inDataList;
-        //         });
-        // }
-        
+        /// <summary>
+        /// Вернуть только BeaconDistance с Result == IsSuccess
+        /// </summary>
+        private static IObservable<IList<BeaconDistance>> OnlyValidDistance(this IObservable<IList<Result<BeaconDistance>>> sourse)
+        {
+            return sourse.Select(list =>
+            {
+                return list
+                    .Where(distanceRes => distanceRes.IsSuccess)
+                    .Select(distanceRes => distanceRes.Value)
+                    .ToList();
+            });
+        }
         
         /// <summary>
         /// Упорядочить список InputData по Distance (в порядке убывания).
         /// </summary>
         private static IObservable<IList<BeaconDistance>> OrderByDescendingForDistance(this IObservable<IList<BeaconDistance>> sourse)
         {
-            return sourse.Select(list =>
-                {
-                    return list.OrderByDescending(inData => inData.Distance).ToList();
-                });
-        }
-        
-        
-        /// <summary>
-        /// Упорядочить список InputData по Distance (в порядке убывания).
-        /// </summary>
-        /// OrderByDescendingForDistance
-        private static IObservable<IList<BeaconDistance>> OnlyValidDistance(this IObservable<IList<Result<BeaconDistance>>> sourse)
-        {
-            return sourse.Select(list =>
-                {
-                    return list.Where(distanceRes => distanceRes.IsSuccess)
-                        .Select(distanceRes=> distanceRes.Value).ToList().
-                        ToList();
-                });
+            return sourse.Select(list => { return list.OrderByDescending(inData => inData.Distance).ToList(); });
         }
     }
 }
