@@ -44,7 +44,7 @@ namespace ApplicationCore.Domain.DistanceService
             
             return sourse
                 .Select(list => list
-                    .Select(beaconDistance => kalmanDistanceFilter.Filtred(beaconDistance))
+                    .Select(beaconDistance => kalmanDistanceFilter.Filtrate(beaconDistance))
                     .ToList());
         }
         
