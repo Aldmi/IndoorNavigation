@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using CSharpFunctionalExtensions;
 
-namespace ApplicationCore.Domain.DistanceService.Helpers
+namespace ApplicationCore.Shared.Helpers
 {
     public static class RssiHelpers
     {

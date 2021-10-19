@@ -25,6 +25,7 @@
     <ItemGroup>
       <ProjectReference Include="..\Libs.Beacons\Libs.Beacons.csproj" />
       <ProjectReference Include="..\Libs.BluetoothLE\Libs.BluetoothLE.csproj" />
+      <ProjectReference Include="..\UseCase.RssiFingerprinting\UseCase.RssiFingerprinting.csproj" />
       <ProjectReference Include="..\UseCase.Trilateration\UseCase.Trilateration.csproj" />
     </ItemGroup>
 

@@ -111,7 +111,7 @@ namespace UseCase.Trilateration.Managed
                 .Beacon2BeaconDistance(
                     TimeSpan.FromSeconds(1.0),
                     0,
-                    new KalmanBeaconDistanceFilter(1.0, 15.0, 0.1, TimeSpan.FromSeconds(2)),
+                    new KalmanBeaconDistanceFilter(1.5, 10.0, 2.0, TimeSpan.FromSeconds(5)),
                     10.0)
                 .Publish()
                 .RefCount();

@@ -5,6 +5,7 @@ using System.Reactive.Linq;
 using ApplicationCore.Domain.DistanceService.Filters;
 using ApplicationCore.Domain.DistanceService.Helpers;
 using ApplicationCore.Domain.DistanceService.Model;
+using ApplicationCore.Shared.Helpers;
 using CSharpFunctionalExtensions;
 using Libs.Beacons.Flows;
 using Libs.Beacons.Models;

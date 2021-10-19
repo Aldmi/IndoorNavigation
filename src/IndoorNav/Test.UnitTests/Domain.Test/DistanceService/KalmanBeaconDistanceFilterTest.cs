@@ -7,16 +7,24 @@ using ApplicationCore.Domain.DistanceService.Filters;
 using ApplicationCore.Domain.DistanceService.Model;
 using Libs.Beacons.Models;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace Test.Beacons.Domain.Test.DistanceService
 {
     public class KalmanBeaconDistanceFilterTest
     {
+        
+        private readonly ITestOutputHelper _testOutputHelper;
+        public KalmanBeaconDistanceFilterTest(ITestOutputHelper testOutputHelper)
+        {
+            _testOutputHelper = testOutputHelper;
+        }
+        
+        
         [Fact]
         public void FiltrateForOneBeacon_Test()
         {
             //data
-
             var beaconDistanceInputDatas = new List<double>()
                 {
                     2.5,
@@ -32,21 +40,36 @@ namespace Test.Beacons.Domain.Test.DistanceService
                     2.7,
                     1.5,
                     2.9,
+                    
+                    9.3,
+                    9.0,
+                    8.3,
+                    4.3,
+                    1.1,
+                    1.1,
+                    1.0
                 }
                 .Select(dist => new BeaconDistance(new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 1, 1), dist))
                 .ToList();
             
-            
             //arrange
-            var q = 1.0;
-            var r = 15;
-            var covarinace = 0.1;
+            var q = 1.5;
+            var r = 10;
+            var covarinace = 2.0;
             var filter = new KalmanBeaconDistanceFilter(q, r, covarinace);
             
             //act
             var filtred=beaconDistanceInputDatas
                 .Select(bd => filter.Filtrate(bd))
                 .ToList();
+            
+            //assert
+            for (int i = 0; i < beaconDistanceInputDatas.Count; i++)
+            {
+                var inputData = beaconDistanceInputDatas[i];
+                var filtredData = filtred[i];
+                _testOutputHelper.WriteLine($"{inputData.Distance:f1}\t  {filtredData.Distance:f1}");
+            }
         }
         
         
@@ -106,6 +129,7 @@ namespace Test.Beacons.Domain.Test.DistanceService
                 var res = filter.Filtrate(bd);
                 filtred.Add(res);
             }
+    
         }
         
         
