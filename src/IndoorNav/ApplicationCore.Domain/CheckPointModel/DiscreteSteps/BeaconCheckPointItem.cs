@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using ApplicationCore.Domain.DistanceService.Model;
-using ApplicationCore.Shared;
 using ApplicationCore.Shared.Models;
 using Libs.Beacons.Models;
 

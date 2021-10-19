@@ -1,5 +1,4 @@
-﻿using ApplicationCore.Shared;
-using ApplicationCore.Shared.Models;
+﻿using ApplicationCore.Shared.Models;
 
 namespace ApplicationCore.Domain.CheckPointModel.DiscreteSteps
 {

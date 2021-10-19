@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using ApplicationCore.Domain.CheckPointModel;
 using ApplicationCore.Domain.DistanceService.Model;
 using ApplicationCore.Domain.MovingService.Model;
-using ApplicationCore.Shared;
 using ApplicationCore.Shared.DataStruct.GraphNotOriented;
 using ApplicationCore.Shared.Models;
 

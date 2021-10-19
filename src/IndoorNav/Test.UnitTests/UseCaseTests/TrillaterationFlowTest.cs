@@ -1,23 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Reactive.Linq;
-using System.Reactive.Threading.Tasks;
-using System.Threading.Tasks;
-using ApplicationCore.Domain;
-using ApplicationCore.Domain.CheckPointModel.Trilateration.Spheres;
-using ApplicationCore.Domain.DistanceService;
-using ApplicationCore.Domain.DistanceService.Helpers;
-using ApplicationCore.Shared;
-using FluentAssertions;
-using Libs.Beacons;
-using Libs.Beacons.Models;
-using Test.Beacons.UseCaseTests.Data;
-using UseCase.Trilateration.Flow;
-using Xunit;
-
-
 namespace Test.Beacons.UseCaseTests
 {
 

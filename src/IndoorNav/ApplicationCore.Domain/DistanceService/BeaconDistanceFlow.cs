@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
 using ApplicationCore.Domain.DistanceService.Filters;
-using ApplicationCore.Domain.DistanceService.Helpers;
 using ApplicationCore.Domain.DistanceService.Model;
 using ApplicationCore.Shared.Helpers;
 using CSharpFunctionalExtensions;
@@ -78,7 +77,7 @@ namespace ApplicationCore.Domain.DistanceService
                     {
                         var beaconDistanceResult = RssiHelpers.CalculateDistance(beacon.TxPower, beacon.Rssi)
                             .Bind(hypotenuseDistance =>
-                                DistanceHelpers.CalculateXProjection(hypotenuseDistance, beaconHeight))
+                                MathHelpers.CalculateXProjection(hypotenuseDistance, beaconHeight))
                             .Map(xProjection => new BeaconDistance(beacon.Id, xProjection));
 
                         return beaconDistanceResult;

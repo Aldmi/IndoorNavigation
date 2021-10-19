@@ -1,10 +1,9 @@
 ﻿using System;
 using CSharpFunctionalExtensions;
 
-namespace ApplicationCore.Domain.DistanceService.Helpers
+namespace ApplicationCore.Shared.Helpers
 {
-    
-    public static class DistanceHelpers
+    public static class MathHelpers
     {
         public static Result<double> CalculateXProjection(double hypotenuse, double yProjection)
         {

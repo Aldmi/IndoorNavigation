@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using ApplicationCore.Shared;
 using ApplicationCore.Shared.Models;
 using Libs.Beacons.Models;
 

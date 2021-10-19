@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using ApplicationCore.Domain.CheckPointModel.Trilateration.Spheres;
 using Libs.Beacons.Models;
 
 namespace ApplicationCore.Domain.DistanceService.Model

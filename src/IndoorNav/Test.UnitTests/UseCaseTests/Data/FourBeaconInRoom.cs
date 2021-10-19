@@ -1,16 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reactive.Linq;
-using ApplicationCore.Domain;
-using ApplicationCore.Domain.CheckPointModel.Trilateration.Spheres;
-using ApplicationCore.Domain.DistanceService;
-using ApplicationCore.Domain.DistanceService.Helpers;
 using ApplicationCore.Domain.Options;
-using ApplicationCore.Shared;
 using ApplicationCore.Shared.Models;
 using Libs.Beacons;
 using Libs.Beacons.Models;
-using UseCase.Trilateration.Flow;
 
 namespace Test.Beacons.UseCaseTests.Data
 {

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using ApplicationCore.Domain.Options;
-using ApplicationCore.Shared;
 using ApplicationCore.Shared.Models;
 using Libs.Beacons.Models;
 

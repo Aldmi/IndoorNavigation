@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using ApplicationCore.Domain.DistanceService;
-using ApplicationCore.Domain.DistanceService.Helpers;
 using ApplicationCore.Shared.Helpers;
 using Xunit;
 

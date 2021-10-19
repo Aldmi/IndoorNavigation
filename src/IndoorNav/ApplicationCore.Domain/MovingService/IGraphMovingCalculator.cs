@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using ApplicationCore.Domain.CheckPointModel;
-using ApplicationCore.Domain.DistanceService;
 using ApplicationCore.Domain.DistanceService.Model;
 using ApplicationCore.Domain.MovingService.Model;
-using ApplicationCore.Shared.DataStruct.GraphNotOriented;
 
 namespace ApplicationCore.Domain.MovingService
 {
