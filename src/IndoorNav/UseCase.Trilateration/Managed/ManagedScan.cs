@@ -109,9 +109,10 @@ namespace UseCase.Trilateration.Managed
                 //Проходят только значения из списка
                // .WhenWhiteList(whiteList)
                 .Beacon2BeaconDistance(
-                    TimeSpan.FromSeconds(0.6),
+                    TimeSpan.FromSeconds(1.0),
                     0,
-                    new KalmanBeaconDistanceFilter(1.0, 15.0, 0.1))
+                    new KalmanBeaconDistanceFilter(1.0, 15.0, 0.1, TimeSpan.FromSeconds(2)),
+                    10.0)
                 .Publish()
                 .RefCount();
             

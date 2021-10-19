@@ -16,27 +16,25 @@ namespace Test.Beacons.Domain.Test.DistanceService
         public void FiltrateForOneBeacon_Test()
         {
             //data
-            var beaconDistanceInputDatas = new List<BeaconDistance>()
-            {
-                new(
-                    new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 1, 1),
-                    1.0),
-                new(
-                    new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 1, 1),
-                    2.0),
-                new(
-                    new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 1, 1),
-                    5.0),
-                new(
-                    new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 1, 1),
-                    25.0),
-                new(
-                    new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 1, 1),
-                    7.0),
-                new(
-                    new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 1, 1),
-                    10.0),
-            };
+
+            var beaconDistanceInputDatas = new List<double>()
+                {
+                    2.5,
+                    2.8,
+                    2.6,
+                    2.6,
+                    1.9,
+                    3.5,
+                    5.2,
+                    4.2,
+                    5.1,
+                    5.0,
+                    2.7,
+                    1.5,
+                    2.9,
+                }
+                .Select(dist => new BeaconDistance(new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 1, 1), dist))
+                .ToList();
             
             
             //arrange

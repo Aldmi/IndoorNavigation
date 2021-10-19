@@ -16,9 +16,10 @@ namespace ApplicationCore.Domain.DistanceService
         public static IObservable<IList<BeaconDistance>> Beacon2BeaconDistance(this IObservable<Beacon> sourse,
             TimeSpan bufferTime,
             double beaconHeight,
-            KalmanBeaconDistanceFilter? kalmanDistanceFilter)
+            KalmanBeaconDistanceFilter? kalmanDistanceFilter,
+            double maxDistance)
         {
-            return sourse
+            var flow = sourse
                 //Буфферизация и разбиение на группы по Id
                 .GroupAfterBuffer(bufferTime)
                 //Среднее из сигналов Rssi для каждого датчика
@@ -27,21 +28,29 @@ namespace ApplicationCore.Domain.DistanceService
                 .MapBeaconRssi2BeaconDistanceResult(beaconHeight)
                 //Вернуть только валидные Distance
                 .OnlyValidDistance()
-                //Отфильтровать экстремумы (фильтр кламана 1D)
-                .FiltredByKalman1D(kalmanDistanceFilter)
+                //Пропускать тоолко значения меньше maxDistance
+                .WhereMaxDistance(maxDistance);
+            
+            if (kalmanDistanceFilter != null)
+            {
+                flow = flow
+                    //Отфильтровать экстремумы (фильтр кламана 1D)
+                    .FiltredByKalman1D(kalmanDistanceFilter);
+            }
+            
+            flow= flow
                 //Упорядочить по Distance
                 .OrderByDescendingForDistance();
+            
+            return flow;
         }
         
         /// <summary>
         /// Фильтр убирает экстремумы.
         /// </summary>
         private static IObservable<IList<BeaconDistance>> FiltredByKalman1D(this IObservable<IList<BeaconDistance>> sourse,
-            KalmanBeaconDistanceFilter? kalmanDistanceFilter)
+            KalmanBeaconDistanceFilter kalmanDistanceFilter)
         {
-            if (kalmanDistanceFilter == null)
-                return sourse;
-            
             return sourse
                 .Select(list => list
                     .Select(beaconDistance => kalmanDistanceFilter.Filtrate(beaconDistance))
@@ -76,7 +85,7 @@ namespace ApplicationCore.Domain.DistanceService
                     return inDataList;
                 });
         }
-
+        
         
         /// <summary>
         /// Вернуть только BeaconDistance с Result == IsSuccess
@@ -90,6 +99,21 @@ namespace ApplicationCore.Domain.DistanceService
                     .Select(distanceRes => distanceRes.Value)
                     .ToList();
             });
+        }
+        
+        
+        /// <summary>
+        /// where фильтр, проходят только Distance <= maxDist
+        /// </summary>
+        private static IObservable<IList<BeaconDistance>> WhereMaxDistance(this IObservable<IList<BeaconDistance>>  sourse, double maxDistance)
+        {
+            return sourse.Select(list =>
+            {
+                return list
+                    .Where(bd => bd.Distance <= maxDistance)
+                    .ToList();
+            });
+            
         }
         
         /// <summary>

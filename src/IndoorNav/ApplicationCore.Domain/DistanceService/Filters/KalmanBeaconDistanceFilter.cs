@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using ApplicationCore.Domain.DistanceService.Model;
 using ApplicationCore.Shared.Services;
@@ -20,6 +21,7 @@ namespace ApplicationCore.Domain.DistanceService.Filters
         private readonly TimeSpan? _rottenTime;
         private readonly List<PersonalFilterForEachBeacon> _filtredList= new List<PersonalFilterForEachBeacon>();
         
+        
         public KalmanBeaconDistanceFilter(double q, double r, double covariance, double f = 1, double h = 1, TimeSpan? rottenTime = null)
         {
             _q = q;
@@ -39,6 +41,7 @@ namespace ApplicationCore.Domain.DistanceService.Filters
             _rottenTime = rottenTime;
         }
 
+        
         /// <summary>
         /// Фильтр с большой ошибкой во входных данных
         /// </summary>
@@ -52,18 +55,18 @@ namespace ApplicationCore.Domain.DistanceService.Filters
         /// <summary>
         /// Выполнить фильтрацию калмана
         /// </summary>
-        /// <param name="data"></param>
+        /// <param name="bd"></param>
         /// <returns></returns>
-        public BeaconDistance Filtrate(BeaconDistance data)
+        public BeaconDistance Filtrate(BeaconDistance bd)
         {
-            var filter = _filtredList.FirstOrDefault(f => f.BeaconId == data.BeaconId);
+            var filter = _filtredList.FirstOrDefault(f => f.BeaconId == bd.BeaconId);
             KalmanFilterSimple1D kalman;
             if (filter == null)
             {
                 kalman = new KalmanFilterSimple1D(_q, _r, _f, _h);
-                kalman.SetState(data.Distance, _covariance);
-                kalman.Correct(data.Distance);
-                _filtredList.Add(new PersonalFilterForEachBeacon(data, kalman));
+                kalman.SetState(bd.Distance, _covariance);
+                kalman.Correct(bd.Distance);
+                _filtredList.Add(new PersonalFilterForEachBeacon(bd, kalman));
             }
             else
             {
@@ -71,13 +74,14 @@ namespace ApplicationCore.Domain.DistanceService.Filters
                 //Если фильтр протух, то обновим состояние фильтра
                 if (_rottenTime.HasValue && filter.IsRotten(_rottenTime.Value))
                 {
-                    kalman.SetState(data.Distance, _covariance);
+                    kalman.SetState(bd.Distance, _covariance);
                 }
-                filter.RefreshLastSeen(data.LastSeen); //обновим метку синхронизации.
-                kalman.Correct(data.Distance);         //выполним предсказания
+                filter.RefreshLastSeen(bd.LastSeen); //обновим метку синхронизации.
+                kalman.Correct(bd.Distance);         //выполним предсказания
             }
             var filtredDistance = kalman.State;
-            return new BeaconDistance(data.BeaconId, filtredDistance); //TODO: создать фабрику, чтобы на основе data делать новое значение.
+            Debug.WriteLine($"{bd.Distance:F1} -> {filtredDistance:F1}");
+            return bd.CreateWithNewDistance(filtredDistance);
         }
         
         

@@ -19,17 +19,8 @@ namespace ApplicationCore.Domain.DistanceService.Model
             LastSeen = DateTimeOffset.UtcNow;
         }
 
-        /// <summary>
-        /// Протух.
-        /// LastSeen устарелло
-        /// </summary>
-        public bool IsRotten(TimeSpan validOffset)
-        {
-            var offset = DateTimeOffset.UtcNow - LastSeen;
-            return offset > validOffset;
-        }
-        
-        
+        public BeaconDistance CreateWithNewDistance(double distance) => new BeaconDistance(BeaconId, distance);
+      
         public override string ToString() => $"{Distance:F1}м";
 
         

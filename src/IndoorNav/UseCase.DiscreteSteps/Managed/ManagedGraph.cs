@@ -73,9 +73,10 @@ namespace UseCase.DiscreteSteps.Managed
            _observableListMovings= _beaconManager
                 .WhenBeaconRanged(ScanningRegion, BleScanType.LowLatency)
                 .Beacon2BeaconDistance(
-                    TimeSpan.FromSeconds(0.6),
-                    1.0,
-                    new KalmanBeaconDistanceFilter(1.0, 15.0, 0.1))
+                    TimeSpan.FromSeconds(1.0),
+                    0,
+                    new KalmanBeaconDistanceFilter(1.0, 15.0, 0.1),
+                    10.0)
                  //Определить перемещение в графе движения, используя функцию calculateMove.
                 .Select(listDistance=> _graphMovingCalculator.CalculateMove(listDistance))
                 //Выдавать только первый найденный CheckPoint и затем только готовые отрезки.
