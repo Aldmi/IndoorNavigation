@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using ApplicationCore.Shared.Models;
+using CSharpFunctionalExtensions;
 
 namespace ApplicationCore.Domain.RssiFingerprinting.Model
 {
@@ -11,10 +12,10 @@ namespace ApplicationCore.Domain.RssiFingerprinting.Model
     {
         public TotalFingerprint(
             Point roomCoordinate,
-            IList<CompassFingerprint> fingerprints)
+            Dictionary<CompassCoordinates, CompassFingerprint> mask)
         {
             RoomCoordinate = roomCoordinate;
-            Fingerprints = fingerprints;
+            Mask = mask;
         }
 
         /// <summary>
@@ -25,6 +26,24 @@ namespace ApplicationCore.Domain.RssiFingerprinting.Model
         /// <summary>
         /// Отпечатки по сторонам света
         /// </summary>
-        public IList<CompassFingerprint> Fingerprints { get; }
+        public Dictionary<CompassCoordinates, CompassFingerprint> Mask { get; }
+
+
+        
+        public Result<SimilarCompassFingerprint> CalcSimilarCompassFingerprint(CompassFingerprint cf)
+        {
+           return GetCompassFingerprint(cf).Bind(totalCf => totalCf.GetSimilar(cf));
+        }
+
+
+        /// <summary>
+        /// Вернуть значение из словаря по ключу (стороне света)
+        /// </summary>
+        private Result<CompassFingerprint> GetCompassFingerprint(CompassFingerprint cf)
+        {
+            return Mask.TryGetValue(cf.CompassCoordinate, out var resCf) ?
+                resCf :
+                Result.Failure<CompassFingerprint>($"CompassFingerprint не найденн в словаре Mask по ключу {cf}");
+        }
     }
 }

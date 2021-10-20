@@ -4,19 +4,21 @@ using System.Linq;
 using System.Reactive.Linq;
 using ApplicationCore.Domain.DistanceService.Filters;
 using ApplicationCore.Domain.RssiFingerprinting.Model;
+using ApplicationCore.Domain.RssiFingerprinting.Services;
 using ApplicationCore.Shared.Helpers;
 using ApplicationCore.Shared.Models;
 using CSharpFunctionalExtensions;
 using Libs.Beacons.Flows;
 using Libs.Beacons.Models;
 
-namespace ApplicationCore.Domain.RssiFingerprinting
+namespace UseCase.RssiFingerprinting.Flows
 {
-    public static class BeaconLocalFingerprintFlow
+    public static class TotalFingerprintFlow
     {
-        public static IObservable<TotalFingerprint> Beacon2CompassFingerprint(this IObservable<Beacon> sourse,
+        public static IObservable<Result<TotalFingerprint>> Beacon2CompassFingerprint(this IObservable<Beacon> sourse,
             TimeSpan bufferTime,
             KalmanBeaconDistanceFilter? kalmanDistanceFilter,
+            IEnumerable<TotalFingerprint> totalList,
             double maxDistance)
         {
             var flow = sourse
@@ -29,16 +31,13 @@ namespace ApplicationCore.Domain.RssiFingerprinting
                 //AverageRssi -> RssiFingerprint
                 .MapBeaconAverage2CompassFingerprint()
                 //Найти похожий отпечаток в БД среди TotalFingerprint.
-                .FindSimilarFingerprint();
-                
+                .FindSimilarFingerprint(totalList);
                 
             
             return flow;
         }
-
-
         
-        public static IObservable<IList<BeaconAverage>> RemoveSmallBeaconAverage(this IObservable<IList<BeaconAverage>> sourse, double maxDistance)
+        private static IObservable<IList<BeaconAverage>> RemoveSmallBeaconAverage(this IObservable<IList<BeaconAverage>> sourse, double maxDistance)
         {
             return sourse.Select(list =>
             {
@@ -60,10 +59,10 @@ namespace ApplicationCore.Domain.RssiFingerprinting
         /// <summary>
         /// Список сигналов от маяков (BeaconAverage) и координаты компаса, обернуть в CompassFingerprint.
         /// </summary>
-        public static IObservable<CompassFingerprint> MapBeaconAverage2CompassFingerprint(this IObservable<IList<BeaconAverage>> sourse)
+        private static IObservable<CompassFingerprint> MapBeaconAverage2CompassFingerprint(this IObservable<IList<BeaconAverage>> sourse)
         {
             
-            var compassCoordinates = new CompassCoordinates(); //TODO: получать с сервиса компаса координаты.
+            var compassCoordinates = new CompassCoordinates(666.0); //TODO: получать с сервиса компаса координаты.
             
             
             return sourse.Select(listBeaconAverage =>new CompassFingerprint(compassCoordinates, listBeaconAverage));
@@ -73,16 +72,14 @@ namespace ApplicationCore.Domain.RssiFingerprinting
         /// <summary>
         /// Найти наиболее похожий отпечаток из коллекции отпечатков TotalFingerprint.
         /// </summary>
-        public static IObservable<TotalFingerprint> FindSimilarFingerprint(this IObservable<CompassFingerprint> sourse)
+        private static IObservable<Result<TotalFingerprint>> FindSimilarFingerprint(this IObservable<CompassFingerprint> sourse, IEnumerable<TotalFingerprint> totalList)
         {
-            return sourse.Select(fingerprints =>
+            return sourse.Select(cf =>
             {
                 //Поиск нужного отпечатка в БД
-
-                var similarFingerprint= new TotalFingerprint(new Point(1.0, 1.0), new List<CompassFingerprint>()); //TODO: выполнять поиск в БД, через репозиторий TotalFingerprintRepository
-                return similarFingerprint;
+                var res= FindSimilarTotalFingerprintService.FindSimilar(totalList, cf);
+                return res.Map(s=>s.tf);
             });
-
         }
     }
 }
