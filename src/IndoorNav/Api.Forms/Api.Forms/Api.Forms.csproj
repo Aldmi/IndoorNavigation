@@ -34,6 +34,7 @@
       <ProjectReference Include="..\..\Libs.BluetoothLE\Libs.BluetoothLE.csproj" />
       <ProjectReference Include="..\..\Libs.Excel\Libs.Excel.csproj" />
       <ProjectReference Include="..\..\UseCase.DiscreteSteps\UseCase.DiscreteSteps.csproj" />
+      <ProjectReference Include="..\..\UseCase.RssiFingerprinting\UseCase.RssiFingerprinting.csproj" />
       <ProjectReference Include="..\..\UseCase.Trilateration\UseCase.Trilateration.csproj" />
     </ItemGroup>
 

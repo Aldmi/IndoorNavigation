@@ -12,7 +12,9 @@ using Prism.DryIoc;
 using Prism.Ioc;
 using Shiny;
 using Shiny.Notifications;
+using UseCase.DiscreteSteps.Infrastructure.DataAccess;
 using UseCase.DiscreteSteps.Managed;
+using UseCase.RssiFingerprinting.Infrastructure.DataAccess;
 
 namespace Api.Forms
 {
@@ -40,8 +42,8 @@ namespace Api.Forms
             services.AddSingleton<CoreDelegateServices>();
             services.AddScoped<IExcelAnalitic, ExcelAnalitic>();
             
-            services.AddScoped<ICheckPointGraphRepository, CheckPointGraphRepository>();
-         
+            services.AddScoped<ICheckPointGraphRepository, MoqCheckPointGraphRepository>();
+            services.AddScoped<ITotalFingerprintRepository, MoqTotalFingerprintRepository>();
             
             //register init jobs------------------------------------------------
             //services.AddSingleton<BeaconScanJob>();

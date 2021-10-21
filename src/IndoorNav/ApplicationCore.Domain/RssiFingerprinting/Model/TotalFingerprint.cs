@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using ApplicationCore.Shared.Models;
 using CSharpFunctionalExtensions;
 
@@ -11,13 +12,18 @@ namespace ApplicationCore.Domain.RssiFingerprinting.Model
     public class TotalFingerprint
     {
         public TotalFingerprint(
+            Guid id,
             Point roomCoordinate,
             Dictionary<CompassCoordinates, CompassFingerprint> mask)
         {
+            Id = id;
             RoomCoordinate = roomCoordinate;
             Mask = mask;
         }
 
+        public Guid Id { get; }
+        
+        
         /// <summary>
         /// Координата отпечатка в помещении.
         /// </summary>

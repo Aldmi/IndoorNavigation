@@ -17,6 +17,7 @@ using Libs.BluetoothLE;
 using Libs.Excel;
 using Microsoft.Extensions.Logging;
 using Shiny;
+using UseCase.DiscreteSteps.Infrastructure.DataAccess;
 
 
 namespace UseCase.DiscreteSteps.Managed

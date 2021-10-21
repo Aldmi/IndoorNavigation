@@ -2,7 +2,7 @@
 using ApplicationCore.Domain.CheckPointModel;
 using ApplicationCore.Shared.DataStruct.GraphNotOriented;
 
-namespace UseCase.DiscreteSteps.Managed
+namespace UseCase.DiscreteSteps.Infrastructure.DataAccess
 {
     public interface ICheckPointGraphRepository //TODO: вынести в слой Interfaces.DiscreteSteps или в упрощенном виде оставить тут
     {

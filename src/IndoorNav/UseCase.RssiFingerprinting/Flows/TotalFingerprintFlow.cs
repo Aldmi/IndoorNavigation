@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
-using ApplicationCore.Domain.DistanceService.Filters;
 using ApplicationCore.Domain.RssiFingerprinting.Model;
 using ApplicationCore.Domain.RssiFingerprinting.Services;
 using ApplicationCore.Shared.Helpers;
@@ -15,9 +14,9 @@ namespace UseCase.RssiFingerprinting.Flows
 {
     public static class TotalFingerprintFlow
     {
-        public static IObservable<Result<TotalFingerprint>> Beacon2CompassFingerprint(this IObservable<Beacon> sourse,
+        public static IObservable<Result<TotalFingerprint>> Beacon2TotalFingerprint(this IObservable<Beacon> sourse,
             TimeSpan bufferTime,
-            KalmanBeaconDistanceFilter? kalmanDistanceFilter,
+            //KalmanBeaconDistanceFilter? kalmanDistanceFilter,
             IEnumerable<TotalFingerprint> totalList,
             double maxDistance)
         {

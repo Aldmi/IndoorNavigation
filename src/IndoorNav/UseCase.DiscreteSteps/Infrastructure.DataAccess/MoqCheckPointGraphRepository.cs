@@ -5,9 +5,9 @@ using ApplicationCore.Domain.CheckPointModel.DiscreteSteps;
 using ApplicationCore.Shared.DataStruct.GraphNotOriented;
 using Libs.Beacons.Models;
 
-namespace UseCase.DiscreteSteps.Managed
+namespace UseCase.DiscreteSteps.Infrastructure.DataAccess
 {
-    public class CheckPointGraphRepository : ICheckPointGraphRepository  //TODO: вынести в Infrastructure
+    public class MoqCheckPointGraphRepository : ICheckPointGraphRepository  //TODO: вынести в Infrastructure
     {
        // // моя квартира (лестничная площадка)
        //  public Graph<CheckPointBase> GetGraph()
