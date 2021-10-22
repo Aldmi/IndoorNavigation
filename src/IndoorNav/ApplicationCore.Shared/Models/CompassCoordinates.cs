@@ -9,7 +9,7 @@ namespace ApplicationCore.Shared.Models
             Degree = degree;
         }
 
-        public double Degree { get; set; }
+        public double Degree { get; }
 
         
         public bool Equals(CompassCoordinates? other)
