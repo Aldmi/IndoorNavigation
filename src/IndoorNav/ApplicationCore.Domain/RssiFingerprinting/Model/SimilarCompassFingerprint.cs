@@ -1,6 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using ApplicationCore.Shared.Helpers;
 using ApplicationCore.Shared.Models;
+using CSharpFunctionalExtensions;
 using Libs.Beacons.Models;
 
 namespace ApplicationCore.Domain.RssiFingerprinting.Model
@@ -11,15 +14,9 @@ namespace ApplicationCore.Domain.RssiFingerprinting.Model
     public class SimilarCompassFingerprint
     {
         /// <summary>
-        /// Референсный отпечаток (относительно которого производим сравнение)
+        /// Список отличий от референсных отпечатков.
         /// </summary>
-        public CompassFingerprint ReferenceFp { get; }
-        
-        /// <summary>
-        /// Отпечаток для сравнения
-        /// </summary>
-        public CompassFingerprint Fp { get; }
-        
+        public IList<DifferenceRelativeReferenceBeaconAverage> DifferenceFingerprints { get; }
         
         /// <summary>
         /// Отсутствующие отпечатки.
@@ -27,34 +24,104 @@ namespace ApplicationCore.Domain.RssiFingerprinting.Model
         /// </summary>
         public IList<BeaconAverage> MissingFingerprints { get; }
         
-        
-        
-        public static bool operator > (SimilarCompassFingerprint s1, SimilarCompassFingerprint s2)
+        /// <summary>
+        /// 
+        /// </summary>
+        public bool MoreMissed(SimilarCompassFingerprint s) => MissingFingerprints.Count > s.MissingFingerprints.Count;
+      
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public bool CompareDifferenceFingerprints(SimilarCompassFingerprint s, Func<DifferenceRelativeReferenceBeaconAverage,DifferenceRelativeReferenceBeaconAverage, bool> condition)
         {
-            return true;
+            ushort thisGrade = 0;
+            ushort otherGrade = 0;
+            foreach (var diff in DifferenceFingerprints)
+            {
+                var findDiff= s.DifferenceFingerprints.FirstOrDefault(d => d.BeaconId.Equals(diff.BeaconId));
+                if (condition(diff, findDiff))
+                {
+                    thisGrade++;
+                }
+                else
+                {
+                    otherGrade++;
+                }
+            }
+            return thisGrade > otherGrade;
         }
 
-        public static bool operator <(SimilarCompassFingerprint s1, SimilarCompassFingerprint s2)
+        
+        private SimilarCompassFingerprint(
+            IList<DifferenceRelativeReferenceBeaconAverage> differenceFingerprints,
+            IList<BeaconAverage> missingFingerprints)
         {
-            return false;
+            DifferenceFingerprints = differenceFingerprints;
+            MissingFingerprints = missingFingerprints;
         }
         
-        
-        public static SimilarCompassFingerprint Create(CompassFingerprint referenseFp, CompassFingerprint fp)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="referenseFp"></param>
+        /// <param name="fp"></param>
+        /// <returns></returns>
+        public static Result<SimilarCompassFingerprint> Create(CompassFingerprint referenseFp, CompassFingerprint fp)
         {
-            var distinctList = new List<BeaconAverage>();
+            var differenceList = new List<DifferenceRelativeReferenceBeaconAverage>();
+            var missingList = new List<BeaconAverage>();
             for (var i = 0; i < referenseFp.Fingerprints.Count; i++)
             {
                 var refBa = referenseFp.Fingerprints[i];
                 var ba = fp.Fingerprints[i];
-                if (!refBa.Equals(ba))
+                //Если отпечаток найден в списке референсных, то вычислим разницу отпечатков 
+                if (refBa.Equals(ba))
                 {
-                    distinctList.Add(ba);
+                    var deltaRssi = refBa.Rssi - ba.Rssi;
+                    var refDistanceRes = RssiHelpers.CalculateDistance(refBa.TxPower, refBa.Rssi);
+                    var distanceRes = RssiHelpers.CalculateDistance(ba.TxPower, ba.Rssi);
+                    var res = Result.Combine(refDistanceRes, distanceRes)
+                        .Bind(() =>
+                        {
+                            var deltaDistance = refDistanceRes.Value - distanceRes.Value;
+                            var dr = new DifferenceRelativeReferenceBeaconAverage(refBa.Id, deltaRssi, deltaDistance);
+                            differenceList.Add(dr);
+                            return Result.Success();
+                        });
+                    if (res.IsFailure)
+                        return Result.Failure<SimilarCompassFingerprint>(res.Error);
+                }
+                //Если не найден, то поместим отпечаток в список отсутсвующих.
+                else
+                {
+                    missingList.Add(ba);
                 }
             }
-            
-            return new SimilarCompassFingerprint();
+            return new SimilarCompassFingerprint(differenceList, missingList);
         }
+        
+        
+        
+        public static bool operator > (SimilarCompassFingerprint s1, SimilarCompassFingerprint s2)
+        {
+            // //сравнение кол-во пропущенных отпечатков
+            // if (s1.MoreMissed(s2))
+            // {
+            //     return false; //s1 хуже s2 
+            // }
+     
+            //сравним по DeltaRssi.
+            return s1.CompareDifferenceFingerprints(s2,
+                (s1Diff, s2Diff) => s1Diff.DeltaRssi > s2Diff.DeltaRssi);
+        }
+
+        
+        public static bool operator < (SimilarCompassFingerprint s1, SimilarCompassFingerprint s2)
+        {
+            return !(s1 > s2);
+        }
+        
         
         
         /// <summary>
@@ -63,7 +130,7 @@ namespace ApplicationCore.Domain.RssiFingerprinting.Model
         /// если разность положительная, то референсное значение больше чем измеряемое (ближе)
         /// если разность отрицательная, то референсное значение меньше чем измеряемое (дальше) 
         /// </summary>
-        private class DifferenceRelativeReferenceBeaconAverage
+        public class DifferenceRelativeReferenceBeaconAverage
         {
             public DifferenceRelativeReferenceBeaconAverage(BeaconId beaconId, double deltaRssi, double deltaDistance)
             {

@@ -25,7 +25,7 @@ namespace ApplicationCore.Domain.RssiFingerprinting.Model
         {
             return CompassCoordinate.Equals(c2.CompassCoordinate) ?
                 SimilarCompassFingerprint.Create(this, c2) :
-                Result.Failure<SimilarCompassFingerprint>("Сторона света не совпадает при разности 2-ух CompassFingerprint");
+                Result.Failure<SimilarCompassFingerprint>("Сторона света не совпадает при поиске похожести 2-ух CompassFingerprint");
         }
     }
 }
