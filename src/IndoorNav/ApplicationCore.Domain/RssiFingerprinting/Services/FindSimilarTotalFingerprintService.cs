@@ -25,7 +25,7 @@ namespace ApplicationCore.Domain.RssiFingerprinting.Services
                        max = (tf, similar);
                    }
                    else
-                   if (max.similar! > similar)
+                   if (max.similar!.SmallestDeltaRssi(similar))
                    {
                        max = (tf, similar);
                    }

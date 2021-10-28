@@ -11,20 +11,25 @@ namespace ApplicationCore.Domain.RssiFingerprinting.Model
     /// </summary>
     public class CompassFingerprint
     {
-        public CompassFingerprint(CompassCoordinates compassCoordinate, IList<BeaconAverage> fingerprints)
+        public CompassFingerprint(CompassCoordinates compassCoordinate, IList<BeaconAverage> beaconAverages)
         {
             CompassCoordinate = compassCoordinate;
-            Fingerprints = fingerprints;
+            BeaconAverages = beaconAverages;
         }
 
         public CompassCoordinates CompassCoordinate { get; }
-        public IList<BeaconAverage> Fingerprints { get; }
+        public IList<BeaconAverage> BeaconAverages { get; }
         
         
-        public Result<SimilarCompassFingerprint> GetSimilar (CompassFingerprint c2)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="otherCf"></param>
+        /// <returns></returns>
+        public Result<SimilarCompassFingerprint> CreateSimilar (CompassFingerprint otherCf)
         {
-            return CompassCoordinate.Equals(c2.CompassCoordinate) ?
-                SimilarCompassFingerprint.Create(this, c2) :
+            return CompassCoordinate.Equals(otherCf.CompassCoordinate) ?
+                SimilarCompassFingerprint.Create(this, otherCf) :
                 Result.Failure<SimilarCompassFingerprint>("Сторона света не совпадает при поиске похожести 2-ух CompassFingerprint");
         }
     }

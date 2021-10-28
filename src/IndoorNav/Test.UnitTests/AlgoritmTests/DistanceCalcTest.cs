@@ -5,10 +5,10 @@ using Xunit;
 
 namespace Test.Beacons.AlgoritmTests
 {
-    public class RangeCalcTest
+    public class DistanceCalcTest
     {
         [Fact]
-        public void RangeCalc_Tx_Minus59()
+        public void DistanceCalc_Tx_Minus59()
         {
             //arrange
             var rssiList=  Enumerable
@@ -78,7 +78,7 @@ namespace Test.Beacons.AlgoritmTests
         [Fact]
         public void xxxxx()
         {
-            var dist = RssiHelpers.CalculateDistance(-59, -86);
+            var dist = RssiHelpers.CalculateDistance(-59, -30);
             
         }
         
