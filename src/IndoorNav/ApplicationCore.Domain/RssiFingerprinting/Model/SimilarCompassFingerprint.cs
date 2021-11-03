@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using ApplicationCore.Shared.Helpers;
 using ApplicationCore.Shared.Models;
@@ -30,7 +31,6 @@ namespace ApplicationCore.Domain.RssiFingerprinting.Model
         public bool MoreMissed(SimilarCompassFingerprint s) => MissingFingerprints.Count > s.MissingFingerprints.Count;
       
         
-        
         private SimilarCompassFingerprint(
             IList<DifferenceBeaconAverage> differenceFingerprints,
             IList<BeaconAverage> missingFingerprints)
@@ -38,6 +38,7 @@ namespace ApplicationCore.Domain.RssiFingerprinting.Model
             DifferenceFingerprints = differenceFingerprints;
             MissingFingerprints = missingFingerprints;
         }
+        
         
         /// <summary>
         /// Создать объект Похожесть отпечатков.
@@ -76,8 +77,6 @@ namespace ApplicationCore.Domain.RssiFingerprinting.Model
         }
         
         
-        
-        
         /// <summary>
         /// Наиболее хорошая дельта, Rssi может сильно отличаться от референсного, он должен быть лутше (ближе) референсного
         /// </summary>
@@ -91,11 +90,12 @@ namespace ApplicationCore.Domain.RssiFingerprinting.Model
         public bool SmallestDeltaRssi (SimilarCompassFingerprint other)=> CompareDifferenceFingerprints(other,
                 (s1Diff, s2Diff) => Math.Abs(s1Diff.DeltaRssi) < Math.Abs(s2Diff.DeltaRssi));
         
-        
        
         /// <summary>
-        /// Сравнить 2 отпечтка.
+        /// Сравнить похожести между собой.
         /// </summary>
+        /// <param name="other">похожесть для сравнения с текущей</param>
+        /// <param name="condition">условия сравнения</param>
         private bool CompareDifferenceFingerprints(SimilarCompassFingerprint other, Func<DifferenceBeaconAverage, DifferenceBeaconAverage, bool> condition)
         {
             ushort thisGrade = 0;
@@ -112,16 +112,15 @@ namespace ApplicationCore.Domain.RssiFingerprinting.Model
                     otherGrade++;
                 }
             }
-            return thisGrade > otherGrade;
+            return thisGrade >= otherGrade;
         }
-        
         
         
         /// <summary>
         /// Различия между 2-мя BeaconAverage.
         /// считаем по модуюлю.
-        /// если разность положительная, ближе относительно рефернсного.
-        /// если разность отрицательная, дальше относительно рефернсного.
+        /// если разность положительная, ближе относительно референсного.
+        /// если разность отрицательная, дальше относительно референсного.
         /// </summary>
         public class DifferenceBeaconAverage
         {

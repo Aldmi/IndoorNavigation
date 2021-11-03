@@ -8,6 +8,7 @@ using Libs.Beacons.Models;
 using Xunit;
 using Xunit.Abstractions;
 
+
 namespace Test.Beacons.Domain.Test.DistanceService
 {
     public class KalmanBeaconDistanceFilterTest
@@ -132,7 +133,7 @@ namespace Test.Beacons.Domain.Test.DistanceService
         }
         
         
-                [Fact]
+        [Fact]
         public async Task FiltrateForOneBeacon_IsRotten_true_Test()
         {
             //data

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reactive.Linq;
 using Libs.Beacons.Models;
@@ -46,6 +47,9 @@ namespace Libs.Beacons.Flows
                         var model = new BeaconAverage(id, averageRssi, txPower);
                         return model;
                     }).ToList();
+                    
+                    Debug.WriteLine(inDataList.Count);
+                    
                     return inDataList;
                 });
         }

@@ -36,10 +36,9 @@ namespace ApplicationCore.Domain.RssiFingerprinting.Model
 
 
         
-        public Result<SimilarCompassFingerprint> CalcSimilarCompassFingerprint(CompassFingerprint cf)
-        {
-           return GetCompassFingerprint(cf).Bind(totalCf => totalCf.CreateSimilar(cf));
-        }
+        public Result<SimilarCompassFingerprint> CalcSimilarCompassFingerprint(CompassFingerprint cf)=>
+            GetCompassFingerprint(cf).Bind(totalCf => totalCf.CreateSimilar(cf));
+        
 
 
         /// <summary>

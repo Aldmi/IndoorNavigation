@@ -60,10 +60,7 @@ namespace UseCase.RssiFingerprinting.Flows
         /// </summary>
         private static IObservable<CompassFingerprint> MapBeaconAverage2CompassFingerprint(this IObservable<IList<BeaconAverage>> sourse)
         {
-            
-            var compassCoordinates = new CompassCoordinates(666.0); //TODO: получать с сервиса компаса координаты.
-            
-            
+            var compassCoordinates = CompassCoordinates.North; //TODO: получать с сервиса компаса координаты.
             return sourse.Select(listBeaconAverage =>new CompassFingerprint(compassCoordinates, listBeaconAverage));
         }
         
@@ -76,7 +73,7 @@ namespace UseCase.RssiFingerprinting.Flows
             return sourse.Select(cf =>
             {
                 //Поиск нужного отпечатка в БД
-                var res= FindSimilarTotalFingerprintService.FindSimilar(totalList, cf);
+                var res= FindSimilarTotalFingerprintService.FindTotalFingerprint(totalList, cf);
                 return res.Map(s=>s.tf);
             });
         }

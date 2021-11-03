@@ -11,31 +11,33 @@ namespace ApplicationCore.Domain.RssiFingerprinting.Services
         /// </summary>
         /// <param name="totalList">Карта всех отпечатков</param>
         /// <param name="cf">отпечаток для сравнения</param>
-        /// <returns></returns>
-        public static Result<(TotalFingerprint tf, SimilarCompassFingerprint similar)> FindSimilar(IEnumerable<TotalFingerprint> totalList, CompassFingerprint cf)
+        /// <returns>найденный, наиболее похожий отпечаток</returns>
+        public static Result<(TotalFingerprint tf, SimilarCompassFingerprint similar)> FindTotalFingerprint(IEnumerable<TotalFingerprint> totalList, CompassFingerprint cf)
         {
-            (TotalFingerprint tf, SimilarCompassFingerprint similar) max = default;
+            (TotalFingerprint tf, SimilarCompassFingerprint similar) maxSimilar = default;
             foreach (var tf in totalList)
             {
                var (isSuccess, _, similar, error) = tf.CalcSimilarCompassFingerprint(cf);
                if (isSuccess)
                {
-                   if (max == default)
+                   if (maxSimilar == default)
                    {
-                       max = (tf, similar);
+                       maxSimilar = (tf, similar);
                    }
                    else
-                   if (max.similar!.SmallestDeltaRssi(similar))
+                   if (similar.SmallestDeltaRssi(maxSimilar.similar!)) //найденный similar сильнее похож на референсный отпечаток из спсика totalList
                    {
-                       max = (tf, similar);
+                       maxSimilar = (tf, similar);
                    }
                }
+               else
+               {
+                   //логировать error "ошибка при вычислении похожести отпечатка tf от similar"
+               }
             }
-
-            return max == default
+            return maxSimilar == default
                 ? Result.Failure<(TotalFingerprint tf, SimilarCompassFingerprint similar)>("не найден ни один похожий отпечаток")
-                : Result.Success(max);
-            
+                : Result.Success(maxSimilar);
         }
     }
 }

@@ -12,6 +12,9 @@ namespace ApplicationCore.Shared.Models
         public double Degree { get; }
 
         
+        public static CompassCoordinates North = new(60.0);
+        public static CompassCoordinates South = new(240.0);
+        
         public bool Equals(CompassCoordinates? other)
         {
             if (ReferenceEquals(null, other)) return false;
