@@ -6,12 +6,12 @@ using ApplicationCore.Domain.DistanceService.Model;
 using ApplicationCore.Shared.Services;
 using Libs.Beacons.Models;
 
-namespace ApplicationCore.Domain.DistanceService.Filters
+namespace ApplicationCore.Domain.RssiFingerprinting.Filters
 {
     /// <summary>
     /// Фильтр Калмана для double значения расстояния до Beacon метки. 
     /// </summary>
-    public class KalmanBeaconDistanceFilter
+    public class KalmanBeaconAverageFilter
     {
         private readonly double _q;
         private readonly double _r;
@@ -19,10 +19,10 @@ namespace ApplicationCore.Domain.DistanceService.Filters
         private readonly double _f;
         private readonly double _h;
         private readonly TimeSpan? _rottenTime;
-        private readonly List<PersonalFilterForEachBeacon> _filtredList= new List<PersonalFilterForEachBeacon>();
+        private readonly List<PersonalFilterForEachBeacon> _personalFilterList= new();
         
         
-        public KalmanBeaconDistanceFilter(double q, double r, double covariance, double f = 1, double h = 1, TimeSpan? rottenTime = null)
+        public KalmanBeaconAverageFilter(double q, double r, double covariance, double f = 1, double h = 1, TimeSpan? rottenTime = null)
         {
             _q = q;
             _r = r;
@@ -31,7 +31,7 @@ namespace ApplicationCore.Domain.DistanceService.Filters
             _h = h;
             _rottenTime = rottenTime;
         }
-        public KalmanBeaconDistanceFilter(double q, double r, double covariance, TimeSpan rottenTime)
+        public KalmanBeaconAverageFilter(double q, double r, double covariance, TimeSpan rottenTime)
         {
             _q = q;
             _r = r;
@@ -45,28 +45,28 @@ namespace ApplicationCore.Domain.DistanceService.Filters
         /// <summary>
         /// Фильтр с большой ошибкой во входных данных
         /// </summary>
-        public static KalmanBeaconDistanceFilter CreateLargeMeasurementErrorFilter(TimeSpan rottenTime) => new KalmanBeaconDistanceFilter(0.8,15,0.1, rottenTime);
+        public static KalmanBeaconAverageFilter GetLargeMeasurementErrorFilter => new KalmanBeaconAverageFilter(0.8,15,0.1, TimeSpan.FromSeconds(5));
         /// <summary>
         /// Фильтр с маленькой ошибкой во входных данных
         /// </summary>
-        public static KalmanBeaconDistanceFilter CreateSmallMeasurementErrorFilter(TimeSpan rottenTime) => new KalmanBeaconDistanceFilter(1,2,0.1, rottenTime);
+        public static KalmanBeaconAverageFilter GetSmallMeasurementErrorFilter => new KalmanBeaconAverageFilter(1,2,0.1, TimeSpan.FromSeconds(5));
 
         
         /// <summary>
         /// Выполнить фильтрацию калмана
         /// </summary>
-        /// <param name="bd"></param>
+        /// <param name="ba"></param>
         /// <returns></returns>
-        public BeaconDistance Filtrate(BeaconDistance bd)
+        public BeaconAverage Filtrate(BeaconAverage ba)
         {
-            var filter = _filtredList.FirstOrDefault(f => f.BeaconId == bd.BeaconId);
+            var filter = _personalFilterList.FirstOrDefault(f => f.BeaconId == ba.BeaconId);
             KalmanFilterSimple1D kalman;
             if (filter == null)
             {
                 kalman = new KalmanFilterSimple1D(_q, _r, _f, _h);
-                kalman.SetState(bd.Distance, _covariance);
-                kalman.Correct(bd.Distance);
-                _filtredList.Add(new PersonalFilterForEachBeacon(bd.BeaconId, bd.LastSeen, kalman));
+                kalman.SetState(ba.Rssi, _covariance);
+                kalman.Correct(ba.Rssi);
+                _personalFilterList.Add(new PersonalFilterForEachBeacon(ba.BeaconId, ba.LastSeen, kalman));
             }
             else
             {
@@ -74,14 +74,15 @@ namespace ApplicationCore.Domain.DistanceService.Filters
                 //Если фильтр протух, то обновим состояние фильтра
                 if (_rottenTime.HasValue && filter.IsRotten(_rottenTime.Value))
                 {
-                    kalman.SetState(bd.Distance, _covariance);
+                    kalman.SetState(ba.Rssi, _covariance);
                 }
-                filter.RefreshLastSeen(bd.LastSeen); //обновим метку синхронизации.
-                kalman.Correct(bd.Distance);         //выполним предсказания
+                filter.RefreshLastSeen(ba.LastSeen); //обновим метку синхронизации.
+                kalman.Correct(ba.Rssi);             //выполним предсказания
             }
-            var filtredDistance = kalman.State;
-            Debug.WriteLine($"{bd.Distance:F1} -> {filtredDistance:F1}");
-            return bd.CreateWithNewDistance(filtredDistance);
+            var filtredRssi = kalman.State;
+            Debug.WriteLine($"{ba.Rssi:F1} -> {filtredRssi:F1}");
+            return ba.CreateWithNewRssi(filtredRssi);
         }
+        
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
+using ApplicationCore.Domain.RssiFingerprinting.Filters;
 using Libs.Beacons;
 using Libs.Beacons.Models;
 using Libs.BluetoothLE;
@@ -53,6 +54,7 @@ namespace UseCase.RssiFingerprinting.Managed
                 .WhenBeaconRanged(scanRegion, BleScanType.LowLatency)
                 .Beacon2TotalFingerprint(
                     TimeSpan.FromSeconds(1.0),
+                    KalmanBeaconAverageFilter.GetLargeMeasurementErrorFilter, 
                     totalList,
                     10.0)
                 .Publish()

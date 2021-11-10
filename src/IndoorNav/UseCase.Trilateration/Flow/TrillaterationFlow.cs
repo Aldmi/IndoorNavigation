@@ -32,7 +32,7 @@ namespace UseCase.Trilateration.Flow
                 .WhenWhiteList(whiteList)
                 
                 //TODO: убрать все что ниже и использовать BeaconDistanceFlow(), и потом на базе этих данных создавать Flow.
-                //Буфферизация и разбиение на группы по Id
+                //Буфферизация и разбиение на группы по BeaconId
                 .GroupAfterBuffer(bufferTime)
                 //Создание сфер
                 .CreateSphere(sphereFactory);                

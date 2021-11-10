@@ -10,4 +10,8 @@
       <PackageReference Include="CSharpFunctionalExtensions" Version="2.20.3" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Libs.Beacons\Libs.Beacons.csproj" />
+    </ItemGroup>
+
 </Project>

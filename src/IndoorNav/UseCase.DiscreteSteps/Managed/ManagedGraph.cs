@@ -35,10 +35,10 @@ namespace UseCase.DiscreteSteps.Managed
         private IDisposable? _writeAnaliticSub;
         private IDisposable? _trackingSub;
         private readonly Subject<MovingDto> _lastMovingSubj = new Subject<MovingDto>();
-        
+
         private IObservable<Moving> _observableListMovings;
 
-        
+
         public ManagedGraph(
             IBeaconRangingManager beaconManager,
             ICheckPointGraphRepository graphRepository,
@@ -50,11 +50,11 @@ namespace UseCase.DiscreteSteps.Managed
 
             _excelAnalitic = excelAnalitic;
             _logger = logger;
-            
-            Init();//DEBUG (вызывать отдельно, после создания объекта ManagedGraph)
+
+            Init(); //DEBUG (вызывать отдельно, после создания объекта ManagedGraph)
         }
-        
-        
+
+
         public ObservableCollection<MovingDto> Movings { get; } = new ObservableCollection<MovingDto>();
         public ObservableCollection<TrackingDto> Trackings { get; } = new ObservableCollection<TrackingDto>();
         public BeaconRegion? ScanningRegion { get; private set; }
@@ -63,31 +63,31 @@ namespace UseCase.DiscreteSteps.Managed
         public IObservable<MovingDto> LastMoving => _lastMovingSubj.AsObservable();
 
 
-
         private void Init()
         {
             //Загрузить граф если граф пуст.
-            _graphMovingCalculator = new GraphMovingCalculator(_graphRepository.GetSharedUuid(), _graphRepository.GetGraph()); //TODO: сами сервисы внедрять через фабрику Func<>();
+            _graphMovingCalculator =
+                new GraphMovingCalculator(_graphRepository.GetSharedUuid(),
+                    _graphRepository.GetGraph()); //TODO: сами сервисы внедрять через фабрику Func<>();
             _routeBuilder = new RouteBuilder(_graphRepository.GetGraph());
             ScanningRegion = new BeaconRegion("Graph root", _graphMovingCalculator.SharedUuid);
-            
-           _observableListMovings= _beaconManager
+
+            _observableListMovings = _beaconManager
                 .WhenBeaconRanged(ScanningRegion, BleScanType.LowLatency)
                 .Beacon2BeaconDistance(
                     TimeSpan.FromSeconds(1.0),
                     0,
                     new KalmanBeaconDistanceFilter(1.0, 15.0, 0.1),
                     10.0)
-                 //Определить перемещение в графе движения, используя функцию calculateMove.
-                .Select(listDistance=> _graphMovingCalculator.CalculateMove(listDistance))
+                //Определить перемещение в графе движения, используя функцию calculateMove.
+                .Select(listDistance => _graphMovingCalculator.CalculateMove(listDistance))
                 //Выдавать только первый найденный CheckPoint и затем только готовые отрезки.
                 //.Where(moving =>moving.MovingEvent == MovingEvent.InitSegment || moving.MovingEvent == MovingEvent.CompleteSegment);
                 .Publish()
                 .RefCount();
         }
 
-        
-        
+
         public void Start(IScheduler? scheduler = null)
         {
             if (IsScanning)
@@ -95,20 +95,18 @@ namespace UseCase.DiscreteSteps.Managed
 
             Movings.Clear();
 
-            
+
             _scanSub = _observableListMovings
                 //Обработка
-                .ObserveOnIf(scheduler)  // Запустить обратные вызовы наблюдателя в указанном планировщике. (В данном случае передается поток UI.)
+                .ObserveOnIf(
+                    scheduler) // Запустить обратные вызовы наблюдателя в указанном планировщике. (В данном случае передается поток UI.)
                 .Synchronize(Movings)
                 .Subscribe(moving =>
                 {
                     var dto = new MovingDto(moving.Start, moving.End, moving.MovingEvent);
                     _lastMovingSubj.OnNext(dto);
                     Movings.Add(dto);
-                }, exception =>
-                {
-                    _logger?.LogError(exception, "Ошибка сканирования");
-                });
+                }, exception => { _logger?.LogError(exception, "Ошибка сканирования"); });
 
             //AnaliticRec();
         }
@@ -122,15 +120,16 @@ namespace UseCase.DiscreteSteps.Managed
         /// <exception cref="Exception"></exception>
         public void BuildRoute(string routeName, CheckPointBase endCh)
         {
-           var startCh = _graphMovingCalculator.CurrentCheckPoint;
-           if (startCh == null)
-           {
-               throw new Exception("Стартовая точка не установлена"); //TODO: создать custom exception
-           }
-           Route = _routeBuilder.Build(routeName, startCh, endCh);
+            var startCh = _graphMovingCalculator.CurrentCheckPoint;
+            if (startCh == null)
+            {
+                throw new Exception("Стартовая точка не установлена"); //TODO: создать custom exception
+            }
+
+            Route = _routeBuilder.Build(routeName, startCh, endCh);
         }
 
-        
+
         public void StartTrackingRoute(IScheduler? scheduler = null)
         {
             Trackings.Clear();
@@ -143,14 +142,12 @@ namespace UseCase.DiscreteSteps.Managed
                 {
                     var dto = new TrackingDto();
                     Trackings.Add(dto);
-                }, exception =>
-                {
-                    _logger?.LogError(exception, "Ошибка отслеживания маршрута");
-                });
+                }, exception => { _logger?.LogError(exception, "Ошибка отслеживания маршрута"); });
         }
-        
-        
+
+
         private bool _firstRecAnalitic;
+
         private void AnaliticRec()
         {
             _firstRecAnalitic = true;
@@ -166,14 +163,14 @@ namespace UseCase.DiscreteSteps.Managed
                             return statistic.Convert2CsvFormat();
                         })
                         .ToArray();
-                    await _excelAnalitic.Write2CsvDoc("DiscreteStepAnalitic.txt", csvHeader, csvLines, _firstRecAnalitic);
+                    await _excelAnalitic.Write2CsvDoc("DiscreteStepAnalitic.txt", csvHeader, csvLines,
+                        _firstRecAnalitic);
                     _firstRecAnalitic = false;
                     //Debug.WriteLine(csvLines.Aggregate((s1,s2)=> s1+" "+s2));//DEBUG
                 });
         }
-        
-        
-        
+
+
         public void StopScan()
         {
             _scanSub?.Dispose();
@@ -181,8 +178,8 @@ namespace UseCase.DiscreteSteps.Managed
             _graphMovingCalculator?.Reset();
             ScanningRegion = null;
         }
-        
-        
+
+
         public void StopTrackingRoute()
         {
             _trackingSub?.Dispose();

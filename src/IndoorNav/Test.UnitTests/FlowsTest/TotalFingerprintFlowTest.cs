@@ -2,6 +2,7 @@
 using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
 using System.Threading.Tasks;
+using ApplicationCore.Domain.RssiFingerprinting.Filters;
 using ApplicationCore.Shared.Models;
 using FluentAssertions;
 using Test.Beacons.Domain.Test.RssiFingerprinting.Data;
@@ -23,6 +24,7 @@ namespace Test.Beacons.FlowsTest
             //act
             var resultFlow = beaconsFlow.Beacon2TotalFingerprint(
                 TimeSpan.FromSeconds(0.1),
+                null, 
                 totalFp,
                 20);
             var tfListResult = await resultFlow.ToList().ToTask();

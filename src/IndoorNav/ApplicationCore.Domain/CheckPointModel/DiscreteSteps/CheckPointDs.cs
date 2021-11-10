@@ -28,8 +28,8 @@ namespace ApplicationCore.Domain.CheckPointModel.DiscreteSteps
 
         /// <summary>
         /// Вернуть статус попадания в зону действия маяка для входных данных.
-        /// Если Id не совпадает, то зона Unknown
-        /// Если Id совпал, то определяем, внутри зоны маяка находимся или вне зоны.
+        /// Если BeaconId не совпадает, то зона Unknown
+        /// Если BeaconId совпал, то определяем, внутри зоны маяка находимся или вне зоны.
         /// </summary>
         public override Zone GetZone(IEnumerable<BeaconDistance> distances)
         {
@@ -51,8 +51,8 @@ namespace ApplicationCore.Domain.CheckPointModel.DiscreteSteps
         //
         // /// <summary>
         // /// Вернуть статус попадания в зону действия маяка для входных данных.
-        // /// Если Id не совпадает, то зона Unknown
-        // /// Если Id совпал, то определяем, внутри зоны маяка находимся или вне зоны.
+        // /// Если BeaconId не совпадает, то зона Unknown
+        // /// Если BeaconId совпал, то определяем, внутри зоны маяка находимся или вне зоны.
         // /// </summary>
         // public override Zone GetZone(IEnumerable<BeaconDistance> distances)
         // {

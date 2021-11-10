@@ -28,7 +28,7 @@ namespace ApplicationCore.App.Jobs
             // var gg=_messageBus.HasSubscribers<BleData>();
             // var lifeTime= _messageBus.Listener<BleData>().Subscribe(bleData =>
             // {
-            //     Debug.WriteLine($"Ha1ndle {bleData.Id}  {DateTime.Now:T}");
+            //     Debug.WriteLine($"Ha1ndle {bleData.BeaconId}  {DateTime.Now:T}");
             // });
             
             // var result = await _notifications.RequestAccess();

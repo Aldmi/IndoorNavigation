@@ -18,7 +18,7 @@ namespace ApplicationCore.Domain.DistanceService.Model
             Distance = distance;
             LastSeen = DateTimeOffset.UtcNow;
         }
-
+        
         public BeaconDistance CreateWithNewDistance(double distance) => new BeaconDistance(BeaconId, distance);
       
         public override string ToString() => $"{Distance:F1}м";

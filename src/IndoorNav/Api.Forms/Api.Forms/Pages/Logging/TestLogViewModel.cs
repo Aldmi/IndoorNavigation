@@ -42,7 +42,7 @@ namespace Api.Forms.Pages.Logging
 
                                 await _excelAnalitic.Write2CsvDoc(
                                     "TrilaterationAnalitic.txt",
-                                    "Id;Rssi;Distance;",
+                                    "BeaconId;Rssi;Distance;",
                                     new[] {
                                         "111;-77;12,5;",
                                         "125;-76;13,9;"

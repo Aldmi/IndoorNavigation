@@ -7,27 +7,27 @@ namespace Libs.Beacons.Models
     /// </summary>
     public class BeaconAverage : IEquatable<BeaconAverage>
     {
-        public BeaconAverage(BeaconId id, double rssi, int txPower)
-        {
-            Id = id;
-            Rssi = rssi;
-            TxPower = txPower;
-        }
-
-
-        public BeaconId Id { get;  }
+        public BeaconId BeaconId { get;  }
         public double Rssi { get; }
         public int TxPower { get; }
+        public DateTimeOffset LastSeen { get; }
         
         
-        public override string ToString() => $"[Beacon: {Id}, Rssi= {Rssi}, TxPower= {TxPower}]";
+        public BeaconAverage(BeaconId beaconId, double rssi, int txPower)
+        {
+            BeaconId = beaconId;
+            Rssi = rssi;
+            TxPower = txPower;
+            LastSeen = DateTimeOffset.UtcNow;
+        }
 
+        public BeaconAverage CreateWithNewRssi(double rssi) => new BeaconAverage(BeaconId, rssi, TxPower);
         
         public bool Equals(BeaconAverage? other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
-            return Id.Equals(other.Id);
+            return BeaconId.Equals(other.BeaconId);
         }
 
         public override bool Equals(object? obj)
@@ -40,7 +40,9 @@ namespace Libs.Beacons.Models
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(Id, Rssi, TxPower);
+            return HashCode.Combine(BeaconId, Rssi, TxPower);
         }
+        
+        public override string ToString() => $"[Beacon: {BeaconId}, Rssi= {Rssi}, TxPower= {TxPower}]";
     }
 }

@@ -51,7 +51,7 @@ namespace ApplicationCore.Domain.RssiFingerprinting.Model
             var missingList = new List<BeaconAverage>();
             foreach (var refBa in referenseFp.BeaconAverages)
             {
-                var ba= fp.BeaconAverages.FirstOrDefault(b => b.Id.Equals(refBa.Id));
+                var ba= fp.BeaconAverages.FirstOrDefault(b => b.BeaconId.Equals(refBa.BeaconId));
                 if (ba == null)
                 {
                     missingList.Add(refBa); 
@@ -65,7 +65,7 @@ namespace ApplicationCore.Domain.RssiFingerprinting.Model
                         .Bind(() =>
                         {
                             var deltaDistance = refDistanceRes.Value - distanceRes.Value;
-                            var dr = new DifferenceBeaconAverage(refBa.Id, deltaRssi, deltaDistance);
+                            var dr = new DifferenceBeaconAverage(refBa.BeaconId, deltaRssi, deltaDistance);
                             differenceList.Add(dr);
                             return Result.Success();
                         });

@@ -20,7 +20,7 @@ namespace ApplicationCore.Domain.DistanceService
             double maxDistance)
         {
             var flow = sourse
-                //Буфферизация и разбиение на группы по Id
+                //Буфферизация и разбиение на группы по BeaconId
                 .GroupAfterBuffer(bufferTime)
                 //Среднее из сигналов Rssi для каждого датчика
                 .CalcAverageRssiInGroupBeacons(RssiHelpers.CalculateAverageRssi)
@@ -78,7 +78,7 @@ namespace ApplicationCore.Domain.DistanceService
                         var beaconDistanceResult = RssiHelpers.CalculateDistance(beacon.TxPower, beacon.Rssi)
                             .Bind(hypotenuseDistance =>
                                 MathHelpers.CalculateXProjection(hypotenuseDistance, beaconHeight))
-                            .Map(xProjection => new BeaconDistance(beacon.Id, xProjection));
+                            .Map(xProjection => new BeaconDistance(beacon.BeaconId, xProjection));
 
                         return beaconDistanceResult;
                     }).ToList();

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
+using ApplicationCore.Domain.RssiFingerprinting.Filters;
 using ApplicationCore.Domain.RssiFingerprinting.Model;
 using ApplicationCore.Domain.RssiFingerprinting.Services;
 using ApplicationCore.Shared.Helpers;
@@ -16,26 +17,39 @@ namespace UseCase.RssiFingerprinting.Flows
     {
         public static IObservable<Result<TotalFingerprint>> Beacon2TotalFingerprint(this IObservable<Beacon> sourse,
             TimeSpan bufferTime,
-            //KalmanBeaconDistanceFilter? kalmanDistanceFilter,
+            KalmanBeaconAverageFilter? kalmanAverageRssiFilter,
             IEnumerable<TotalFingerprint> totalList,
             double maxDistance)
         {
-            var flow = sourse
-                //Буфферизация и разбиение на группы по Id
+            var flowBeaconAverages = sourse
+                //Буфферизация и разбиение на группы по BeaconId
                 .GroupAfterBuffer(bufferTime)
                 //Среднее из сигналов Rssi для каждого датчика
                 .CalcAverageRssiInGroupBeacons(RssiHelpers.CalculateAverageRssi)
                 //Убрать маленькие AverageRssi (пересчитанные к Distance)
-                .RemoveSmallBeaconAverage(maxDistance)
-                //AverageRssi -> RssiFingerprint
-                .MapBeaconAverage2CompassFingerprint()
-                //Найти похожий отпечаток в БД среди TotalFingerprint.
-                .FindSimilarFingerprint(totalList);
-                
+                .RemoveSmallBeaconAverage(maxDistance);
             
-            return flow;
+            if (kalmanAverageRssiFilter != null)
+            {
+                flowBeaconAverages = flowBeaconAverages
+                    //Отфильтровать экстремумы (фильтр кламана 1D)
+                    .FiltredByKalman1D(kalmanAverageRssiFilter);
+            }
+
+            var flowTotalFingerprints = flowBeaconAverages
+            //AverageRssi -> RssiFingerprint
+            .MapBeaconAverage2CompassFingerprint()
+            //Найти похожий отпечаток в БД среди TotalFingerprint.
+            .FindSimilarFingerprint(totalList);
+            
+            return flowTotalFingerprints;
         }
         
+        /// <summary>
+        /// Убрать самые слабые сигналы Rssi из потока.
+        /// </summary>
+        /// <param name="sourse">поток BeaconAverage значений</param>
+        /// <param name="maxDistance">радиус в метрах, разрешенный для датчика</param>
         private static IObservable<IList<BeaconAverage>> RemoveSmallBeaconAverage(this IObservable<IList<BeaconAverage>> sourse, double maxDistance)
         {
             return sourse.Select(list =>
@@ -52,7 +66,19 @@ namespace UseCase.RssiFingerprinting.Flows
                     })
                     .ToList();
             });
-
+        }
+        
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        private static IObservable<IList<BeaconAverage>> FiltredByKalman1D(this IObservable<IList<BeaconAverage>> sourse,
+            KalmanBeaconAverageFilter kalmanAverageRssiFilter)
+        {
+            return sourse
+                .Select(list => list
+                    .Select(ba => kalmanAverageRssiFilter.Filtrate(ba))
+                    .ToList());
         }
         
         /// <summary>
