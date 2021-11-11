@@ -2,18 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ApplicationCore.Domain.DistanceService.Filters;
 using ApplicationCore.Domain.DistanceService.Model;
+using ApplicationCore.Shared.Filters.Kalman;
 using Libs.Beacons.Models;
 using Xunit;
 using Xunit.Abstractions;
 
-
-namespace Test.Beacons.Domain.Test.DistanceService
+namespace Test.Beacons.KalmanFiltersTests
 {
     public class KalmanBeaconDistanceFilterTest
     {
-        
         private readonly ITestOutputHelper _testOutputHelper;
         public KalmanBeaconDistanceFilterTest(ITestOutputHelper testOutputHelper)
         {
@@ -25,7 +23,7 @@ namespace Test.Beacons.Domain.Test.DistanceService
         public void FiltrateForOneBeacon_Test()
         {
             //data
-            var beaconDistanceInputDatas = new List<double>()
+            var beaconDistances = new List<double>()
                 {
                     2.5,
                     2.8,
@@ -56,22 +54,21 @@ namespace Test.Beacons.Domain.Test.DistanceService
             var q = 1.5;
             var r = 10;
             var covarinace = 2.0;
-            var filter = new KalmanBeaconDistanceFilter(q, r, covarinace);
+            var filter = new Kalman1DFilterWrapper(q, r, covarinace);
             
             //act
-            var filtred=beaconDistanceInputDatas
-                .Select(bd => filter.Filtrate(bd))
+            var filtred=beaconDistances
+                .Select(bd => filter.Filtrate(bd.BeaconId, bd.Distance))
                 .ToList();
             
             //assert
-            for (int i = 0; i < beaconDistanceInputDatas.Count; i++)
+            for (int i = 0; i < beaconDistances.Count; i++)
             {
-                var inputData = beaconDistanceInputDatas[i];
+                var bd = beaconDistances[i];
                 var filtredData = filtred[i];
-                _testOutputHelper.WriteLine($"{inputData.Distance:f1}\t  {filtredData.Distance:f1}");
+                _testOutputHelper.WriteLine($"{bd.Distance:f1}\t  {filtredData:f1}");
             }
         }
-        
         
         
         [Fact]
@@ -120,16 +117,15 @@ namespace Test.Beacons.Domain.Test.DistanceService
             var q = 1.0;
             var r = 15;
             var covarinace = 0.1;
-            var filter = new KalmanBeaconDistanceFilter(q, r, covarinace);
+            var filter = new Kalman1DFilterWrapper(q, r, covarinace);
             
             //act
-            var filtred = new List<BeaconDistance>();
+            var filtred = new List<double>();
             await foreach (var bd in GenerateDatas())
             {
-                var res = filter.Filtrate(bd);
+                var res = filter.Filtrate(bd.BeaconId, bd.Distance);
                 filtred.Add(res);
             }
-    
         }
         
         
@@ -185,13 +181,13 @@ namespace Test.Beacons.Domain.Test.DistanceService
             var r = 15;
             var covarinace = 0.1;
             var rottenTime = TimeSpan.FromSeconds(2);
-            var filter = new KalmanBeaconDistanceFilter(q, r, covarinace, rottenTime);
+            var filter = new Kalman1DFilterWrapper(q, r, covarinace, rottenTime);
             
             //act
-            var filtred = new List<BeaconDistance>();
+            var filtred = new List<double>();
             await foreach (var bd in GenerateDatas())
             {
-                var res = filter.Filtrate(bd);
+                var res = filter.Filtrate(bd.BeaconId, bd.Distance);
                 filtred.Add(res);
             }
         }

@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
-using ApplicationCore.Domain.RssiFingerprinting.Filters;
 using ApplicationCore.Domain.RssiFingerprinting.Model;
 using ApplicationCore.Domain.RssiFingerprinting.Services;
+using ApplicationCore.Shared.Filters.Kalman;
 using ApplicationCore.Shared.Helpers;
 using ApplicationCore.Shared.Models;
+using ApplicationCore.Shared.Services;
 using CSharpFunctionalExtensions;
 using Libs.Beacons.Flows;
 using Libs.Beacons.Models;
@@ -17,7 +18,7 @@ namespace UseCase.RssiFingerprinting.Flows
     {
         public static IObservable<Result<TotalFingerprint>> Beacon2TotalFingerprint(this IObservable<Beacon> sourse,
             TimeSpan bufferTime,
-            KalmanBeaconAverageFilter? kalmanAverageRssiFilter,
+            Kalman1DFilterWrapper? kalman1D,
             IEnumerable<TotalFingerprint> totalList,
             double maxDistance)
         {
@@ -29,11 +30,11 @@ namespace UseCase.RssiFingerprinting.Flows
                 //Убрать маленькие AverageRssi (пересчитанные к Distance)
                 .RemoveSmallBeaconAverage(maxDistance);
             
-            if (kalmanAverageRssiFilter != null)
+            if (kalman1D != null)
             {
                 flowBeaconAverages = flowBeaconAverages
                     //Отфильтровать экстремумы (фильтр кламана 1D)
-                    .FiltredByKalman1D(kalmanAverageRssiFilter);
+                    .FiltredByKalman1D(kalman1D);
             }
 
             var flowTotalFingerprints = flowBeaconAverages
@@ -73,11 +74,13 @@ namespace UseCase.RssiFingerprinting.Flows
         /// 
         /// </summary>
         private static IObservable<IList<BeaconAverage>> FiltredByKalman1D(this IObservable<IList<BeaconAverage>> sourse,
-            KalmanBeaconAverageFilter kalmanAverageRssiFilter)
+            Kalman1DFilterWrapper kalman1D)
         {
-            return sourse
-                .Select(list => list
-                    .Select(ba => kalmanAverageRssiFilter.Filtrate(ba))
+            return sourse.Select(list => list.Select(ba =>
+                    {   
+                        var newRssi = kalman1D.Filtrate(ba.BeaconId, ba.Rssi);
+                        return ba.CreateWithNewRssi(newRssi);
+                    })
                     .ToList());
         }
         

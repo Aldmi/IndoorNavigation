@@ -18,6 +18,7 @@
 
     <ItemGroup>
       <Folder Include="NotificationService\Model" />
+      <Folder Include="RssiFingerprinting\Filters" />
     </ItemGroup>
 
 </Project>

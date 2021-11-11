@@ -1,9 +1,9 @@
-﻿namespace ApplicationCore.Shared.Services
+﻿namespace ApplicationCore.Shared.Filters.Kalman
 {
     /// <summary>
     /// простой фильтр, не учитывает TimeStamp входных данных.
     /// </summary>
-    public class KalmanFilterSimple1D
+    public class Kalman1DFilterSimple
     {
         public double X0 {get; private set;} // predicted state
         public double P0 { get; private set; } // predicted covariance
@@ -24,7 +24,7 @@
         /// <param name="r"> Сглаживающие свойства. ошибка измерения может быть определена испытанием измерительных приборов и определением погрешности их измерения.</param>
         /// <param name="f">Модель процесса. переменная описывающая динамику системы ( =1, мы указываем, что предсказываемое значение будет равно предыдущему состоянию)</param>
         /// <param name="h">Модель процесса. матрица определяющая отношение между измерениями и состоянием системы</param>
-        public KalmanFilterSimple1D(double q, double r, double f = 1, double h = 1)
+        public Kalman1DFilterSimple(double q, double r, double f = 1, double h = 1)
         {
             Q = q;
             R = r;
@@ -50,4 +50,6 @@
             Covariance = (1 - K*H)*P0;            
         }
     }
+    
+    
 }

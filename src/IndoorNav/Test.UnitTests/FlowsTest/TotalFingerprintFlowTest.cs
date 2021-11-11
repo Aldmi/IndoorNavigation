@@ -2,7 +2,6 @@
 using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
 using System.Threading.Tasks;
-using ApplicationCore.Domain.RssiFingerprinting.Filters;
 using ApplicationCore.Shared.Models;
 using FluentAssertions;
 using Test.Beacons.Domain.Test.RssiFingerprinting.Data;

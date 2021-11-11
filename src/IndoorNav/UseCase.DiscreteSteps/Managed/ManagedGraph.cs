@@ -6,11 +6,11 @@ using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using ApplicationCore.Domain.CheckPointModel;
 using ApplicationCore.Domain.DistanceService;
-using ApplicationCore.Domain.DistanceService.Filters;
 using ApplicationCore.Domain.MovingService;
 using ApplicationCore.Domain.MovingService.Model;
 using ApplicationCore.Domain.RouteTrackingService;
 using ApplicationCore.Domain.RouteTrackingService.Model;
+using ApplicationCore.Shared.Filters.Kalman;
 using Libs.Beacons;
 using Libs.Beacons.Models;
 using Libs.BluetoothLE;
@@ -77,7 +77,7 @@ namespace UseCase.DiscreteSteps.Managed
                 .Beacon2BeaconDistance(
                     TimeSpan.FromSeconds(1.0),
                     0,
-                    new KalmanBeaconDistanceFilter(1.0, 15.0, 0.1),
+                    new Kalman1DFilterWrapper(1.0, 15.0, 0.1),
                     10.0)
                 //Определить перемещение в графе движения, используя функцию calculateMove.
                 .Select(listDistance => _graphMovingCalculator.CalculateMove(listDistance))

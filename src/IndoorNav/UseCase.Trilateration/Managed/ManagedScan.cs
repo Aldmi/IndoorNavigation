@@ -8,10 +8,10 @@ using System.Reactive.Linq;
 using ApplicationCore.Domain;
 using ApplicationCore.Domain.CheckPointModel.Trilateration.Spheres;
 using ApplicationCore.Domain.DistanceService;
-using ApplicationCore.Domain.DistanceService.Filters;
 using ApplicationCore.Domain.DistanceService.Model;
 using ApplicationCore.Domain.Options;
 using ApplicationCore.Shared;
+using ApplicationCore.Shared.Filters.Kalman;
 using Libs.Beacons;
 using Libs.Beacons.Flows;
 using Libs.Beacons.Models;
@@ -111,7 +111,7 @@ namespace UseCase.Trilateration.Managed
                 .Beacon2BeaconDistance(
                     TimeSpan.FromSeconds(1.0),
                     0,
-                    new KalmanBeaconDistanceFilter(1.5, 10.0, 2.0, TimeSpan.FromSeconds(5)),
+                    new Kalman1DFilterWrapper(1.5, 10.0, 2.0, TimeSpan.FromSeconds(5)),
                     10.0)
                 .Publish()
                 .RefCount();

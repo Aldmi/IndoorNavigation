@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
-using ApplicationCore.Domain.DistanceService.Filters;
 using ApplicationCore.Domain.DistanceService.Model;
+using ApplicationCore.Shared.Filters.Kalman;
 using ApplicationCore.Shared.Helpers;
 using CSharpFunctionalExtensions;
 using Libs.Beacons.Flows;
@@ -16,7 +16,7 @@ namespace ApplicationCore.Domain.DistanceService
         public static IObservable<IList<BeaconDistance>> Beacon2BeaconDistance(this IObservable<Beacon> sourse,
             TimeSpan bufferTime,
             double beaconHeight,
-            KalmanBeaconDistanceFilter? kalmanDistanceFilter,
+            Kalman1DFilterWrapper? kalman1D,
             double maxDistance)
         {
             var flow = sourse
@@ -31,11 +31,11 @@ namespace ApplicationCore.Domain.DistanceService
                 //Пропускать тоолко значения меньше maxDistance
                 .WhereMaxDistance(maxDistance);
             
-            if (kalmanDistanceFilter != null)
+            if (kalman1D != null)
             {
                 flow = flow
                     //Отфильтровать экстремумы (фильтр кламана 1D)
-                    .FiltredByKalman1D(kalmanDistanceFilter);
+                    .FiltredByKalman1D(kalman1D);
             }
             
             flow= flow
@@ -49,11 +49,13 @@ namespace ApplicationCore.Domain.DistanceService
         /// Фильтр убирает экстремумы.
         /// </summary>
         private static IObservable<IList<BeaconDistance>> FiltredByKalman1D(this IObservable<IList<BeaconDistance>> sourse,
-            KalmanBeaconDistanceFilter kalmanDistanceFilter)
+            Kalman1DFilterWrapper kalman1D)
         {
-            return sourse
-                .Select(list => list
-                    .Select(beaconDistance => kalmanDistanceFilter.Filtrate(beaconDistance))
+            return sourse.Select(list => list.Select(beaconDistance =>
+                    {
+                        var newDistance = kalman1D.Filtrate(beaconDistance.BeaconId, beaconDistance.Distance);
+                        return beaconDistance.CreateWithNewDistance(newDistance);
+                    })
                     .ToList());
         }
         
