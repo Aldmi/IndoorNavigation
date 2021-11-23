@@ -46,12 +46,13 @@ namespace UseCase.RssiFingerprinting.Flows
             return flowTotalFingerprints;
         }
         
+        
         /// <summary>
         /// Убрать самые слабые сигналы Rssi из потока.
         /// </summary>
         /// <param name="sourse">поток BeaconAverage значений</param>
         /// <param name="maxDistance">радиус в метрах, разрешенный для датчика</param>
-        private static IObservable<IList<BeaconAverage>> RemoveSmallBeaconAverage(this IObservable<IList<BeaconAverage>> sourse, double maxDistance)
+        public static IObservable<IList<BeaconAverage>> RemoveSmallBeaconAverage(this IObservable<IList<BeaconAverage>> sourse, double maxDistance)
         {
             return sourse.Select(list =>
             {
@@ -73,7 +74,7 @@ namespace UseCase.RssiFingerprinting.Flows
         /// <summary>
         /// 
         /// </summary>
-        private static IObservable<IList<BeaconAverage>> FiltredByKalman1D(this IObservable<IList<BeaconAverage>> sourse,
+        public static IObservable<IList<BeaconAverage>> FiltredByKalman1D(this IObservable<IList<BeaconAverage>> sourse,
             Kalman1DFilterWrapper kalman1D)
         {
             return sourse.Select(list => list.Select(ba =>
