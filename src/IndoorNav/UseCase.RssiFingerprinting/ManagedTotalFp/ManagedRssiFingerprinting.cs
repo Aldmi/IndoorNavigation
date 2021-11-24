@@ -3,7 +3,6 @@ using System.Collections.ObjectModel;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using ApplicationCore.Shared.Filters.Kalman;
-using ApplicationCore.Shared.Services;
 using Libs.Beacons;
 using Libs.Beacons.Models;
 using Libs.BluetoothLE;
@@ -12,7 +11,7 @@ using Shiny;
 using UseCase.RssiFingerprinting.Flows;
 using UseCase.RssiFingerprinting.Infrastructure.DataAccess;
 
-namespace UseCase.RssiFingerprinting.Managed
+namespace UseCase.RssiFingerprinting.ManagedTotalFp
 {
     public class ManagedRssiFingerprinting : IDisposable
     {

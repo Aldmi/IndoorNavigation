@@ -1,6 +1,7 @@
 ﻿using Api.Forms.Pages;
 using Api.Forms.Pages.Beacons;
 using Api.Forms.Pages.BluetoothLE;
+using Api.Forms.Pages.Filters;
 using Api.Forms.Pages.Graph;
 using Api.Forms.Pages.Logging;
 using Prism;
@@ -33,8 +34,9 @@ namespace Api.Forms
             //var res=await NavigationService.NavigateAsync("Nav/Main");
             //var res=await NavigationService.NavigateAsync("Nav/BleCentral");
             //var res=await NavigationService.NavigateAsync("Main/Nav/TestLogProviders/");
-             var res= await NavigationService.NavigateAsync("Main/Nav/ManagedBeacon");
+             //var res= await NavigationService.NavigateAsync("Main/Nav/ManagedBeacon");
             //var res=await NavigationService.NavigateAsync("Main/Nav/ManagedGraph");
+            var res= await NavigationService.NavigateAsync("Main/Nav/AfterKalman1D");
         }
         
         
@@ -59,6 +61,9 @@ namespace Api.Forms
             
             //DiscreteStepsGraph
             containerRegistry.RegisterForNavigation<ManagedGraphPage, ManagedGraphViewModel>("ManagedGraph");
+            
+            //DiscreteStepsGraph
+            containerRegistry.RegisterForNavigation<AfterKalman1DPage, AfterKalman1DViewModel>("AfterKalman1D");
             
             // containerRegistry.RegisterForNavigation<MainPage, MainViewModel>("Main");
             // containerRegistry.RegisterForNavigation<ManagedBeaconPage, ManagedBeaconViewModel>("ManagedBeacon");

@@ -12,7 +12,7 @@
             <Button Command="{Binding ScanToggle}">
                 <Button.Triggers>
                     <DataTrigger TargetType="Button" Binding="{Binding IsScanning}" Value="True">
-                        <Setter Property="Text" Value="Stop Scan" />
+                        <Setter Property="Text" Value="StopScan Scan" />
                     </DataTrigger>
                     <DataTrigger TargetType="Button" Binding="{Binding IsScanning}" Value="False">
                         <Setter Property="Text" Value="Scan" />

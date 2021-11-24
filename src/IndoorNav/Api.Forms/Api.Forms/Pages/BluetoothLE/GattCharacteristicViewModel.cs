@@ -56,7 +56,7 @@ namespace Api.Forms.Pages.BluetoothLE
 
             if (Characteristic.CanNotify())
             {
-                var txt = Characteristic.IsNotifying ? "Stop Notifying" : "Notify";
+                var txt = Characteristic.IsNotifying ? "StopScan Notifying" : "Notify";
                 cfg.Add(txt, ToggleNotify);
             }
             if (cfg.Any())

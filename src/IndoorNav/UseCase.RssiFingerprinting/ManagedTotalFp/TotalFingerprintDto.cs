@@ -1,7 +1,7 @@
 ﻿using ApplicationCore.Shared.Models;
 using Shiny;
 
-namespace UseCase.RssiFingerprinting.Managed
+namespace UseCase.RssiFingerprinting.ManagedTotalFp
 {
     public class TotalFingerprintDto : NotifyPropertyChanged
     {

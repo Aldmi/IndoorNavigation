@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Api.Forms.Pages.Filters;assembly=Api.Forms"
+             xmlns:managed="clr-namespace:UseCase.RssiFingerprinting.ManagedKalmanStatistic;assembly=UseCase.RssiFingerprinting"
+             x:Class="Api.Forms.Pages.Filters.AfterKalman1DPage"
+             x:DataType="vm:AfterKalman1DViewModel"
+             Title="Kalman 1D Statistic"
+             >
+    
+    <ContentPage.Content>
+        <StackLayout>
+            <ListView ItemsSource="{Binding Statistics}" HasUnevenRows="True">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <ViewCell.View>
+                                <Grid x:DataType="managed:AfterKalman1DStatisticDto" VerticalOptions="Fill" HorizontalOptions="Fill">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Label Grid.Row="0"
+                                           LineBreakMode="WordWrap"
+                                           Text="{Binding StrId }"
+                                           FontSize="Small"
+                                           TextDecorations="Underline"
+                                           TextTransform="Uppercase"/>
+                                    <Label Grid.Row="1"  Text="{Binding RssiBefore, StringFormat='RssiBefore: {0}'}" FontSize="Small" />
+                                    <Label Grid.Row="2" Text="{Binding RssiAfter, StringFormat='RssiAfter: {0}'}" FontSize="Medium"  />
+                                    <Label Grid.Row="3" Text="{Binding LastSeen, StringFormat='LastSeen: {0:T} (UTC)'}" FontSize="Small"  />
+                                </Grid>
+                            </ViewCell.View>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+            <StackLayout Orientation="Horizontal" HorizontalOptions="Fill" Margin="2">
+                <Button 
+                    Text="{Binding ScanText}"
+                    Command="{Binding ScanToggle}"/>
+                <StackLayout Orientation="Horizontal"  Margin="5,1,1,1">
+                    <Button 
+                        Text="+"
+                        Command="{Binding IncExpectedRange}"/>
+                    <Label Text="{Binding ExpectedRange, StringFormat='{0}м'}" FontSize="Medium"/>
+                    <Button 
+                        Text="-"
+                        Command="{Binding DecExpectedRange}"/>
+                    <!-- <Button  -->
+                    <!--     Text="R" -->
+                    <!--     Command="{Binding ScanToggle}"/> -->
+                </StackLayout>
+            </StackLayout>
+            
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

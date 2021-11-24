@@ -116,7 +116,7 @@ namespace Api.Forms.Pages.Beacons
             if(_scanner.IsScanning)
                 return;
              
-            ScanText = "Stop Scan";
+            ScanText = "StopScan Scan";
             if (IsRegionSet) //TODO: пока нельзя запускать сканер без региона.
             {
                 try
@@ -147,7 +147,7 @@ namespace Api.Forms.Pages.Beacons
         public override void OnDisappearing()
         {
             //IsBusy = false;
-            //_scanner.Stop();
+            //_scanner.StopScan();
         }
     }
 }

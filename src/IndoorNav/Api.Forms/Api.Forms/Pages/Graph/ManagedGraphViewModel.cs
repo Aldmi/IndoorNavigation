@@ -49,7 +49,7 @@ namespace Api.Forms.Pages.Graph
             if(_graphScanner.IsScanning)
                 return;
              
-            ScanText = "Stop Scan";
+            ScanText = "StopScan Scan";
    
             try
             {
