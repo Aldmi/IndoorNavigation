@@ -22,6 +22,7 @@
                                         <RowDefinition Height="Auto" />
                                         <RowDefinition Height="Auto" />
                                         <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
                                     </Grid.RowDefinitions>
                                     <Label Grid.Row="0"
                                            LineBreakMode="WordWrap"
@@ -29,9 +30,10 @@
                                            FontSize="Small"
                                            TextDecorations="Underline"
                                            TextTransform="Uppercase"/>
-                                    <Label Grid.Row="1"  Text="{Binding RssiBefore, StringFormat='RssiBefore: {0}'}" FontSize="Small" />
-                                    <Label Grid.Row="2" Text="{Binding RssiAfter, StringFormat='RssiAfter: {0}'}" FontSize="Medium"  />
+                                    <Label Grid.Row="1"  Text="{Binding RssiStatistic, StringFormat='Rssi: {0}'}" FontSize="Small" />
+                                    <Label Grid.Row="2" Text="{Binding DistanceStatistic, StringFormat='Distance: {0}m'}" FontSize="Medium"  />
                                     <Label Grid.Row="3" Text="{Binding LastSeen, StringFormat='LastSeen: {0:T} (UTC)'}" FontSize="Small"  />
+                                    <Label Grid.Row="4" Text="{Binding DistanceAfter, StringFormat='{0}m'}" FontSize="Large"  />
                                 </Grid>
                             </ViewCell.View>
                         </ViewCell>

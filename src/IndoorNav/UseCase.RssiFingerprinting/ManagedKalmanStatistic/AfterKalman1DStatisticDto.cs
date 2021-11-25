@@ -12,13 +12,28 @@ namespace UseCase.RssiFingerprinting.ManagedKalmanStatistic
         
         public AfterKalman1DStatistic AfterKalman1DStatistic { get; }
 
+        
+        
+        private string _rssiStatistic;
+        public string RssiStatistic
+        {
+            get => _rssiStatistic;
+            internal set => Set(ref _rssiStatistic, value);
+        }
+        
+        private string _distanceStatistic;
+        public string DistanceStatistic
+        {
+            get => _distanceStatistic;
+            internal set => Set(ref _distanceStatistic, value);
+        }
+        
         private double _rssiBefore;
         public double RssiBefore
         {
             get => _rssiBefore;
             internal set => Set(ref _rssiBefore, value);
         }
-        
         
         private double _rssiAfter;
         public double RssiAfter
@@ -27,7 +42,6 @@ namespace UseCase.RssiFingerprinting.ManagedKalmanStatistic
             internal set => Set(ref _rssiAfter, value);
         }
         
-        
         private double _distanceBefore;
         public double DistanceBefore
         {
@@ -35,14 +49,12 @@ namespace UseCase.RssiFingerprinting.ManagedKalmanStatistic
             internal set => Set(ref _distanceBefore, value);
         }
         
-        
         private double _distanceAfter;
         public double DistanceAfter
         {
             get => _distanceAfter;
             internal set => Set(ref _distanceAfter, value);
         }
-        
         
         private DateTimeOffset _lastSeen;
         public DateTimeOffset LastSeen

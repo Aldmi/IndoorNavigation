@@ -21,5 +21,6 @@ namespace ApplicationCore.Domain.RssiFingerprinting.Statistic
         public double DistanceBefore { get; }
         public double DistanceAfter { get; }
         public DateTimeOffset LastSeen { get; }
+        
     }
 }

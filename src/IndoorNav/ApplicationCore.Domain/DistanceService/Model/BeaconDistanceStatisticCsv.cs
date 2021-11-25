@@ -7,9 +7,7 @@ namespace ApplicationCore.Domain.DistanceService.Model
 {
     public class BeaconDistanceStatisticCsv
     {
-        private const string Separator = ";";
-        public static readonly string CsvHeader =
-            $"{nameof(BeaconId)}{Separator}{nameof(LastSeen)}{Separator}{nameof(DistanceList)}{Separator}{nameof(DistanceResult)}{Separator}{nameof(DistanceResultExpected)}";
+
 
         
         public BeaconDistanceStatisticCsv(BeaconId beaconId, IReadOnlyList<double> distanceList, double distanceResult, DateTimeOffset lastSeen, double distanceResultExpected)
@@ -42,6 +40,9 @@ namespace ApplicationCore.Domain.DistanceService.Model
         }
         
         
+        private const string Separator = ";";
+        public static readonly string CsvHeader =
+            $"{nameof(BeaconId)}{Separator}{nameof(LastSeen)}{Separator}{nameof(DistanceList)}{Separator}{nameof(DistanceResult)}{Separator}{nameof(DistanceResultExpected)}";
         public string Convert2CsvFormat()
         {
             var distanceList = DistanceList.Select(r => r.ToString("F1")).Aggregate((s1, s2) => $"{s1} / {s2}");

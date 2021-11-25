@@ -28,7 +28,6 @@ namespace Api.Forms.Pages.Filters
                     StopScan();
             });
             
-            
             this.WhenAnyValue(x => x.ExpectedRange)
                 .Subscribe(er => _scanner.ExpectedRange = er);
             

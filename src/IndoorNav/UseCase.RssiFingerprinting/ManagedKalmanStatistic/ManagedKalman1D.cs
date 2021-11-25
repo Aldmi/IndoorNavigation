@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
+using ApplicationCore.Domain.RssiFingerprinting.Statistic;
 using ApplicationCore.Shared.Filters.Kalman;
 using Libs.Beacons;
 using Libs.Beacons.Models;
@@ -43,12 +45,13 @@ namespace UseCase.RssiFingerprinting.ManagedKalmanStatistic
         public int ExpectedRange { get; set; }
         
         
-        
+        private bool _firstStart;
         public void Start(IScheduler? scheduler = null)
         {
             if (IsScanning)
                 throw new ArgumentException("A TotalFingerprint scan is already running");
             
+            _firstStart = true;
             _scheduler = scheduler;
             Statistics.Clear();
             
@@ -76,15 +79,47 @@ namespace UseCase.RssiFingerprinting.ManagedKalmanStatistic
                             Statistics.Add(managed);
                         }
                         managed.LastSeen = DateTimeOffset.UtcNow;
-                        managed.RssiBefore = stat.RssiBefore;
-                        managed.RssiAfter = stat.RssiAfter;
-                        managed.DistanceBefore = stat.DistanceBefore;
-                        managed.DistanceAfter = stat.DistanceAfter;
+                        managed.RssiStatistic = $"{stat.RssiBefore:F1} / {stat.RssiAfter:F1}";
+                        managed.DistanceStatistic = $"{stat.DistanceBefore:F1} / {stat.DistanceAfter:F1}";
+                        // managed.RssiBefore = stat.RssiBefore;
+                        // managed.RssiAfter = stat.RssiAfter;
+                        // managed.DistanceBefore = stat.DistanceBefore;
+                        // managed.DistanceAfter = stat.DistanceAfter;
                     }
                 }, exception =>
                 {
                     _logger?.LogError(exception, "Exception при сканировании");
                 });
+            
+            
+            // _writeAnaliticSub = observableListStatistic
+            //     .Buffer(10)
+            //     .Subscribe(async statisticList =>
+            //     {
+            //         var csvHeader = AfterKalman1DStatisticCsv.CsvHeader;
+            //         var csvLines = statisticList
+            //             .SelectMany(list =>list.Select(stat=>AfterKalman1DStatisticCsv.Create(stat, ExpectedRange)))
+            //             .Select(statistic => statistic.Convert2CsvFormat())
+            //             .ToArray();
+            //         await _excelAnalitic.Write2CsvDoc("BeaconDistance.txt", csvHeader, csvLines, _firstStart);
+            //         _firstStart = false;
+            //         Debug.WriteLine(ExpectedRange);//DEBUG
+            //     });
+            
+            
+            //DEBUG------------------------
+            var dto = new AfterKalman1DStatisticDto(new AfterKalman1DStatistic(
+                new BeaconId(Guid.Parse("f7826da6-4fa2-4e98-8024-bc5b71e0893e"), 65438, 43487),
+                -61.2,
+                -63.3,
+                3.6,
+                3.8,
+                DateTimeOffset.Now));
+            dto.RssiStatistic = $"{dto.AfterKalman1DStatistic.RssiBefore:F1} / {dto.AfterKalman1DStatistic.RssiAfter:F1}";
+            dto.DistanceStatistic = $"{dto.AfterKalman1DStatistic.DistanceBefore:F1} / {dto.AfterKalman1DStatistic.DistanceAfter:F1}";
+            dto.DistanceAfter = dto.AfterKalman1DStatistic.DistanceAfter;
+            Statistics.Add(dto);
+            //DEBUG---------------------
         }
         
         
